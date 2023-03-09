@@ -14,10 +14,16 @@ struct Application: App {
                 .onDisappear { LifecycleRegistryExtKt.stop(self.rootHolder.lifecycle) }
         }
     }
+    
+    // TODO: нужно вызывать этот метод при нажатии кнопки "Назад"
+    func dispatchBackPressed() {
+        rootHolder.backDispatcher.back()
+    }
 }
 
 private class RootHolder : ObservableObject {
     let lifecycle: LifecycleRegistry
+    let backDispatcher: BackDispatcher
     let rootComponent: RootComponent
     
     init() {
@@ -29,8 +35,14 @@ private class RootHolder : ObservableObject {
         let core = Core(configuration: configuration)
         
         lifecycle = LifecycleRegistryKt.LifecycleRegistry()
+        backDispatcher = BackDispatcherKt.BackDispatcher()
         rootComponent = core.createRootComponent(
-            componentContext: DefaultComponentContext(lifecycle: lifecycle)
+            componentContext: DefaultComponentContext(
+                lifecycle: lifecycle,
+                stateKeeper: nil,
+                instanceKeeper: nil,
+                backHandler: backDispatcher
+            )
         )
         lifecycle.onCreate()
     }

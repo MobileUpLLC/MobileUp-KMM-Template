@@ -22,6 +22,7 @@ kotlin {
             baseName = "shared"
             export(libs.decompose.core)
             export(libs.essenty.lifecycle)
+            export(libs.essenty.backhandler)
             export(libs.moko.resources)
         }
     }

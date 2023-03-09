@@ -54,7 +54,12 @@ dependencyResolutionManagement {
             val essentyVersion = "1.0.0"
             library("decompose-core", "com.arkivanov.decompose", "decompose").version(decomposeVersion)
             library("decompose-compose", "com.arkivanov.decompose", "extensions-compose-jetpack").version(decomposeVersion)
-            library("essenty-lifecycle", "com.arkivanov.essenty", "lifecycle").version(essentyVersion)
+            library("essenty-lifecycle", "com.arkivanov.essenty", "lifecycle").version(
+                essentyVersion
+            )
+            library("essenty-backhandler", "com.arkivanov.essenty", "back-handler").version(
+                essentyVersion
+            )
 
             // Network
             val ktorVersion = "2.2.2"
