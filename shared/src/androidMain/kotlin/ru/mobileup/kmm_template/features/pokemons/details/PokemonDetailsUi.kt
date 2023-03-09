@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,6 +24,7 @@ import coil.request.ImageRequest
 import dev.icerock.moko.resources.compose.stringResource
 import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.core.theme.AppTheme
+import ru.mobileup.kmm_template.core.utils.dispatchOnBackPressed
 import ru.mobileup.kmm_template.core.widget.RefreshingProgress
 import ru.mobileup.kmm_template.core.widget.SwipeRefreshLceWidget
 import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
@@ -37,18 +38,27 @@ fun PokemonDetailsUi(
     modifier: Modifier = Modifier
 ) {
     val pokemonState by component.pokemonState.collectAsState()
+    val context = LocalContext.current
 
     Surface(
         modifier = modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-        SwipeRefreshLceWidget(
-            state = pokemonState,
-            onRefresh = component::onRefresh,
-            onRetryClick = component::onRetryClick
-        ) { pokemon, refreshing ->
-            PokemonDetailsContent(pokemon)
-            RefreshingProgress(refreshing, modifier = Modifier.padding(top = 4.dp))
+        Column(modifier = modifier.fillMaxSize()) {
+            IconButton(
+                onClick = { dispatchOnBackPressed(context) }
+            ) {
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+            }
+
+            SwipeRefreshLceWidget(
+                state = pokemonState,
+                onRefresh = component::onRefresh,
+                onRetryClick = component::onRetryClick
+            ) { pokemon, refreshing ->
+                PokemonDetailsContent(pokemon)
+                RefreshingProgress(refreshing, modifier = Modifier.padding(top = 4.dp))
+            }
         }
     }
 }
@@ -62,7 +72,7 @@ private fun PokemonDetailsContent(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = 16.dp, vertical = 24.dp),
+            .padding(horizontal = 16.dp, vertical = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
