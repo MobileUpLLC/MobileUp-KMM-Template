@@ -1,23 +1,20 @@
 import SwiftUI
 import shared
 
+var globalBackDispatcher: BackDispatcher? = nil // TODO: можно сделать без глобальной переменной?
+
 @main
 struct Application: App {
-    
+        
     @StateObject
     private var rootHolder = RootHolder()
-    
+        
     var body: some Scene {
         WindowGroup {
-            RootView(rootHolder.rootComponent)
+            RootView(component: rootHolder.rootComponent)
                 .onAppear { LifecycleRegistryExtKt.resume(self.rootHolder.lifecycle) }
                 .onDisappear { LifecycleRegistryExtKt.stop(self.rootHolder.lifecycle) }
         }
-    }
-    
-    // TODO: нужно вызывать этот метод при нажатии кнопки "Назад"
-    func dispatchBackPressed() {
-        rootHolder.backDispatcher.back()
     }
 }
 
@@ -27,7 +24,7 @@ private class RootHolder : ObservableObject {
     let rootComponent: RootComponent
     
     init() {
-        let configuration = Configuration(
+        let configuration = Configuration( // TODO: задавать buildType и backend в зависимости от типа сборки
             platform: Platform(),
             buildType: BuildType.debug,
             backend: Backend.development
@@ -36,6 +33,7 @@ private class RootHolder : ObservableObject {
         
         lifecycle = LifecycleRegistryKt.LifecycleRegistry()
         backDispatcher = BackDispatcherKt.BackDispatcher()
+        globalBackDispatcher = backDispatcher
         rootComponent = core.createRootComponent(
             componentContext: DefaultComponentContext(
                 lifecycle: lifecycle,

@@ -16,7 +16,7 @@ interface RootComponent {
 
     val messageComponent: MessageComponent
 
-    sealed interface Child {
-        class Pokemons(val component: PokemonsComponent) : Child
+    sealed class Child {
+        class Pokemons(val component: PokemonsComponent) : Child()
     }
 }
