@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
@@ -40,25 +43,20 @@ fun PokemonDetailsUi(
     val pokemonState by component.pokemonState.collectAsState()
     val context = LocalContext.current
 
-    Surface(
-        modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colors.background
-    ) {
-        Column(modifier = modifier.fillMaxSize()) {
-            IconButton(
-                onClick = { dispatchOnBackPressed(context) }
-            ) {
-                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
-            }
+    Column(modifier = modifier.fillMaxSize()) {
+        IconButton(
+            onClick = { dispatchOnBackPressed(context) }
+        ) {
+            Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+        }
 
-            SwipeRefreshLceWidget(
-                state = pokemonState,
-                onRefresh = component::onRefresh,
-                onRetryClick = component::onRetryClick
-            ) { pokemon, refreshing ->
-                PokemonDetailsContent(pokemon)
-                RefreshingProgress(refreshing, modifier = Modifier.padding(top = 4.dp))
-            }
+        SwipeRefreshLceWidget(
+            state = pokemonState,
+            onRefresh = component::onRefresh,
+            onRetryClick = component::onRetryClick
+        ) { pokemon, refreshing ->
+            PokemonDetailsContent(pokemon)
+            RefreshingProgress(refreshing, modifier = Modifier.padding(top = 4.dp))
         }
     }
 }
