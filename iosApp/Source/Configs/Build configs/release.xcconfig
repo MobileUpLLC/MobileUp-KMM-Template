@@ -1,0 +1,7 @@
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+INSTANCE = release
+
+BUNDLE_NAME = $(PRODUCT_NAME).$(INSTANCE)
+BUNDLE_DISPLAY_NAME = $(PRODUCT_NAME)
