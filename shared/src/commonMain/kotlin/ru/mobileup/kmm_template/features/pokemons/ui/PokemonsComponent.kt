@@ -9,8 +9,8 @@ interface PokemonsComponent {
 
     val childStack: CStateFlow<ChildStack<*, Child>>
 
-    sealed class Child {
-        class List(val component: PokemonListComponent) : Child()
-        class Details(val component: PokemonDetailsComponent) : Child()
+    sealed interface Child {
+        class List(val component: PokemonListComponent) : Child
+        class Details(val component: PokemonDetailsComponent) : Child
     }
 }

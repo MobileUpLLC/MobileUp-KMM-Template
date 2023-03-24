@@ -14,9 +14,9 @@ struct PokemonsView: View {
         StackView(
             stackState: childStack,
             childContent: { c in
-                if let component = (c as? PokemonsComponentChild.List)?.component {
+                if let component = (c as? PokemonsComponentChildList)?.component {
                     PokemonListView(component: component)
-                } else if let component = (c as? PokemonsComponentChild.Details)?.component {
+                } else if let component = (c as? PokemonsComponentChildDetails)?.component {
                     PokemonDetailsView(component: component)
                 }
             }

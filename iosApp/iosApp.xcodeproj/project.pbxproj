@@ -22,8 +22,6 @@
 		8FDBB5C829CB17F400715EDD /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = 8FDBB5C729CB17F400715EDD /* Rswift */; };
 		8FDBB5CA29CB198200715EDD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDBB5C929CB198200715EDD /* R.generated.swift */; };
 		8FDBB5CC29CB346C00715EDD /* AppearanceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDBB5CB29CB346C00715EDD /* AppearanceService.swift */; };
-		8FF40EE629C8805A00933723 /* Pokemon+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF40EE529C8805A00933723 /* Pokemon+Identifiable.swift */; };
-		8FF40EE829C880DC00933723 /* PokemonType+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF40EE729C880DC00933723 /* PokemonType+Swift.swift */; };
 		8FF40EEB29C883AC00933723 /* EnvironmentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF40EEA29C883AC00933723 /* EnvironmentService.swift */; };
 		8FF40EED29C88AD900933723 /* BackDispatcherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF40EEC29C88AD900933723 /* BackDispatcherService.swift */; };
 		8FF40EEF29C8B8D700933723 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF40EEE29C8B8D700933723 /* Global.swift */; };
@@ -72,8 +70,6 @@
 		8FF40ED729C87DF700933723 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitkeep; path = ../../../../../templates/Source/Base/UIKit/.gitkeep; sourceTree = "<group>"; };
 		8FF40EDD29C87E2D00933723 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitkeep; path = ../../../../../templates/Source/Extensions/UIKit/.gitkeep; sourceTree = "<group>"; };
 		8FF40EE129C87E4700933723 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitkeep; path = ../../../../templates/Source/Protocols/.gitkeep; sourceTree = "<group>"; };
-		8FF40EE529C8805A00933723 /* Pokemon+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pokemon+Identifiable.swift"; sourceTree = "<group>"; };
-		8FF40EE729C880DC00933723 /* PokemonType+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PokemonType+Swift.swift"; sourceTree = "<group>"; };
 		8FF40EEA29C883AC00933723 /* EnvironmentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentService.swift; sourceTree = "<group>"; };
 		8FF40EEC29C88AD900933723 /* BackDispatcherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackDispatcherService.swift; sourceTree = "<group>"; };
 		8FF40EEE29C8B8D700933723 /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
@@ -220,8 +216,6 @@
 		8FCBFC7329C3A1C400162A8E /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
-				8FF40EE529C8805A00933723 /* Pokemon+Identifiable.swift */,
-				8FF40EE729C880DC00933723 /* PokemonType+Swift.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -511,7 +505,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FF40EF229C8B98E00933723 /* Refreshable.swift in Sources */,
-				8FF40EE829C880DC00933723 /* PokemonType+Swift.swift in Sources */,
 				8FF40EED29C88AD900933723 /* BackDispatcherService.swift in Sources */,
 				AF986D9E29BA0CF3000CA7B0 /* PokemonListView.swift in Sources */,
 				8F3E49E129CA4D4D00BDCA28 /* LoadingView.swift in Sources */,
@@ -529,7 +522,6 @@
 				8FDBB5C229CB145A00715EDD /* AsyncImageView.swift in Sources */,
 				AF986DA029BA0CFF000CA7B0 /* PokemonDetailsView.swift in Sources */,
 				AF986D9A29BA0B06000CA7B0 /* PokemonsView.swift in Sources */,
-				8FF40EE629C8805A00933723 /* Pokemon+Identifiable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
