@@ -1,5 +1,7 @@
 package ru.mobileup.kmm_template.features.pokemons.ui.details
 
+import dev.icerock.moko.resources.desc.Raw
+import dev.icerock.moko.resources.desc.StringDesc
 import ru.mobileup.kmm_template.core.state.CMutableStateFlow
 import ru.mobileup.kmm_template.core.utils.LoadableState
 import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
@@ -7,6 +9,8 @@ import ru.mobileup.kmm_template.features.pokemons.domain.PokemonId
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonType
 
 class FakePokemonDetailsComponent : PokemonDetailsComponent {
+
+    override val title: StringDesc = StringDesc.Raw("Bulbasaur")
 
     override val pokemonState = CMutableStateFlow(
         LoadableState(

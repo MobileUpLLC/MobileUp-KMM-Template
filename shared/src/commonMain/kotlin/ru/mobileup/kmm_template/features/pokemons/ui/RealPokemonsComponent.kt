@@ -46,7 +46,8 @@ class RealPokemonsComponent(
             PokemonsComponent.Child.Details(
                 componentFactory.createPokemonDetailsComponent(
                     componentContext,
-                    config.pokemonId
+                    config.pokemonId,
+                    config.pokemonName
                 )
             )
         }
@@ -55,7 +56,7 @@ class RealPokemonsComponent(
     private fun onPokemonListOutput(output: PokemonListComponent.Output) {
         when (output) {
             is PokemonListComponent.Output.PokemonDetailsRequested -> {
-                navigation.push(ChildConfig.Details(output.pokemonId))
+                navigation.push(ChildConfig.Details(output.pokemon.id, output.pokemon.name))
             }
         }
     }
@@ -66,6 +67,6 @@ class RealPokemonsComponent(
         object List : ChildConfig
 
         @Parcelize
-        data class Details(val pokemonId: PokemonId) : ChildConfig
+        data class Details(val pokemonId: PokemonId, val pokemonName: String) : ChildConfig
     }
 }

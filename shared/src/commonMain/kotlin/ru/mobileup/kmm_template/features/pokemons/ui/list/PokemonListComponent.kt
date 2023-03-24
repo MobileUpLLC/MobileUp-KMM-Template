@@ -24,6 +24,6 @@ interface PokemonListComponent {
     fun onRefresh()
 
     sealed interface Output {
-        data class PokemonDetailsRequested(val pokemonId: PokemonId) : Output
+        data class PokemonDetailsRequested(val pokemon: Pokemon) : Output
     }
 }
