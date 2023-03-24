@@ -61,8 +61,6 @@ private struct PokemonDetailsBodyView: View {
                 Spacer()
             }
         }
-        .navigationTitle(pokemon.name)
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

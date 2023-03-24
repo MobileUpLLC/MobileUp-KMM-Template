@@ -33,8 +33,6 @@ struct PokemonListView: View {
             },
             onRefresh: { component.onRefresh() }
         )
-        .navigationTitle(MR.strings().pokemons_title.desc().localized())
-        .navigationBarTitleDisplayMode(.large)
     }
 }
 

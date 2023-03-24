@@ -5,7 +5,7 @@ import SwiftUI
 struct StackView<T: AnyObject, Content: View>: View {
     @ObservedObject var stackState: ObservableState<ChildStack<AnyObject, T>>
 
-    var getTitle: (T) -> String = { _ in return .empty }
+    var getTitle: (T) -> String
     
     @ViewBuilder
     var childContent: (T) -> Content
@@ -43,10 +43,7 @@ private struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRe
             return UINavigationController()
         }
         
-        let navigationController = UINavigationController(rootViewController: rootViewController)
-        navigationController.navigationBar.prefersLargeTitles = true
-        
-        return navigationController
+        return UINavigationController(rootViewController: rootViewController)
     }
     
     func updateUIViewController(_ navigationController: UINavigationController, context: Context) {
@@ -55,11 +52,13 @@ private struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRe
     }
     
     private func createViewController(_ component: T, _ coordinator: Coordinator) -> NavigationItemHostingController {
-        let controller = NavigationItemHostingController(rootView: childContent(component))
-        controller.coordinator = coordinator
-        controller.component = component
-        controller.onBack = onBack
-        controller.navigationItem.title = getTitle(component)
+        let controller = NavigationItemHostingController(
+            rootView: childContent(component),
+            coordinator: coordinator,
+            component: component,
+            title: getTitle(component),
+            onBack: onBack
+        )
         
         return controller
     }
@@ -92,15 +91,58 @@ private struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRe
     }
     
     class NavigationItemHostingController: UIHostingController<Content> {
-        fileprivate(set) weak var coordinator: Coordinator?
-        fileprivate(set) var component: T?
-        fileprivate(set) var onBack: (() -> Void)?
+        private weak var coordinator: Coordinator?
+        private var component: T?
+        private var controllerTitle: String = .empty
+        private var onBack: (() -> Void)?
+        
+        override init(rootView: Content) {
+            super.init(rootView: rootView)
+        }
+        
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            
+            navigationController?.navigationBar.prefersLargeTitles = true
+            navigationItem.largeTitleDisplayMode = getLargeTitleMode()
+            navigationItem.title = controllerTitle
+        }
         
         override func viewDidDisappear(_ animated: Bool) {
             super.viewDidDisappear(animated)
             
             if isMovingFromParent && coordinator?.preservedComponents.last === component {
                 onBack?()
+            }
+        }
+        
+        convenience init(
+            rootView: Content,
+            coordinator: Coordinator?,
+            component: T?,
+            title: String,
+            onBack: (() -> Void)?
+        ) {
+            self.init(rootView: rootView)
+            
+            self.coordinator = coordinator
+            self.component = component
+            self.controllerTitle = title
+            self.onBack = onBack
+        }
+        
+        @available(*, unavailable) @MainActor dynamic required init?(coder aDecoder: NSCoder) {
+            super.init(coder: aDecoder)
+        }
+        
+        // Плохо масштабируемое решение, решается наследниками от NavigationItemHostingController для каждого
+        // конкретного контроллер
+        private func getLargeTitleMode() -> UINavigationItem.LargeTitleDisplayMode {
+            switch component {
+            case _ as PokemonsComponentChildDetails:
+                return .never
+            default:
+                return .always
             }
         }
     }

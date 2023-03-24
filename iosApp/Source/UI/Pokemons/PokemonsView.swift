@@ -13,6 +13,15 @@ struct PokemonsView: View {
     var body: some View {
         StackView(
             stackState: childStack,
+            getTitle: { component in
+                if component is PokemonsComponentChildList {
+                    return MR.strings().pokemons_title.desc().localized()
+                } else if let component = (component as? PokemonsComponentChildDetails)?.component {
+                    return component.title.localized()
+                }
+                
+                return .empty
+            },
             childContent: { c in
                 if let component = (c as? PokemonsComponentChildList)?.component {
                     PokemonListView(component: component)
