@@ -11,7 +11,7 @@ import SwiftUI
 struct RefreshingLoadingView<Content: View, T: AnyObject>: View {
     @ObservedObject var loadableState: ObservableState<LoadableState<T>>
     
-    let content: Content?
+    let content: (T) -> Content
     let onRefresh: Closure.Void
     
     @State private var isRefreshing = false
@@ -23,8 +23,8 @@ struct RefreshingLoadingView<Content: View, T: AnyObject>: View {
                     .scaleEffect(2)
             }
             
-            if let content {
-                content
+            if let data = loadableState.value.data {
+                content(data)
             } else if let error = loadableState.value.error {
                 GeometryReader { proxy in
                     ScrollView {

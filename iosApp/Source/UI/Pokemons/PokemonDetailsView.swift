@@ -13,18 +13,10 @@ struct PokemonDetailsView: View {
     var body: some View {
         RefreshingLoadingView(
             loadableState: pokemonState,
-            content: getContentView(),
+            content: { pokemon in
+                return PokemonDetailsBodyView(pokemon: pokemon)
+            },
             onRefresh: { component.onRefresh() }
-        )
-    }
-    
-    private func getContentView() -> (some View)? {
-        guard let pokemon = pokemonState.value.data else {
-            return Optional<AnyView>.none
-        }
-        
-        return AnyView(
-            PokemonDetailsBodyView(pokemon: pokemon)
         )
     }
 }

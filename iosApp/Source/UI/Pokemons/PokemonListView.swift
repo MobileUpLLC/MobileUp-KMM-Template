@@ -33,27 +33,19 @@ struct PokemonListView: View {
     var body: some View {
         RefreshingLoadingView(
             loadableState: pokemonsState,
-            content: getContentView(),
+            content: { pokemons in
+                PokemonsContentView(
+                    pokemons: pokemons as! [Pokemon],
+                    types: types,
+                    selectedTypeId: getSelectedTypeId(),
+                    onPokemonClick: {id in component.onPokemonClick(pokemonId: id) },
+                    onTypeClick: { id in component.onTypeClick(typeId: id) }
+                )
+            },
             onRefresh: { component.onRefresh() }
         )
         .navigationTitle(MR.strings().pokemons_title.desc().localized())
         .navigationBarTitleDisplayMode(.large)
-    }
-    
-    private func getContentView() -> (some View)? {
-        guard let pokemons = pokemonsState.value.data as? [Pokemon] else {
-            return Optional<AnyView>.none
-        }
-        
-        return AnyView(
-            PokemonsContentView(
-                pokemons: pokemons,
-                types: types,
-                selectedTypeId: getSelectedTypeId(),
-                onPokemonClick: component.onPokemonClick(pokemonId:),
-                onTypeClick: { id in component.onTypeClick(typeId: id) }
-            )
-        )
     }
     
     private func getSelectedTypeId() -> String {
