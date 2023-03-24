@@ -1,34 +1,39 @@
 import SwiftUI
 
+struct NavigationBarItem {
+    let title: String
+    let mode: UINavigationItem.LargeTitleDisplayMode
+    
+    static let `default` = NavigationBarItem(title: .empty, mode: .never)
+}
+
 // Code from Decompose sample
 // https://github.com/arkivanov/Decompose/blob/master/sample/app-ios/app-ios/StackView.swift
 struct StackView<T: AnyObject, Content: View>: View {
     @ObservedObject var stackState: ObservableState<ChildStack<AnyObject, T>>
-
-    var getTitle: (T) -> String
+    
+    var getNavigationBarItem: (T) -> NavigationBarItem
     
     @ViewBuilder
     var childContent: (T) -> Content
     
     var stack: [Child<AnyObject, T>] { stackState.value.items }
     
-    private let onBack: () -> Void = {
-        BackDispatcherService.shared.backDispatcher.back()
-    }
+    private let onBack: Closure.Void = { BackDispatcherService.shared.backDispatcher.back() }
     
     var body: some View {
         StackInteropView(
             components: stack.compactMap { $0.instance },
-            getTitle: getTitle,
+            getNavigationBarItem: getNavigationBarItem,
             onBack: onBack,
             childContent: childContent
         )
     }
 }
 
-private struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRepresentable {
+struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRepresentable {
     var components: [T]
-    var getTitle: (T) -> String
+    var getNavigationBarItem: (T) -> NavigationBarItem
     var onBack: () -> Void
     var childContent: (T) -> Content
     
@@ -56,7 +61,7 @@ private struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRe
             rootView: childContent(component),
             coordinator: coordinator,
             component: component,
-            title: getTitle(component),
+            navigationBarItem: getNavigationBarItem(component),
             onBack: onBack
         )
         
@@ -93,7 +98,7 @@ private struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRe
     class NavigationItemHostingController: UIHostingController<Content> {
         private weak var coordinator: Coordinator?
         private var component: T?
-        private var controllerTitle: String = .empty
+        private var navigationBarItem: NavigationBarItem = .default
         private var onBack: (() -> Void)?
         
         override init(rootView: Content) {
@@ -104,8 +109,8 @@ private struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRe
             super.viewDidLoad()
             
             navigationController?.navigationBar.prefersLargeTitles = true
-            navigationItem.largeTitleDisplayMode = getLargeTitleMode()
-            navigationItem.title = controllerTitle
+            navigationItem.largeTitleDisplayMode = navigationBarItem.mode
+            navigationItem.title = navigationBarItem.title
         }
         
         override func viewDidDisappear(_ animated: Bool) {
@@ -120,30 +125,18 @@ private struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRe
             rootView: Content,
             coordinator: Coordinator?,
             component: T?,
-            title: String,
+            navigationBarItem: NavigationBarItem,
             onBack: (() -> Void)?
         ) {
             self.init(rootView: rootView)
-            
             self.coordinator = coordinator
             self.component = component
-            self.controllerTitle = title
+            self.navigationBarItem = navigationBarItem
             self.onBack = onBack
         }
         
         @available(*, unavailable) @MainActor dynamic required init?(coder aDecoder: NSCoder) {
             super.init(coder: aDecoder)
-        }
-        
-        // Плохо масштабируемое решение, решается наследниками от NavigationItemHostingController для каждого
-        // конкретного контроллер
-        private func getLargeTitleMode() -> UINavigationItem.LargeTitleDisplayMode {
-            switch component {
-            case _ as PokemonsComponentChildDetails:
-                return .never
-            default:
-                return .always
-            }
         }
     }
 }
