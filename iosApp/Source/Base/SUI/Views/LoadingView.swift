@@ -17,7 +17,7 @@ struct LoadingView<Content: View, T: AnyObject>: View {
         ZStack {
             if loadableState.value.loading {
                 ProgressView()
-                    .scaleEffect(2)
+                    .scaleEffect(1.5)
             }
             
             if let data = loadableState.value.data {

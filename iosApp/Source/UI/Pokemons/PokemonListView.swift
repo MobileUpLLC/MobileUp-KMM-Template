@@ -24,10 +24,10 @@ struct PokemonListView: View {
             loadableState: pokemonsState,
             content: { pokemons in
                 PokemonsContentView(
-                    pokemons: pokemons as! [Pokemon],
-                    types: types.value as! [PokemonType],
+                    pokemons: (pokemons as? [Pokemon]) ?? [],
+                    types: (types.value as? [PokemonType]) ?? [],
                     selectedTypeId: selectedTypeId.value,
-                    onPokemonClick: {id in component.onPokemonClick(pokemonId: id) },
+                    onPokemonClick: { id in component.onPokemonClick(pokemonId: id) },
                     onTypeClick: { id in component.onTypeClick(typeId: id) }
                 )
             },
