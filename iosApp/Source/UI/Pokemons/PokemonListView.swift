@@ -36,7 +36,7 @@ struct PokemonListView: View {
             content: getContentView(),
             onRefresh: { component.onRefresh() }
         )
-        .navigationTitle("Pokemons")
+        .navigationTitle(MR.strings().pokemons_title.desc().localized())
         .navigationBarTitleDisplayMode(.large)
     }
     
