@@ -15,7 +15,7 @@ enum Environment: String {
 
 final class EnvironmentService {
     private enum Constants {
-        static let instanceKey = "INSTANCE"
+        static let buildConfigurationNameKey = "BUILD_CONFIGURATION_NAME"
     }
     
     static let shared = EnvironmentService()
@@ -26,7 +26,7 @@ final class EnvironmentService {
     
     private func getCurrentEnvironment() -> Environment {
         guard
-            let instance = Bundle.main.object(forInfoDictionaryKey: Constants.instanceKey) as? String,
+            let instance = Bundle.main.object(forInfoDictionaryKey: Constants.buildConfigurationNameKey) as? String,
             let environment = Environment(rawValue: instance)
         else {
             return .debug

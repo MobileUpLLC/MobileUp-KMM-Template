@@ -2,8 +2,7 @@
  * Used to observe CStateFlow from SwiftUI
  */
 public class ObservableState<T: AnyObject>: ObservableObject {
-    @Published
-    var value: T
+    @Published var value: T
     
     private var cancelable: Cancelable?
     

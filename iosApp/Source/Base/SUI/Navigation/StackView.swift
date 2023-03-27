@@ -14,8 +14,7 @@ struct StackView<T: AnyObject, Content: View>: View {
     
     var getNavigationBarItem: (T) -> NavigationBarItem
     
-    @ViewBuilder
-    var childContent: (T) -> Content
+    @ViewBuilder var childContent: (T) -> Content
     
     var stack: [Child<AnyObject, T>] { stackState.value.items }
     
@@ -37,8 +36,8 @@ struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRepresenta
     var onBack: () -> Void
     var childContent: (T) -> Content
     
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
+    func makeCoordinator() -> StackInteropViewCoordinator<T, Content> {
+        StackInteropViewCoordinator(self)
     }
     
     func makeUIViewController(context: Context) -> UINavigationController {
@@ -56,7 +55,10 @@ struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRepresenta
         navigationController.setViewControllers(context.coordinator.viewControllers, animated: true)
     }
     
-    private func createViewController(_ component: T, _ coordinator: Coordinator) -> NavigationItemHostingController {
+    func createViewController(
+        _ component: T,
+        _ coordinator: Coordinator
+    ) -> NavigationItemHostingController<T, Content> {
         let controller = NavigationItemHostingController(
             rootView: childContent(component),
             coordinator: coordinator,
@@ -67,76 +69,76 @@ struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRepresenta
         
         return controller
     }
+}
+
+class StackInteropViewCoordinator<T: AnyObject, Content: View>: NSObject {
+    var parent: StackInteropView<T, Content>
+    var viewControllers = [NavigationItemHostingController<T, Content>]()
+    var preservedComponents = [T]()
     
-    class Coordinator: NSObject {
-        var parent: StackInteropView<T, Content>
-        var viewControllers = [NavigationItemHostingController]()
-        var preservedComponents = [T]()
+    init(_ parent: StackInteropView<T, Content>) {
+        self.parent = parent
+    }
+    
+    func syncChanges(_ parent: StackInteropView<T, Content>) {
+        self.parent = parent
+        let count = max(preservedComponents.count, parent.components.count)
         
-        init(_ parent: StackInteropView<T, Content>) {
-            self.parent = parent
+        for i in 0..<count {
+            if i >= parent.components.count {
+                viewControllers.removeLast()
+            } else if i >= preservedComponents.count {
+                viewControllers.append(parent.createViewController(parent.components[i], self))
+            } else if parent.components[i] !== preservedComponents[i] {
+                viewControllers[i] = parent.createViewController(parent.components[i], self)
+            }
         }
         
-        func syncChanges(_ parent: StackInteropView<T, Content>) {
-            self.parent = parent
-            let count = max(preservedComponents.count, parent.components.count)
-            
-            for i in 0..<count {
-                if i >= parent.components.count {
-                    viewControllers.removeLast()
-                } else if i >= preservedComponents.count {
-                    viewControllers.append(parent.createViewController(parent.components[i], self))
-                } else if parent.components[i] !== preservedComponents[i] {
-                    viewControllers[i] = parent.createViewController(parent.components[i], self)
-                }
-            }
-            
-            preservedComponents = parent.components
+        preservedComponents = parent.components
+    }
+}
+
+class NavigationItemHostingController<T: AnyObject, Content: View>: UIHostingController<Content> {
+    private weak var coordinator: StackInteropViewCoordinator<T, Content>?
+    private var component: T?
+    private var navigationBarItem: NavigationBarItem = .default
+    private var onBack: (() -> Void)?
+    
+    override init(rootView: Content) {
+        super.init(rootView: rootView)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = navigationBarItem.mode
+        navigationItem.title = navigationBarItem.title
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if isMovingFromParent && coordinator?.preservedComponents.last === component {
+            onBack?()
         }
     }
     
-    class NavigationItemHostingController: UIHostingController<Content> {
-        private weak var coordinator: Coordinator?
-        private var component: T?
-        private var navigationBarItem: NavigationBarItem = .default
-        private var onBack: (() -> Void)?
-        
-        override init(rootView: Content) {
-            super.init(rootView: rootView)
-        }
-        
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            
-            navigationController?.navigationBar.prefersLargeTitles = true
-            navigationItem.largeTitleDisplayMode = navigationBarItem.mode
-            navigationItem.title = navigationBarItem.title
-        }
-        
-        override func viewDidDisappear(_ animated: Bool) {
-            super.viewDidDisappear(animated)
-            
-            if isMovingFromParent && coordinator?.preservedComponents.last === component {
-                onBack?()
-            }
-        }
-        
-        convenience init(
-            rootView: Content,
-            coordinator: Coordinator?,
-            component: T?,
-            navigationBarItem: NavigationBarItem,
-            onBack: (() -> Void)?
-        ) {
-            self.init(rootView: rootView)
-            self.coordinator = coordinator
-            self.component = component
-            self.navigationBarItem = navigationBarItem
-            self.onBack = onBack
-        }
-        
-        @available(*, unavailable) @MainActor dynamic required init?(coder aDecoder: NSCoder) {
-            super.init(coder: aDecoder)
-        }
+    convenience init(
+        rootView: Content,
+        coordinator: StackInteropViewCoordinator<T, Content>?,
+        component: T?,
+        navigationBarItem: NavigationBarItem,
+        onBack: (() -> Void)?
+    ) {
+        self.init(rootView: rootView)
+        self.coordinator = coordinator
+        self.component = component
+        self.navigationBarItem = navigationBarItem
+        self.onBack = onBack
+    }
+    
+    @available(*, unavailable) @MainActor dynamic required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 }
