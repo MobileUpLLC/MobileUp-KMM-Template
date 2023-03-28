@@ -18,24 +18,21 @@ struct RefreshingLoadingView<Content: View, T: AnyObject>: View {
     
     var body: some View {
         ZStack {
-            if loadableState.value.loading && isRefreshing == false {
-                ProgressView()
-                    .scaleEffect(1.5)
-            }
-            
             if let data = loadableState.value.data {
                 content(data)
             } else if let error = loadableState.value.error {
-                GeometryReader { proxy in
-                    ScrollView {
-                        HStack {
-                            Spacer()
-                            Text(error.localized())
-                            Spacer()
-                        }
-                        .padding(.top, proxy.size.height / 2 - 15)
+                VStack {
+                    Text(error.localized())
+                    
+                    Button("Try again") {
+                        onRefresh()
                     }
                 }
+            }
+            
+            if loadableState.value.loading && isRefreshing == false {
+                ProgressView()
+                    .scaleEffect(1.5)
             }
         }
         .animation(.easeIn, value: loadableState.value.loading)

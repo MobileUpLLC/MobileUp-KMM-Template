@@ -15,24 +15,15 @@ struct LoadingView<Content: View, T: AnyObject>: View {
     
     var body: some View {
         ZStack {
-            if loadableState.value.loading {
-                ProgressView()
-                    .scaleEffect(1.5)
-            }
-            
             if let data = loadableState.value.data {
                 content(data)
             } else if let error = loadableState.value.error {
-                GeometryReader { proxy in
-                    ScrollView {
-                        HStack {
-                            Spacer()
-                            Text(error.localized())
-                            Spacer()
-                        }
-                        .padding(.top, proxy.size.height / 2 - 15)
-                    }
-                }
+                Text(error.localized())
+            }
+            
+            if loadableState.value.loading {
+                ProgressView()
+                    .scaleEffect(1.5)
             }
         }
         .animation(.easeIn, value: loadableState.value.loading)
