@@ -1,5 +1,6 @@
 <resources>
     <!-- List -->
+    <string name="pokemons_title">Pokemons</string>
     <string name="pokemons_select_type">Pokemon types</string>
     <string name="pokemons_empty_description">Pokemons are not found</string>
 

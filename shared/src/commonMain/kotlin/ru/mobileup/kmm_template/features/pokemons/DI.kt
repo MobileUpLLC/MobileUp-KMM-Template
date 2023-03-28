@@ -38,8 +38,9 @@ fun ComponentFactory.createPokemonListComponent(
 
 fun ComponentFactory.createPokemonDetailsComponent(
     componentContext: ComponentContext,
-    pokemonId: PokemonId
+    pokemonId: PokemonId,
+    pokemonName: String
 ): PokemonDetailsComponent {
     val pokemonReplica = get<PokemonRepository>().pokemonByIdReplica.withKey(pokemonId)
-    return RealPokemonDetailsComponent(componentContext, pokemonReplica, get())
+    return RealPokemonDetailsComponent(componentContext, pokemonName, pokemonReplica, get())
 }

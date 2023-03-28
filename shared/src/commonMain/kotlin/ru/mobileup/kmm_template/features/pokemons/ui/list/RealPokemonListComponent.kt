@@ -50,7 +50,8 @@ class RealPokemonListComponent(
     }
 
     override fun onPokemonClick(pokemonId: PokemonId) {
-        onOutput(PokemonListComponent.Output.PokemonDetailsRequested(pokemonId))
+        val pokemon = pokemonsState.value.data?.find { it.id == pokemonId } ?: return
+        onOutput(PokemonListComponent.Output.PokemonDetailsRequested(pokemon))
     }
 
     override fun onRetryClick() {
