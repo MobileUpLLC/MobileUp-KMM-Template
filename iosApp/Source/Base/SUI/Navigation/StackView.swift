@@ -7,37 +7,18 @@ struct NavigationBarItem {
     static let `default` = NavigationBarItem(title: .empty, mode: .never)
 }
 
-// Code from Decompose sample
+// Base idea is got from from Decompose sample
 // https://github.com/arkivanov/Decompose/blob/master/sample/app-ios/app-ios/StackView.swift
-struct StackView<T: AnyObject, Content: View>: View {
+struct StackView<T: AnyObject, Content: View>: UIViewControllerRepresentable {
     @ObservedObject var stackState: ObservableState<ChildStack<AnyObject, T>>
     
-    var getNavigationBarItem: (T) -> NavigationBarItem
-    
-    @ViewBuilder var childContent: (T) -> Content
-    
-    var stack: [Child<AnyObject, T>] { stackState.value.items }
+    var childScreen: (T) -> NavigatableHostingController<T, Content>
+    var components: [T] { stackState.value.items.compactMap { $0.instance } }
     
     private let onBack: Closure.Void = { BackDispatcherService.shared.backDispatcher.back() }
     
-    var body: some View {
-        StackInteropView(
-            components: stack.compactMap { $0.instance },
-            getNavigationBarItem: getNavigationBarItem,
-            onBack: onBack,
-            childContent: childContent
-        )
-    }
-}
-
-struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRepresentable {
-    var components: [T]
-    var getNavigationBarItem: (T) -> NavigationBarItem
-    var onBack: () -> Void
-    var childContent: (T) -> Content
-    
-    func makeCoordinator() -> StackInteropViewCoordinator<T, Content> {
-        StackInteropViewCoordinator(self)
+    func makeCoordinator() -> StackViewCoordinator<T, Content> {
+        StackViewCoordinator(self)
     }
     
     func makeUIViewController(context: Context) -> UINavigationController {
@@ -58,12 +39,13 @@ struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRepresenta
     func createViewController(
         _ component: T,
         _ coordinator: Coordinator
-    ) -> NavigationItemHostingController<T, Content> {
-        let controller = NavigationItemHostingController(
-            rootView: childContent(component),
+    ) -> NavigatableHostingController<T, Content> {
+        // Наследник от BaseHostingController, SomeHostingController(component) в зависимости от компонента
+        let controller = childScreen(component)
+        
+        controller.setup(
             coordinator: coordinator,
             component: component,
-            navigationBarItem: getNavigationBarItem(component),
             onBack: onBack
         )
         
@@ -71,16 +53,16 @@ struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRepresenta
     }
 }
 
-class StackInteropViewCoordinator<T: AnyObject, Content: View>: NSObject {
-    var parent: StackInteropView<T, Content>
-    var viewControllers = [NavigationItemHostingController<T, Content>]()
+class StackViewCoordinator<T: AnyObject, Content: View>: NSObject {
+    var parent: StackView<T, Content>
+    var viewControllers = [NavigatableHostingController<T, Content>]()
     var preservedComponents = [T]()
     
-    init(_ parent: StackInteropView<T, Content>) {
+    init(_ parent: StackView<T, Content>) {
         self.parent = parent
     }
     
-    func syncChanges(_ parent: StackInteropView<T, Content>) {
+    func syncChanges(_ parent: StackView<T, Content>) {
         self.parent = parent
         let count = max(preservedComponents.count, parent.components.count)
         
@@ -95,50 +77,5 @@ class StackInteropViewCoordinator<T: AnyObject, Content: View>: NSObject {
         }
         
         preservedComponents = parent.components
-    }
-}
-
-class NavigationItemHostingController<T: AnyObject, Content: View>: UIHostingController<Content> {
-    private weak var coordinator: StackInteropViewCoordinator<T, Content>?
-    private var component: T?
-    private var navigationBarItem: NavigationBarItem = .default
-    private var onBack: (() -> Void)?
-    
-    override init(rootView: Content) {
-        super.init(rootView: rootView)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = navigationBarItem.mode
-        navigationItem.title = navigationBarItem.title
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        if isMovingFromParent && coordinator?.preservedComponents.last === component {
-            onBack?()
-        }
-    }
-    
-    convenience init(
-        rootView: Content,
-        coordinator: StackInteropViewCoordinator<T, Content>?,
-        component: T?,
-        navigationBarItem: NavigationBarItem,
-        onBack: (() -> Void)?
-    ) {
-        self.init(rootView: rootView)
-        self.coordinator = coordinator
-        self.component = component
-        self.navigationBarItem = navigationBarItem
-        self.onBack = onBack
-    }
-    
-    @available(*, unavailable) @MainActor dynamic required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
     }
 }

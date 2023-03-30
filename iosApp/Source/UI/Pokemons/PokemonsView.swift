@@ -13,26 +13,12 @@ struct PokemonsView: View {
     var body: some View {
         StackView(
             stackState: childStack,
-            getNavigationBarItem: { component in
-                if component is PokemonsComponentChildList {
-                    return NavigationBarItem(
-                        title: MR.strings().pokemons_title.desc().localized(),
-                        mode: .always
-                    )
-                } else if let component = (component as? PokemonsComponentChildDetails)?.component {
-                    return NavigationBarItem(
-                        title: component.title.localized(),
-                        mode: .never
-                    )
-                }
-                
-                return .default
-            },
-            childContent: { c in
-                if let component = (c as? PokemonsComponentChildList)?.component {
-                    PokemonListView(component: component)
-                } else if let component = (c as? PokemonsComponentChildDetails)?.component {
-                    PokemonDetailsView(component: component)
+            childScreen: { child in
+                switch child {
+                case let pokemonsList as PokemonsComponentChildList:
+                    return PokemonListController(component: pokemonsList.component)
+                case let pokemonsDetails as PokemonsComponentChildDetails:
+                    return PokemonDetailsController(component: pokemonsDetails.component)
                 }
             }
         )
