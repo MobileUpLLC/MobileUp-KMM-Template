@@ -29,6 +29,8 @@ struct FlowOneView: View {
                     return ScreenOneBController(component: screen1B.component)
                 case let screen1C as Flow1ComponentChild.Screen1C:
                     return ScreenOneCController(component: screen1C.component)
+                default:
+                    return nil
                 }
             }
         )

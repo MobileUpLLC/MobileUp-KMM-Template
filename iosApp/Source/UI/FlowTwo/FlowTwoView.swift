@@ -24,11 +24,13 @@ struct FlowTwoView: View {
             childScreen: { child in
                 switch child {
                 case let screen1A as Flow2ComponentChild.Screen2A:
-                    return ScreenTwoAView(component: screen1A.component)
+                    return ScreenTwoAController(component: screen1A.component)
                 case let screen1B as Flow2ComponentChild.Screen2B:
-                    return ScreenTwoBView(component: screen1B.component)
+                    return ScreenTwoBController(component: screen1B.component)
                 case let screen1C as Flow2ComponentChild.Screen2C:
-                    return ScreenTwoCView(component: screen1C.component)
+                    return ScreenTwoCController(component: screen1C.component)
+                default:
+                    return nil
                 }
             }
         )

@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-final class PokemonDetailsController: NavigatableHostingController<PokemonDetailsComponent, PokemonDetailsView> {
+final class PokemonDetailsController: NavigatableHostingController<PokemonDetailsView> {
     init(component: PokemonDetailsComponent) {
         super.init(rootView: PokemonDetailsView(component: component))
         
-//        navigationBarModel = NavigationBarModel(
-//            infoToolbarItem: .init(item: .title(component.title.localized())),
-//            isLargeTitle: true
-//        )
+        navigationBarModel = NavigationBarModel(
+            infoToolbarItem: .init(item: .title(component.title.localized())),
+            isLargeTitle: true
+        )
     }
 }
 

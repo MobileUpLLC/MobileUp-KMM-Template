@@ -19,6 +19,8 @@ struct PokemonsView: View {
                     return PokemonListController(component: pokemonsList.component)
                 case let pokemonsDetails as PokemonsComponentChildDetails:
                     return PokemonDetailsController(component: pokemonsDetails.component)
+                default:
+                    return nil
                 }
             }
         )

@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-final class ScreenOneAController: NavigatableHostingController<Screen1AComponent, ScreenOneAView> {
+final class ScreenOneAController: NavigatableHostingController<ScreenOneAView> {
     init(component: Screen1AComponent) {
         super.init(rootView: ScreenOneAView(component: component))
         
-//        navigationBarModel = NavigationBarModel(
-//            infoToolbarItem: .init(item: .title(component.title.value.localized())),
-//            isLargeTitle: true
-//        )
+        navigationBarModel = NavigationBarModel(
+            infoToolbarItem: .init(item: .title(component.title.value.localized())),
+            isLargeTitle: true
+        )
     }
 }
 

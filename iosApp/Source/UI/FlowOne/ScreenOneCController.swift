@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-final class ScreenOneCController: NavigatableHostingController<Screen1CComponent, ScreenOneCView> {
+final class ScreenOneCController: NavigatableHostingController<ScreenOneCView> {
     init(component: Screen1CComponent) {
         super.init(rootView: ScreenOneCView(component: component))
         
-//        navigationBarModel = NavigationBarModel(
-//            infoToolbarItem: .init(item: .title(component.title.value.localized())),
-//            isLargeTitle: true
-//        )
+        navigationBarModel = NavigationBarModel(
+            infoToolbarItem: .init(item: .title(component.title.value.localized())),
+            isLargeTitle: true
+        )
     }
 }
 
