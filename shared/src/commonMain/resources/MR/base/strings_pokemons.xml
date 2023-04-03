@@ -8,4 +8,11 @@
     <string name="pokemons_types">Types:</string>
     <string name="pokemons_weight">Weight: %.1f</string>
     <string name="pokemons_height">Height: %.1f</string>
+    <string name="pokemons_vote">Vote!</string>
+
+    <!-- Dialog -->
+    <string name="pokemons_dialog_title">Vote for %s</string>
+    <string name="pokemons_dialog_description">Please, vote for %s\nwith types: %s</string>
+    <string name="pokemons_dialog_vote_positive">Like</string>
+    <string name="pokemons_dialog_vote_negative">Dislike</string>
 </resources>
