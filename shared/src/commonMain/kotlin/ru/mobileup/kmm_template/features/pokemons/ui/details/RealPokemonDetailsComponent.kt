@@ -6,6 +6,7 @@ import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import me.aartikov.replica.single.Replica
+import ru.mobileup.kmm_template.core.ComponentFactory
 import ru.mobileup.kmm_template.core.dialog.DialogControl
 import ru.mobileup.kmm_template.core.dialog.dialogControl
 import ru.mobileup.kmm_template.core.error_handling.ErrorHandler
@@ -14,11 +15,12 @@ import ru.mobileup.kmm_template.core.state.computed
 import ru.mobileup.kmm_template.core.state.toCNullableStateFlow
 import ru.mobileup.kmm_template.core.utils.componentScope
 import ru.mobileup.kmm_template.core.utils.observe
+import ru.mobileup.kmm_template.features.pokemons.createPokemonVoteDialogComponent
 import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.GetVoteForPokemonInteractor
+import ru.mobileup.kmm_template.features.pokemons.domain.vote.PokemonVote
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.SetVoteForPokemonInteractor
 import ru.mobileup.kmm_template.features.pokemons.ui.details.vote.PokemonVoteDialogComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.details.vote.RealPokemonVoteDialogComponent
 import ru.mobileup.kmm_template.features.pokemons.ui.details.vote.model.PokemonVoteState
 import ru.mobileup.kmm_template.features.pokemons.ui.details.vote.model.toPokemonVoteDialogData
 import ru.mobileup.kmm_template.features.pokemons.ui.details.vote.model.toPokemonVoteState
@@ -29,6 +31,7 @@ class RealPokemonDetailsComponent(
     private val pokemonReplica: Replica<DetailedPokemon>,
     private val setVoteForPokemonInteractor: SetVoteForPokemonInteractor,
     getVoteForPokemonInteractor: GetVoteForPokemonInteractor,
+    private val componentFactory: ComponentFactory,
     errorHandler: ErrorHandler
 ) : ComponentContext by componentContext, PokemonDetailsComponent {
 
@@ -68,13 +71,19 @@ class RealPokemonDetailsComponent(
         context: ComponentContext,
         control: DialogControl<PokemonVoteDialogComponent.Config, PokemonVoteDialogComponent>
     ): PokemonVoteDialogComponent {
-        return RealPokemonVoteDialogComponent(context, config.data, control, ::onVoteOutput)
+        return componentFactory.createPokemonVoteDialogComponent(
+            context,
+            config.data,
+            control,
+            ::onVoteOutput
+        )
     }
 
     private fun onVoteOutput(output: PokemonVoteDialogComponent.Output) {
         when (output) {
             is PokemonVoteDialogComponent.Output.Vote -> {
-                setVoteForPokemonInteractor.execute(pokemonName, output.isPositive)
+                val pokemonVote = PokemonVote(pokemonName, output.isPositive)
+                setVoteForPokemonInteractor.execute(pokemonVote)
                 dialogControl.dismiss()
             }
         }

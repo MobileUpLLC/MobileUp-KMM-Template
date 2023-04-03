@@ -8,7 +8,7 @@ import ru.mobileup.kmm_template.features.pokemons.domain.Pokemon
 class GetAllVotesForPokemonInteractor(
     private val pokemonVotesStorage: PokemonVotesStorage
 ) {
-    fun execute(): CStateFlow<Map<String, Boolean>> {
+    fun execute(): CStateFlow<List<PokemonVote>> {
         return pokemonVotesStorage.allPokemonVotes.toCStateFlow()
     }
 }

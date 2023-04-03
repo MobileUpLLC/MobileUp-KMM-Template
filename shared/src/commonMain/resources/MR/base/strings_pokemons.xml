@@ -15,4 +15,10 @@
     <string name="pokemons_dialog_description">Please, vote for %s\nwith types: %s</string>
     <string name="pokemons_dialog_vote_positive">Like</string>
     <string name="pokemons_dialog_vote_negative">Dislike</string>
+
+    <!-- Votes -->
+    <string name="pokemons_votes_title">Votes</string>
+    <string name="pokemons_votes_empty_description">No votes yet</string>
+    <string name="pokemons_votes_like">Like</string>
+    <string name="pokemons_votes_dislike">Dislike</string>
 </resources>
