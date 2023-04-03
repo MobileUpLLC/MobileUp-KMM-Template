@@ -19,7 +19,24 @@ struct HomeView: View {
     }
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HomeTabBar(
+            tabsStack: childStack,
+            tabScreen: { child in
+                switch child {
+                case let tabOne as HomeComponentChild.Tab1:
+                    return TabOneController(component: tabOne.component)
+                case let tabTwo as HomeComponentChild.Tab2:
+                    return TabTwoController(component: tabTwo.component)
+                case let pokemons as HomeComponentChild.Tab3:
+                    return PokemonsController(component: pokemons.component)
+                default:
+                    return nil
+                }
+            },
+            onTabSelected: { homeTab in
+                component.onTabSelected(tab: homeTab)
+            }
+        )
     }
 }
 
