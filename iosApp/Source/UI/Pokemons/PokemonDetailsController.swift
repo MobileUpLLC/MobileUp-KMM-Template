@@ -16,6 +16,8 @@ final class PokemonDetailsController: NavigatableHostingController<PokemonDetail
             infoToolbarItem: .init(item: .title(component.title.localized())),
             isLargeTitle: true
         )
+        
+        hidesBottomBarWhenPushed = true
     }
 }
 

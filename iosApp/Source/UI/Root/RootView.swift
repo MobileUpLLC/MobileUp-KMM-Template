@@ -13,19 +13,22 @@ struct RootView: View {
     
     var body: some View {
         ZStack {
-            switch component.childStack.value.items.first?.instance {
-            case let flowOne as RootComponentChild.Flow1:
-                FlowOneView(component: flowOne.component)
-            case let flowTwo as RootComponentChild.Flow2:
-                FlowTwoView(component: flowTwo.component)
-            case let home as RootComponentChild.Home:
-                HomeView(component: home.component)
-            default:
-                EmptyView()
+            ForEach(component.childStack.value.items, id: \.instance) { child in
+                switch child.instance {
+                case let flowOne as RootComponentChild.Flow1:
+                    FlowOneView(component: flowOne.component)
+                case let flowTwo as RootComponentChild.Flow2:
+                    FlowTwoView(component: flowTwo.component)
+                case let home as RootComponentChild.Home:
+                    HomeView(component: home.component)
+                default:
+                    EmptyView()
+                }
             }
         }
         .transition(.opacity)
-        .animation(.easeInOut, value: component.childStack.value.items.first?.instance)
+        .animation(.easeInOut, value: component.childStack.value.items)
+        .ignoresSafeArea()
         
         // TODO: iOS добавить отображение ошибок из MessageComponent.
         // На Android они отображаются в виде снекбаров поверх основного содержимого.

@@ -2,7 +2,7 @@
 //  TabOneView.swift
 //  iosApp
 //
-//  Created by VGrokhotov on 03.04.2023.
+//  Created by Vladislav Grokhotov on 03.04.2023.
 //  Copyright © 2023 orgName. All rights reserved.
 //
 
@@ -16,7 +16,13 @@ struct TabOneView: View {
     }
     
     var body: some View {
-        Text("Tab One")
+        VStack(spacing: 24) {
+            Text(component.text.value.localized())
+            
+            Button(MR.strings().common_exit.desc().localized()) {
+                component.onExitClick()
+            }
+        }
     }
 }
 
