@@ -14,6 +14,7 @@ final class ScreenTwoAController: NavigatableHostingController<ScreenTwoAView> {
         
         navigationBarModel = NavigationBarModel(
             infoToolbarItem: .init(item: .title(component.text.value.localized())),
+            leftToolbarItem: .init(item: .dismissItem, action: { BackDispatcherService.shared.backDispatcher.back() }),
             isLargeTitle: true
         )
     }

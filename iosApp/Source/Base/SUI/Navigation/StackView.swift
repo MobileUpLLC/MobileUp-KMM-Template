@@ -32,7 +32,7 @@ struct StackView<T: AnyObject>: UIViewControllerRepresentable {
     private let onBack: Closure.Void = { BackDispatcherService.shared.backDispatcher.back() }
     
     func makeCoordinator() -> StackViewCoordinator<T> {
-        return StackViewCoordinator<T>(self)
+        return StackViewCoordinator<T>()
     }
     
     func makeUIViewController(context: Context) -> UINavigationController {
@@ -55,8 +55,8 @@ struct StackView<T: AnyObject>: UIViewControllerRepresentable {
             return UIViewController()
         }
         
-        controller.setup {
-            return coordinator.preservedComponents.last === component
+        controller.setup { [weak coordinator, weak component] in
+            return coordinator?.preservedComponents.last === component
         } onBack: {
             onBack()
         }
@@ -66,16 +66,10 @@ struct StackView<T: AnyObject>: UIViewControllerRepresentable {
 }
 
 class StackViewCoordinator<T: AnyObject>: NSObject {
-    var parent: StackView<T>
     var viewControllers: [UIViewController] = []
     var preservedComponents: [T] = []
     
-    init(_ parent: StackView<T>) {
-        self.parent = parent
-    }
-    
     func syncChanges(_ parent: StackView<T>) {
-        self.parent = parent
         let count = max(preservedComponents.count, parent.components.count)
         
         for i in 0..<count {

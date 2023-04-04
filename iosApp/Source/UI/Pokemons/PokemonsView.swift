@@ -24,6 +24,7 @@ struct PokemonsView: View {
                 }
             }
         )
+        .ignoresSafeArea()
     }
 }
 

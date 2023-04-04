@@ -17,6 +17,7 @@ final class PokemonDetailsController: NavigatableHostingController<PokemonDetail
             isLargeTitle: true
         )
         
+        // TODO: iOS This don't work
         hidesBottomBarWhenPushed = true
     }
 }
