@@ -18,7 +18,11 @@ struct PokemonsView: View {
                 case let pokemonsList as PokemonsComponentChildList:
                     return PokemonListController(component: pokemonsList.component)
                 case let pokemonsDetails as PokemonsComponentChildDetails:
-                    return PokemonDetailsController(component: pokemonsDetails.component)
+                    let controller = PokemonDetailsController(component: pokemonsDetails.component)
+                    // TODO: iOS This don't work
+                    controller.hidesBottomBarWhenPushed = true
+                    
+                    return controller
                 default:
                     return nil
                 }
