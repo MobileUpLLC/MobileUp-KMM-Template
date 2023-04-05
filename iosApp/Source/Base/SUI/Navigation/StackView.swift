@@ -37,6 +37,7 @@ class StackNavigationController<T: AnyObject>: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+<<<<<<< HEAD
         updateControllers()
         
         stackState.objectWillChange.sink { [weak self] in
@@ -45,6 +46,9 @@ class StackNavigationController<T: AnyObject>: UINavigationController {
             }
         }
         .store(in: &subscriptions)
+=======
+        createSink()
+>>>>>>> 460f0bb (Fix hidesBottomBarWhenPushed)
     }
     
     init(
@@ -59,12 +63,16 @@ class StackNavigationController<T: AnyObject>: UINavigationController {
         if let controller = coordinator.viewControllers.first {
             super.init(rootViewController: controller)
         } else {
+<<<<<<< HEAD
             assertionFailure(DeveloperService.Messages.noViewControllers)
+=======
+>>>>>>> 460f0bb (Fix hidesBottomBarWhenPushed)
             super.init()
         }
     }
     
     required init?(coder aDecoder: NSCoder) {
+<<<<<<< HEAD
         assertionFailure(DeveloperService.Messages.initHasNotBeenImplemented)
         
         return nil
@@ -85,6 +93,33 @@ class StackNavigationController<T: AnyObject>: UINavigationController {
     private func updateControllers(animated: Bool = true) {
         coordinator.syncChanges(components)
         setViewControllers(coordinator.viewControllers, animated: animated)
+=======
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // TODO: iOS fix it, don't work well
+    func update(stack: CStateFlow<ChildStack<AnyObject, T>>) {
+        stackState = ObservableState(stack)
+        
+        updateControllers()
+        createSink()
+    }
+    
+    private func createSink() {
+        subscriptions.removeAll()
+        
+        stackState.objectWillChange.sink { [weak self] in
+            DispatchQueue.main.async {
+                self?.updateControllers()
+            }
+        }
+        .store(in: &subscriptions)
+    }
+    
+    private func updateControllers() {
+        coordinator.syncChanges(components)
+        setViewControllers(coordinator.viewControllers, animated: true)
+>>>>>>> 460f0bb (Fix hidesBottomBarWhenPushed)
     }
 }
 

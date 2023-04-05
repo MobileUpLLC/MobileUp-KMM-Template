@@ -2,17 +2,19 @@ import SwiftUI
 
 struct RootView: View {
     private let component: RootComponent
+    private let rootHolder: RootHolder
     
     @ObservedObject private var childStack: ObservableState<ChildStack<AnyObject, RootComponentChild>>
     
-    init(component: RootComponent) {
+    init(component: RootComponent, rootHolder: RootHolder) {
         self.component = component
+        self.rootHolder = rootHolder
         self.childStack = ObservableState(component.childStack)
     }
     
     var body: some View {
         ZStack {
-            ForEach(component.childStack.value.items, id: \.instance) { child in
+            ForEach(childStack.value.items, id: \.instance) { child in
                 switch child.instance {
                 case let flowOne as RootComponentChild.Flow1:
                     FlowOneView(component: flowOne.component)
@@ -25,6 +27,8 @@ struct RootView: View {
                 }
             }
         }
+        .onAppear { rootHolder.onViewAppear() }
+        .onDisappear { rootHolder.onViewDisappear() }
         .transition(.opacity)
         .animation(.easeInOut, value: component.childStack.value.items)
         .ignoresSafeArea()
@@ -36,6 +40,6 @@ struct RootView: View {
 
 struct RootView_Previews: PreviewProvider {
     static var previews: some View {
-        RootView(component: FakeRootComponent())
+        RootView(component: FakeRootComponent(), rootHolder: RootHolder())
     }
 }

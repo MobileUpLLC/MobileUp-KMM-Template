@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F1DF4BA29DD93B900B40DAD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1DF4B929DD93B900B40DAD /* SceneDelegate.swift */; };
+		8F1DF4BC29DD999600B40DAD /* RootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1DF4BB29DD999600B40DAD /* RootController.swift */; };
 		8F3E49DF29C9D67600BDCA28 /* RefreshingLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3E49DE29C9D67600BDCA28 /* RefreshingLoadingView.swift */; };
 		8F3E49E129CA4D4D00BDCA28 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3E49E029CA4D4D00BDCA28 /* LoadingView.swift */; };
 		8F5C1CB729D4610500F69FC4 /* FlowOneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5C1CB629D4610500F69FC4 /* FlowOneView.swift */; };
@@ -42,6 +44,7 @@
 		8F98C4DC29DB54FE00A8AEC4 /* TabOneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4DB29DB54FE00A8AEC4 /* TabOneController.swift */; };
 		8F98C4DF29DB553500A8AEC4 /* TabTwoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4DE29DB553500A8AEC4 /* TabTwoController.swift */; };
 		8FC165C029E071DD00F2928C /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 8FC165BF29E071DD00F2928C /* .gitkeep */; };
+		8FA0CCED29DDDA1F008CD37E /* UIViewController+Child.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA0CCEC29DDDA1F008CD37E /* UIViewController+Child.swift */; };
 		8FCBFC8729C3A1C400162A8E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC6229C3A1C400162A8E /* LaunchScreen.storyboard */; };
 		8FCBFC8A29C3A1C400162A8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC6929C3A1C400162A8E /* Assets.xcassets */; };
 		8FCBFC8C29C3A1C400162A8E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC6B29C3A1C400162A8E /* Images.xcassets */; };
@@ -63,7 +66,7 @@
 		AF986D9E29BA0CF3000CA7B0 /* PokemonListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF986D9D29BA0CF3000CA7B0 /* PokemonListView.swift */; };
 		AF986DA029BA0CFF000CA7B0 /* PokemonDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF986D9F29BA0CFF000CA7B0 /* PokemonDetailsView.swift */; };
 		AF9877A1298AA65900DE6A5A /* ObservableState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9877A0298AA65900DE6A5A /* ObservableState.swift */; };
-		AFB74D3E2989635100E545A4 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB74D3D2989635100E545A4 /* Application.swift */; };
+		AFB74D3E2989635100E545A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB74D3D2989635100E545A4 /* AppDelegate.swift */; };
 		AFB74D412989639700E545A4 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB74D402989639700E545A4 /* RootView.swift */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +85,8 @@
 
 /* Begin PBXFileReference section */
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F1DF4B929DD93B900B40DAD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		8F1DF4BB29DD999600B40DAD /* RootController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootController.swift; sourceTree = "<group>"; };
 		8F3E49DE29C9D67600BDCA28 /* RefreshingLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshingLoadingView.swift; sourceTree = "<group>"; };
 		8F3E49E029CA4D4D00BDCA28 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		8F5C1CB629D4610500F69FC4 /* FlowOneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowOneView.swift; sourceTree = "<group>"; };
@@ -118,7 +123,7 @@
 		8F98C4DB29DB54FE00A8AEC4 /* TabOneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabOneController.swift; sourceTree = "<group>"; };
 		8F98C4DE29DB553500A8AEC4 /* TabTwoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabTwoController.swift; sourceTree = "<group>"; };
 		8FC165BD29E071B300F2928C /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
-		8FC165BF29E071DD00F2928C /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitkeep; path = Source/Extensions/UIKit/.gitkeep; sourceTree = SOURCE_ROOT; };
+		8FA0CCEC29DDDA1F008CD37E /* UIViewController+Child.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Child.swift"; sourceTree = "<group>"; };
 		8FCBFC6329C3A1C400162A8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8FCBFC6929C3A1C400162A8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8FCBFC6B29C3A1C400162A8E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -138,7 +143,7 @@
 		AF986D9D29BA0CF3000CA7B0 /* PokemonListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListView.swift; sourceTree = "<group>"; };
 		AF986D9F29BA0CFF000CA7B0 /* PokemonDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailsView.swift; sourceTree = "<group>"; };
 		AF9877A0298AA65900DE6A5A /* ObservableState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableState.swift; sourceTree = "<group>"; };
-		AFB74D3D2989635100E545A4 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		AFB74D3D2989635100E545A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AFB74D402989639700E545A4 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -353,9 +358,10 @@
 		8FCBFC7A29C3A1C400162A8E /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				AFB74D3D2989635100E545A4 /* Application.swift */,
+				AFB74D3D2989635100E545A4 /* AppDelegate.swift */,
 				8FF40EEE29C8B8D700933723 /* Global.swift */,
 				8F7C774829D19DF1003CB46B /* RootHolder.swift */,
+				8F1DF4B929DD93B900B40DAD /* SceneDelegate.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -391,7 +397,7 @@
 		8FCBFC8229C3A1C400162A8E /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				8FC165BF29E071DD00F2928C /* .gitkeep */,
+				8FA0CCEC29DDDA1F008CD37E /* UIViewController+Child.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -464,6 +470,7 @@
 		AFB74D3F2989638600E545A4 /* Root */ = {
 			isa = PBXGroup;
 			children = (
+				8F1DF4BB29DD999600B40DAD /* RootController.swift */,
 				AFB74D402989639700E545A4 /* RootView.swift */,
 			);
 			path = Root;
@@ -625,6 +632,8 @@
 				8F5C1CCB29D6171200F69FC4 /* ScreenOneAController.swift in Sources */,
 				8F5C1CDB29D6425C00F69FC4 /* PokemonDetailsController.swift in Sources */,
 				8F5C1CC929D5A0C300F69FC4 /* HomeView.swift in Sources */,
+				8FA0CCED29DDDA1F008CD37E /* UIViewController+Child.swift in Sources */,
+				8F1DF4BC29DD999600B40DAD /* RootController.swift in Sources */,
 				8F5C1CD729D63F2400F69FC4 /* ScreenTwoCController.swift in Sources */,
 				8F5C1CC029D4818600F69FC4 /* FlowTwoView.swift in Sources */,
 				8F98C4DC29DB54FE00A8AEC4 /* TabOneController.swift in Sources */,
@@ -657,8 +666,9 @@
 				8F5C1CC429D4823300F69FC4 /* ScreenTwoBView.swift in Sources */,
 				8FDBB5CC29CB346C00715EDD /* AppearanceService.swift in Sources */,
 				8F5C1CD529D63E6E00F69FC4 /* ScreenTwoBController.swift in Sources */,
+				8F1DF4BA29DD93B900B40DAD /* SceneDelegate.swift in Sources */,
 				AF92614D298BFA9C00D12970 /* NullableObservableState.swift in Sources */,
-				AFB74D3E2989635100E545A4 /* Application.swift in Sources */,
+				AFB74D3E2989635100E545A4 /* AppDelegate.swift in Sources */,
 				8F98C4DF29DB553500A8AEC4 /* TabTwoController.swift in Sources */,
 				8F5C1CCD29D6175600F69FC4 /* NavigatableHostingController.swift in Sources */,
 				AF9877A1298AA65900DE6A5A /* ObservableState.swift in Sources */,
