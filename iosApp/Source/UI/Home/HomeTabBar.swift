@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 protocol HomeTabViewController: UIViewController {
     var homeTab: HomeTab { get }
@@ -14,40 +15,53 @@ protocol HomeTabViewController: UIViewController {
     func update(component: HomeComponentChild)
 }
 
-struct HomeTabBar: UIViewControllerRepresentable {
+final class HomeTabBar: UITabBarController {
     @ObservedObject var tabsStack: ObservableState<ChildStack<AnyObject, HomeComponentChild>>
     
-    var tabScreen: (HomeComponentChild) -> HomeTabViewController?
-    var onTabSelected: (HomeTab) -> Void
-    
     private var stack: [Child<AnyObject, HomeComponentChild>] { tabsStack.value.items }
+    private let component: HomeComponent
+    private lazy var coordinator = HomeTabBarCoordinator { [weak self] tab in self?.component.onTabSelected(tab: tab) }
+    private var subscriptions: [AnyCancellable] = []
     
-    func makeCoordinator() -> HomeTabBarCoordinator {
-        HomeTabBarCoordinator { tab in
-            onTabSelected(tab)
-        }
-    }
-    
-    func makeUIViewController(context: Context) -> UITabBarController {
-        let tabBarController = UITabBarController()
-        tabBarController.viewControllers = createTabViewControllers(context.coordinator)
-        tabBarController.delegate = context.coordinator
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        return tabBarController
+        viewControllers = createTabViewControllers(coordinator)
+        delegate = coordinator
+        
+        updateControllers()
+        
+        tabsStack.objectWillChange.sink { [weak self] in
+            DispatchQueue.main.async {
+                self?.updateControllers()
+            }
+        }
+        .store(in: &subscriptions)
     }
     
-    func updateUIViewController(_ navigationController: UITabBarController, context: Context) {
-        context.coordinator.syncChanges(stack, navigationController.viewControllers ?? [])
+    init(component: HomeComponent) {
+        self.component = component
+        tabsStack = ObservableState(component.childStack)
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func updateControllers() {
+        coordinator.syncChanges(stack, viewControllers ?? [])
         
         switch tabsStack.value.active.instance {
         case _ as HomeComponentChild.Tab1:
-            navigationController.selectedIndex = 0
+            selectedIndex = 0
         case _ as HomeComponentChild.Tab2:
-            navigationController.selectedIndex = 1
+            selectedIndex = 1
         case _ as HomeComponentChild.Tab3:
-            navigationController.selectedIndex = 2
+            selectedIndex = 2
         default:
-            navigationController.selectedIndex = 0
+            selectedIndex = 0
         }
     }
     
@@ -85,11 +99,24 @@ struct HomeTabBar: UIViewControllerRepresentable {
         coordinator: HomeTabBarCoordinator,
         fakeTabBuilder: () -> T
     ) {
-        if let tab = instances.compactMap({ $0 as? T }).first, let controller = tabScreen(tab) {
+        if let tab = instances.compactMap({ $0 as? T }).first, let controller = getTabScreen(component: tab) {
             viewControllers.append(controller)
-        } else if let controller = tabScreen(fakeTabBuilder()) {
+        } else if let controller = getTabScreen(component: fakeTabBuilder()) {
             coordinator.faked.insert(controller.homeTab)
             viewControllers.append(controller)
+        }
+    }
+    
+    private func getTabScreen<T: HomeComponentChild>(component: T) -> HomeTabViewController? {
+        switch component {
+        case let tabOne as HomeComponentChild.Tab1:
+            return TabOneController(component: tabOne.component)
+        case let tabTwo as HomeComponentChild.Tab2:
+            return TabTwoController(component: tabTwo.component)
+        case let pokemons as HomeComponentChild.Tab3:
+            return PokemonsController(component: pokemons.component)
+        default:
+            return nil
         }
     }
 }

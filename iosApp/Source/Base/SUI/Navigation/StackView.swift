@@ -107,6 +107,7 @@ class StackNavigationController<T: AnyObject>: UINavigationController {
     
     private func createSink() {
         subscriptions.removeAll()
+        updateControllers()
         
         stackState.objectWillChange.sink { [weak self] in
             DispatchQueue.main.async {
