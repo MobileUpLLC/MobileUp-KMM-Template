@@ -18,6 +18,7 @@ extension UIViewController {
         addChild(controller)
         
         controller.view.alpha = .zero
+        
         UIView.animate(withDuration: Constants.fadeAnimationDuration) {
             controller.view.alpha = .one
         }
@@ -27,9 +28,19 @@ extension UIViewController {
         guard controller?.parent != nil else {
             return
         }
-
-        controller?.willMove(toParent: nil)
-        controller?.removeFromParent()
-        controller?.view.removeFromSuperview()
+        
+        UIView.animate(
+            withDuration: Constants.fadeAnimationDuration,
+            animations: {
+                controller?.view.alpha = .zero
+            },
+            completion: { finished in
+                if finished {
+                    controller?.willMove(toParent: nil)
+                    controller?.removeFromParent()
+                    controller?.view.removeFromSuperview()
+                }
+            }
+        )
     }
 }

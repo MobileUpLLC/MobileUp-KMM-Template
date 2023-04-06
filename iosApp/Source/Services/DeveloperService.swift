@@ -2,7 +2,7 @@
 //  DeveloperService.swift
 //  iosApp
 //
-//  Created by Vladislav Grokhotov on 07.04.2023.
+//  Created by Vladislav Grokhotov on 06.04.2023.
 //  Copyright © 2023 orgName. All rights reserved.
 //
 

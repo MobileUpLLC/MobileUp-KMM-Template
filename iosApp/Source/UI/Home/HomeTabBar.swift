@@ -47,7 +47,9 @@ final class HomeTabBar: UITabBarController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        assertionFailure(DeveloperService.Messages.initHasNotBeenImplemented)
+        
+        return nil
     }
     
     func updateControllers() {
@@ -145,7 +147,7 @@ class HomeTabBarCoordinator: NSObject, UITabBarControllerDelegate {
         shouldSelect viewController: UIViewController
     ) -> Bool {
         guard let controller = viewController as? HomeTabViewController else {
-            print("Warning: Cannot cast tab viewController to HomeTabViewController")
+            print(DeveloperService.Messages.cannotCastTab)
             
             return false
         }

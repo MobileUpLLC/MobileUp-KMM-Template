@@ -32,6 +32,7 @@
 		8F5C1CE429D700A900F69FC4 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5C1CE329D700A900F69FC4 /* TabBarItem.swift */; };
 		8F5C1CE629D706E900F69FC4 /* HomeTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5C1CE529D706E900F69FC4 /* HomeTabBar.swift */; };
 		8F6AFD8429CC885300DA32B6 /* PreviewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F6AFD8329CC885300DA32B6 /* PreviewAssets.xcassets */; };
+		8F722AB029DF16CB00F2CDFF /* DeveloperService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F722AAF29DF16CB00F2CDFF /* DeveloperService.swift */; };
 		8F7C774929D19DF1003CB46B /* RootHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C774829D19DF1003CB46B /* RootHolder.swift */; };
 		8F80441129E06F9E000DDA57 /* DeveloperService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80441029E06F9E000DDA57 /* DeveloperService.swift */; };
 		8F98C4D329DB078D00A8AEC4 /* PokemonsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4D229DB078D00A8AEC4 /* PokemonsController.swift */; };
@@ -109,6 +110,7 @@
 		8F5C1CE529D706E900F69FC4 /* HomeTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabBar.swift; sourceTree = "<group>"; };
 		8F5D078B29CE18E9007097A9 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		8F6AFD8329CC885300DA32B6 /* PreviewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PreviewAssets.xcassets; sourceTree = "<group>"; };
+		8F722AAF29DF16CB00F2CDFF /* DeveloperService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperService.swift; sourceTree = "<group>"; };
 		8F7C774829D19DF1003CB46B /* RootHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootHolder.swift; sourceTree = "<group>"; };
 		8F80441029E06F9E000DDA57 /* DeveloperService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperService.swift; sourceTree = "<group>"; };
 		8F98C4D229DB078D00A8AEC4 /* PokemonsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonsController.swift; sourceTree = "<group>"; };
@@ -418,6 +420,7 @@
 			children = (
 				8FDBB5CB29CB346C00715EDD /* AppearanceService.swift */,
 				8FF40EEC29C88AD900933723 /* BackDispatcherService.swift */,
+				8F722AAF29DF16CB00F2CDFF /* DeveloperService.swift */,
 				8FF40EEA29C883AC00933723 /* EnvironmentService.swift */,
 				8F80441029E06F9E000DDA57 /* DeveloperService.swift */,
 			);
@@ -649,6 +652,7 @@
 				8F98C4D829DB149200A8AEC4 /* TabTwoView.swift in Sources */,
 				8FF40EEF29C8B8D700933723 /* Global.swift in Sources */,
 				8F5C1CC629D4823C00F69FC4 /* ScreenTwoCView.swift in Sources */,
+				8F722AB029DF16CB00F2CDFF /* DeveloperService.swift in Sources */,
 				8FF40EEB29C883AC00933723 /* EnvironmentService.swift in Sources */,
 				8F5C1CD929D641BB00F69FC4 /* PokemonListController.swift in Sources */,
 				8F5C1CD329D63DB000F69FC4 /* ScreenTwoAController.swift in Sources */,
