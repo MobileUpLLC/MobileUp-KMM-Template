@@ -101,7 +101,6 @@ class StackNavigationController<T: AnyObject>: UINavigationController {
     func update(stack: CStateFlow<ChildStack<AnyObject, T>>) {
         stackState = ObservableState(stack)
         
-        updateControllers()
         createSink()
     }
     

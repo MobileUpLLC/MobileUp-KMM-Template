@@ -56,8 +56,12 @@ final class RootController: UIViewController {
     }
     
     private func updateChilds() {
-        childStack.value.items.forEach { [weak self] child in
-            self?.checkAndUpdate(component: child.instance)
+        childStack.value.items.forEach { child in
+            checkAndUpdate(component: child.instance)
+        }
+        
+        children.forEach { controller in
+            checkAndUpdate(controller: controller)
         }
     }
     
@@ -78,7 +82,26 @@ final class RootController: UIViewController {
         default:
             break
         }
+    }
+    
+    private func checkAndUpdate(controller: UIViewController) {
+        let instances = childStack.value.items.map { $0.instance }
         
-        // TODO: iOS Delete VC if no component
+        switch controller {
+        case let flowOne as FlowOneController:
+            if instances.contains(where: { $0 is RootComponentChild.Flow1 }) == false {
+                removeChild(controller: flowOne)
+            }
+        case let flowTwo as FlowTwoController:
+            if instances.contains(where: { $0 is RootComponentChild.Flow2 }) == false {
+                removeChild(controller: flowTwo)
+            }
+        case let home as HomeTabBar:
+            if instances.contains(where: { $0 is RootComponentChild.Home }) == false {
+                removeChild(controller: home)
+            }
+        default:
+            break
+        }
     }
 }
