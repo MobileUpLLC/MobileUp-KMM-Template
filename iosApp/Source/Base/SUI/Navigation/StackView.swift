@@ -86,23 +86,6 @@ class StackNavigationController<T: AnyObject>: UINavigationController {
         coordinator.syncChanges(components)
         setViewControllers(coordinator.viewControllers, animated: animated)
     }
-    
-    func update(stack: CStateFlow<ChildStack<AnyObject, T>>) {
-        stackState.recreate(stack)
-        
-        // Need it to be sure that order of methods will be
-        // self.update -> self.viewWillAppear -> rootController.viewDidLoad ->
-        // -> rootController.viewWillAppear -> rootController.viewDidAppear-> self.viewDidAppear
-        // after fake component replacement
-        viewControllers = []
-        
-        updateControllers(animated: false)
-    }
-    
-    private func updateControllers(animated: Bool = true) {
-        coordinator.syncChanges(components)
-        setViewControllers(coordinator.viewControllers, animated: animated)
-    }
 }
 
 class StackViewCoordinator<T: AnyObject>: NSObject {

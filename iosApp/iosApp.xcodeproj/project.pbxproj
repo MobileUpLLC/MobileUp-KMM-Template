@@ -34,14 +34,12 @@
 		8F6AFD8429CC885300DA32B6 /* PreviewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F6AFD8329CC885300DA32B6 /* PreviewAssets.xcassets */; };
 		8F722AB029DF16CB00F2CDFF /* DeveloperService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F722AAF29DF16CB00F2CDFF /* DeveloperService.swift */; };
 		8F7C774929D19DF1003CB46B /* RootHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C774829D19DF1003CB46B /* RootHolder.swift */; };
-		8F80441129E06F9E000DDA57 /* DeveloperService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80441029E06F9E000DDA57 /* DeveloperService.swift */; };
 		8F98C4D329DB078D00A8AEC4 /* PokemonsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4D229DB078D00A8AEC4 /* PokemonsController.swift */; };
 		8F98C4D629DB12F200A8AEC4 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4D529DB12F200A8AEC4 /* HostingController.swift */; };
 		8F98C4D829DB149200A8AEC4 /* TabTwoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4D729DB149200A8AEC4 /* TabTwoView.swift */; };
 		8F98C4DA29DB14F800A8AEC4 /* TabOneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4D929DB14F800A8AEC4 /* TabOneView.swift */; };
 		8F98C4DC29DB54FE00A8AEC4 /* TabOneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4DB29DB54FE00A8AEC4 /* TabOneController.swift */; };
 		8F98C4DF29DB553500A8AEC4 /* TabTwoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4DE29DB553500A8AEC4 /* TabTwoController.swift */; };
-		8FC165C029E071DD00F2928C /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 8FC165BF29E071DD00F2928C /* .gitkeep */; };
 		8FA0CCED29DDDA1F008CD37E /* UIViewController+Child.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA0CCEC29DDDA1F008CD37E /* UIViewController+Child.swift */; };
 		8FA0CCEF29DE24E7008CD37E /* FlowOneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA0CCEE29DE24E7008CD37E /* FlowOneController.swift */; };
 		8FA0CCF129DE27D2008CD37E /* FlowTwoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA0CCF029DE27D2008CD37E /* FlowTwoController.swift */; };
@@ -112,17 +110,16 @@
 		8F6AFD8329CC885300DA32B6 /* PreviewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PreviewAssets.xcassets; sourceTree = "<group>"; };
 		8F722AAF29DF16CB00F2CDFF /* DeveloperService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperService.swift; sourceTree = "<group>"; };
 		8F7C774829D19DF1003CB46B /* RootHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootHolder.swift; sourceTree = "<group>"; };
-		8F80441029E06F9E000DDA57 /* DeveloperService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperService.swift; sourceTree = "<group>"; };
 		8F98C4D229DB078D00A8AEC4 /* PokemonsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonsController.swift; sourceTree = "<group>"; };
 		8F98C4D529DB12F200A8AEC4 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		8F98C4D729DB149200A8AEC4 /* TabTwoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabTwoView.swift; sourceTree = "<group>"; };
 		8F98C4D929DB14F800A8AEC4 /* TabOneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabOneView.swift; sourceTree = "<group>"; };
 		8F98C4DB29DB54FE00A8AEC4 /* TabOneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabOneController.swift; sourceTree = "<group>"; };
 		8F98C4DE29DB553500A8AEC4 /* TabTwoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabTwoController.swift; sourceTree = "<group>"; };
-		8FC165BD29E071B300F2928C /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		8FA0CCEC29DDDA1F008CD37E /* UIViewController+Child.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Child.swift"; sourceTree = "<group>"; };
 		8FA0CCEE29DE24E7008CD37E /* FlowOneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowOneController.swift; sourceTree = "<group>"; };
 		8FA0CCF029DE27D2008CD37E /* FlowTwoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowTwoController.swift; sourceTree = "<group>"; };
+		8FC165BD29E071B300F2928C /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		8FCBFC6329C3A1C400162A8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8FCBFC6929C3A1C400162A8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8FCBFC6B29C3A1C400162A8E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -422,7 +419,6 @@
 				8FF40EEC29C88AD900933723 /* BackDispatcherService.swift */,
 				8F722AAF29DF16CB00F2CDFF /* DeveloperService.swift */,
 				8FF40EEA29C883AC00933723 /* EnvironmentService.swift */,
-				8F80441029E06F9E000DDA57 /* DeveloperService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -552,7 +548,6 @@
 				8FCBFC9129C3A1C400162A8E /* debug.xcconfig in Resources */,
 				8FCBFC8A29C3A1C400162A8E /* Assets.xcassets in Resources */,
 				8F6AFD8429CC885300DA32B6 /* PreviewAssets.xcassets in Resources */,
-				8FC165C029E071DD00F2928C /* .gitkeep in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -647,7 +642,6 @@
 				8F5C1CBD29D47AD100F69FC4 /* ScreenOneCView.swift in Sources */,
 				8FDBB5CA29CB198200715EDD /* R.generated.swift in Sources */,
 				8F7C774929D19DF1003CB46B /* RootHolder.swift in Sources */,
-				8F80441129E06F9E000DDA57 /* DeveloperService.swift in Sources */,
 				AF3FCA9F29B63FE7004211EA /* UnsafeObservableState.swift in Sources */,
 				8F98C4D829DB149200A8AEC4 /* TabTwoView.swift in Sources */,
 				8FF40EEF29C8B8D700933723 /* Global.swift in Sources */,
