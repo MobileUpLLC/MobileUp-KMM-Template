@@ -3,7 +3,6 @@ import SwiftUI
 struct RootView: View {
     private let component: RootComponent
     
-    // TODO: iOS Попытаться найти способ не делать так много дженериков (ObservableState хотелось бы убрать)
     @ObservedObject private var childStack: ObservableState<ChildStack<AnyObject, RootComponentChild>>
     
     init(component: RootComponent) {

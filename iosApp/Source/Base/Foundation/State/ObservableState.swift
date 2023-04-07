@@ -18,6 +18,18 @@ public class ObservableState<T: AnyObject>: ObservableObject {
         )
     }
     
+    func recreate(_ state: CStateFlow<T>) {
+        cancelable?.cancel()
+        
+        cancelable = FlowWrapper<T>(flow: state).collect(
+            consumer: { [weak self] value in
+                if let value {
+                    self?.value = value
+                }
+            }
+        )
+    }
+    
     deinit {
         self.cancelable?.cancel()
     }

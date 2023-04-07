@@ -1,11 +1,5 @@
 import SwiftUI
-
-struct NavigationBarItem {
-    let title: String
-    let mode: UINavigationItem.LargeTitleDisplayMode
-    
-    static let `default` = NavigationBarItem(title: .empty, mode: .never)
-}
+import Combine
 
 protocol StackViewController: UIViewController {
     var isLastInStack: (() -> Bool)? { get set }
@@ -21,67 +15,117 @@ extension StackViewController {
     }
 }
 
-// Base idea is got from from Decompose sample
-// https://github.com/arkivanov/Decompose/blob/master/sample/app-ios/app-ios/StackView.swift
 struct StackView<T: AnyObject>: UIViewControllerRepresentable {
     @ObservedObject var stackState: ObservableState<ChildStack<AnyObject, T>>
-    
     var childScreen: (T) -> StackViewController?
+    
+    func makeUIViewController(context: Context) -> StackNavigationController<T> {
+        return StackNavigationController(stackState: stackState, childScreen: childScreen)
+    }
+    
+    func updateUIViewController(_ navigationController: StackNavigationController<T>, context: Context) {}
+}
+
+class StackNavigationController<T: AnyObject>: UINavigationController {
+    @ObservedObject var stackState: ObservableState<ChildStack<AnyObject, T>>
+    
     var components: [T] { stackState.value.items.compactMap { $0.instance } }
     
-    private let onBack: Closure.Void = { BackDispatcherService.shared.backDispatcher.back() }
+    private let coordinator: StackViewCoordinator<T>
+    private var subscriptions: [AnyCancellable] = []
     
-    func makeCoordinator() -> StackViewCoordinator<T> {
-        return StackViewCoordinator<T>()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        updateControllers()
+        
+        stackState.objectWillChange.sink { [weak self] in
+            DispatchQueue.main.async {
+                self?.updateControllers()
+            }
+        }
+        .store(in: &subscriptions)
     }
     
-    func makeUIViewController(context: Context) -> UINavigationController {
-        context.coordinator.syncChanges(self)
+    init(
+        stackState: ObservableState<ChildStack<AnyObject, T>>,
+        childScreen: @escaping (T) -> StackViewController?
+    ) {
+        self.coordinator = StackViewCoordinator(childScreen: childScreen)
+        self.stackState = stackState
         
-        guard let rootViewController = context.coordinator.viewControllers.first else {
-            return UINavigationController()
+        coordinator.syncChanges(stackState.value.items.compactMap { $0.instance })
+        
+        if let controller = coordinator.viewControllers.first {
+            super.init(rootViewController: controller)
+        } else {
+            assertionFailure(DeveloperService.Messages.noViewControllers)
+            super.init()
         }
-        
-        return UINavigationController(rootViewController: rootViewController)
     }
     
-    func updateUIViewController(_ navigationController: UINavigationController, context: Context) {
-        context.coordinator.syncChanges(self)
-        navigationController.setViewControllers(context.coordinator.viewControllers, animated: true)
+    required init?(coder aDecoder: NSCoder) {
+        assertionFailure(DeveloperService.Messages.initHasNotBeenImplemented)
+        
+        return nil
     }
     
-    func createViewController(_ component: T, _ coordinator: Coordinator) -> UIViewController {
-        guard let controller = childScreen(component) else {
-            return UIViewController()
-        }
+    func update(stack: CStateFlow<ChildStack<AnyObject, T>>) {
+        stackState.recreate(stack)
         
-        controller.setup { [weak coordinator, weak component] in
-            return coordinator?.preservedComponents.last === component
-        } onBack: {
-            onBack()
-        }
+        // Need it to be sure that order of methods will be
+        // self.update -> self.viewWillAppear -> rootController.viewDidLoad ->
+        // -> rootController.viewWillAppear -> rootController.viewDidAppear-> self.viewDidAppear
+        // after fake component replacement
+        viewControllers = []
         
-        return controller
+        updateControllers(animated: false)
+    }
+    
+    private func updateControllers(animated: Bool = true) {
+        coordinator.syncChanges(components)
+        setViewControllers(coordinator.viewControllers, animated: animated)
     }
 }
 
 class StackViewCoordinator<T: AnyObject>: NSObject {
+    var childScreen: (T) -> StackViewController?
     var viewControllers: [UIViewController] = []
-    var preservedComponents: [T] = []
     
-    func syncChanges(_ parent: StackView<T>) {
-        let count = max(preservedComponents.count, parent.components.count)
+    private var preservedComponents: [T] = []
+    private let onBack: Closure.Void = { BackDispatcherService.shared.backDispatcher.back() }
+    
+    init(childScreen: @escaping (T) -> StackViewController?) {
+        self.childScreen = childScreen
+    }
+    
+    func syncChanges(_ components: [T] ) {
+        let count = max(preservedComponents.count, components.count)
         
         for i in 0..<count {
-            if i >= parent.components.count {
+            if i >= components.count {
                 viewControllers.removeLast()
             } else if i >= preservedComponents.count {
-                viewControllers.append(parent.createViewController(parent.components[i], self))
-            } else if parent.components[i] !== preservedComponents[i] {
-                viewControllers[i] = parent.createViewController(parent.components[i], self)
+                viewControllers.append(createViewController(components[i]))
+            } else if components[i] !== preservedComponents[i] {
+                viewControllers[i] = createViewController(components[i])
             }
         }
         
-        preservedComponents = parent.components
+        preservedComponents = components
+    }
+    
+    private func createViewController(_ component: T) -> UIViewController {
+        guard let controller = childScreen(component) else {
+            return UIViewController()
+        }
+        
+        controller.setup { [weak self, weak component] in
+            return self?.preservedComponents.last === component
+        } onBack: { [weak self] in
+            self?.onBack()
+        }
+        
+        return controller
     }
 }
