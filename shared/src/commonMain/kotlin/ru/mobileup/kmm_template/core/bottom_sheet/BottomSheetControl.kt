@@ -8,16 +8,16 @@ import ru.mobileup.kmm_template.core.state.CStateFlow
 /**
  * Class to configure and control Bottom Sheet's behaviours
  */
-interface BottomSheetControl<C : Parcelable, T : Any> {
-    val sheetOverlay: CStateFlow<ChildOverlay<*, T>>
-    val sheetState: CStateFlow<State>
-    val halfExpandingSupported: Boolean
-    val hidingSupported: Boolean
-    val dismissEvent: Flow<Unit>
+abstract class BottomSheetControl<C : Parcelable, T : Any> {
+    abstract val sheetOverlay: CStateFlow<ChildOverlay<*, T>>
+    abstract val sheetState: CStateFlow<State>
+    abstract val halfExpandingSupported: Boolean
+    abstract val hidingSupported: Boolean
+    abstract val dismissEvent: Flow<Unit>
 
-    fun onStateChanged(state: State): Boolean
-    fun show(config: C)
-    fun dismiss()
+    abstract fun onStateChanged(state: State): Boolean
+    abstract fun show(config: C)
+    abstract fun dismiss()
 
     enum class State {
         Expanded, HalfExpanded, Hidden

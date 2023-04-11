@@ -7,7 +7,7 @@ import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.utils.createFakeChildOverlay
 
 class FakeDialogControl<C : Parcelable, T : Any>(dialogComponent: T) :
-    DialogControl<C, T> {
+    DialogControl<C, T>() {
     override val dialogOverlay: CStateFlow<ChildOverlay<*, T>> =
         createFakeChildOverlay(dialogComponent)
 
