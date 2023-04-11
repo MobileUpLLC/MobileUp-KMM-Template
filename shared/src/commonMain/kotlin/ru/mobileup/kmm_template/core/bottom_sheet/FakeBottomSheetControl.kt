@@ -7,7 +7,7 @@ import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.utils.createFakeChildOverlay
 
 class FakeBottomSheetControl<C : Parcelable, T : Any>(bottomSheetComponent: T) :
-    BottomSheetControl<C, T> {
+    BottomSheetControl<C, T>() {
     override val sheetOverlay: CStateFlow<ChildOverlay<*, T>> =
         createFakeChildOverlay(bottomSheetComponent)
 

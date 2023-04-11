@@ -55,7 +55,7 @@ private class RealBottomSheetControl<C : Parcelable, T : Any>(
     override val hidingSupported: Boolean,
     handleBackButton: Boolean,
     clazz: KClass<C>,
-) : BottomSheetControl<C, T> {
+) : BottomSheetControl<C, T>() {
 
     private val logger = Logger.withTag("BottomSheetControl")
 

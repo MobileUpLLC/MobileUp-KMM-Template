@@ -48,7 +48,7 @@ private class RealDialogControl<C : Parcelable, T : Any>(
     handleBackButton: Boolean,
     clazz: KClass<C>,
     override val canDismissed: Boolean
-) : DialogControl<C, T> {
+) : DialogControl<C, T>() {
 
     private val dialogNavigation = OverlayNavigation<C>()
 
