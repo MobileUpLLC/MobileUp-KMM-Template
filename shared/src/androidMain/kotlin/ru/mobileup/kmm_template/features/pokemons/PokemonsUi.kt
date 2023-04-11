@@ -76,13 +76,13 @@ fun PokemonVotesUi(
     val votes by component.pokemonVotes.collectAsState()
 
     Column(modifier = modifier) {
-        if (votes.isEmpty()) {
+        if (votes.votes.isEmpty()) {
             Text(
                 modifier = Modifier.padding(24.dp),
                 text = stringResource(resource = MR.strings.pokemons_votes_empty_description)
             )
         }
-        votes.forEach {
+        votes.votes.forEach {
             val textColor = if (it.isPositive == true) {
                 MaterialTheme.colors.secondary
             } else {
