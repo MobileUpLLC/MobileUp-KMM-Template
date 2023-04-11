@@ -49,6 +49,7 @@
 		8FCBFC8C29C3A1C400162A8E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC6B29C3A1C400162A8E /* Images.xcassets */; };
 		8FCBFC9129C3A1C400162A8E /* debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC7729C3A1C400162A8E /* debug.xcconfig */; };
 		8FCBFC9229C3A1C400162A8E /* release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC7829C3A1C400162A8E /* release.xcconfig */; };
+		8FD588DD29E5AB4A00D26A9E /* UIViewController+BottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD588DC29E5AB4A00D26A9E /* UIViewController+BottomSheet.swift */; };
 		8FDBB5C229CB145A00715EDD /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDBB5C129CB145A00715EDD /* AsyncImageView.swift */; };
 		8FDBB5C529CB163900715EDD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 8FDBB5C429CB163900715EDD /* Kingfisher */; };
 		8FDBB5C829CB17F400715EDD /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = 8FDBB5C729CB17F400715EDD /* Rswift */; };
@@ -123,13 +124,13 @@
 		8FA0CCEC29DDDA1F008CD37E /* UIViewController+Child.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Child.swift"; sourceTree = "<group>"; };
 		8FA0CCEE29DE24E7008CD37E /* FlowOneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowOneController.swift; sourceTree = "<group>"; };
 		8FA0CCF029DE27D2008CD37E /* FlowTwoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowTwoController.swift; sourceTree = "<group>"; };
-		8FC165BD29E071B300F2928C /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		8FCBFC6329C3A1C400162A8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8FCBFC6929C3A1C400162A8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8FCBFC6B29C3A1C400162A8E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8FCBFC7729C3A1C400162A8E /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
 		8FCBFC7829C3A1C400162A8E /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		8FCBFC7929C3A1C400162A8E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8FD588DC29E5AB4A00D26A9E /* UIViewController+BottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+BottomSheet.swift"; sourceTree = "<group>"; };
 		8FDBB5C129CB145A00715EDD /* AsyncImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncImageView.swift; sourceTree = "<group>"; };
 		8FDBB5C929CB198200715EDD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		8FDBB5CB29CB346C00715EDD /* AppearanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceService.swift; sourceTree = "<group>"; };
@@ -327,7 +328,7 @@
 		8FCBFC7129C3A1C400162A8E /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				8FC165BD29E071B300F2928C /* .gitkeep */,
+				8FD588DC29E5AB4A00D26A9E /* UIViewController+BottomSheet.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -647,6 +648,7 @@
 				8F5C1CB929D477D900F69FC4 /* ScreenOneAView.swift in Sources */,
 				8FF40EED29C88AD900933723 /* BackDispatcherService.swift in Sources */,
 				AF986D9E29BA0CF3000CA7B0 /* PokemonListView.swift in Sources */,
+				8FD588DD29E5AB4A00D26A9E /* UIViewController+BottomSheet.swift in Sources */,
 				8F5C1CE629D706E900F69FC4 /* HomeTabBar.swift in Sources */,
 				8F98C4D329DB078D00A8AEC4 /* PokemonsController.swift in Sources */,
 				8F3E49E129CA4D4D00BDCA28 /* LoadingView.swift in Sources */,

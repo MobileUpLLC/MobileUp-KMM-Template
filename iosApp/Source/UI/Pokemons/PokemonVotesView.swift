@@ -9,29 +9,25 @@
 import SwiftUI
 
 struct PokemonVotesView: View {
-    private let control: BottomSheetControl
+    private let control: BottomSheetControl<PokemonVotesComponentConfig, PokemonVotesComponent>
     @ObservedObject private var overlay: ObservableState<ChildOverlay<AnyObject, PokemonVotesComponent>>
     
-    init(control: BottomSheetControl) {
+    init(control: BottomSheetControl<PokemonVotesComponentConfig, PokemonVotesComponent>) {
         self.control = control
-        
-        guard let overlay = control.sheetOverlay as? CStateFlow<ChildOverlay<AnyObject, PokemonVotesComponent>> else {
-            fatalError(DeveloperService.Messages.cannotCastTabOverlay)
-        }
-        
-        self.overlay = ObservableState(overlay)
+        self.overlay = ObservableState(control.sheetOverlay)
     }
     
     var body: some View {
         if let instance = overlay.value.overlay?.instance {
             InnerPokemonVotesView(component: instance)
+                .padding(.top, 16)
         }
     }
 }
 
 private struct InnerPokemonVotesView: View {
     private let component: PokemonVotesComponent
-    @ObservedObject private var votes: ObservableState<NSArray>
+    @ObservedObject private var votes: ObservableState<PokemonVotes>
     
     init(component: PokemonVotesComponent) {
         self.component = component
@@ -39,7 +35,27 @@ private struct InnerPokemonVotesView: View {
     }
     
     var body: some View {
-        component.pokemonVotes as? [PokemonVote]
+        if votes.value.votes.isEmpty {
+            EmptyDataView(
+                item: EmptyDataViewItem(title:  MR.strings().pokemons_votes_empty_description.desc().localized())
+            )
+        } else {
+            ForEach(votes.value.votes, id: \.pokemonName) { vote in
+                HStack(spacing: 0) {
+                    Text(vote.pokemonName)
+                    Spacer()
+                    
+                    Text(getVoteText(isPositive: vote.isPositive?.boolValue ?? true))
+                        .foregroundColor(vote.isPositive?.boolValue ?? true ? .green : .red)
+                }
+            }
+        }
+    }
+    
+    private func getVoteText(isPositive: Bool) -> String {
+        return isPositive
+            ? MR.strings().pokemons_votes_like.desc().localized()
+            : MR.strings().pokemons_votes_dislike.desc().localized()
     }
 }
 

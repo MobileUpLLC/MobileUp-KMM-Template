@@ -9,7 +9,15 @@
 import SwiftUI
 
 final class PokemonVotesController: HostingController<PokemonVotesView> {
-    init(control: BottomSheetControl) {
+    private let control: BottomSheetControl<PokemonVotesComponentConfig, PokemonVotesComponent>
+    
+    init(control: BottomSheetControl<PokemonVotesComponentConfig, PokemonVotesComponent>) {
+        self.control = control
+        
         super.init(rootView: PokemonVotesView(control: control))
+    }
+    
+    deinit {
+        control.dismiss()
     }
 }

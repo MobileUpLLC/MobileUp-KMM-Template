@@ -7,13 +7,12 @@
 //
 
 import SwiftUI
-import BottomSheet
 import Combine
 
 final class PokemonsController: StackNavigationController<PokemonsComponentChild>, HomeTabViewController {
     var homeTab: HomeTab { .tab3 }
     
-    private let component: PokemonsComponent
+    private var component: PokemonsComponent
     @ObservedObject private var bottomSheetState: ObservableState<BottomSheetControlState>
     
     private weak var bottomSheetController: UIViewController?
@@ -64,6 +63,9 @@ final class PokemonsController: StackNavigationController<PokemonsComponentChild
             return
         }
         
+        self.component = component.component
+        
+        bottomSheetState.recreate(component.component.bottomSheetControl.sheetState)
         update(stack: component.component.childStack)
     }
     
@@ -90,10 +92,9 @@ final class PokemonsController: StackNavigationController<PokemonsComponentChild
         case .expanded, .halfexpanded:
             presentBottomSheet()
         case .hidden:
-            break
-//            bottomSheetController?.dismiss(animated: true)
+            bottomSheetController = nil
         default:
-            break
+            bottomSheetController = nil
         }
     }
     
@@ -101,13 +102,6 @@ final class PokemonsController: StackNavigationController<PokemonsComponentChild
         let viewControllerToPresent = PokemonVotesController(control: component.bottomSheetControl)
         bottomSheetController = viewControllerToPresent
         
-        presentBottomSheet(
-            viewController: viewControllerToPresent,
-            configuration: BottomSheetConfiguration(
-                cornerRadius: 10,
-                pullBarConfiguration: .visible(.init(height: 20)),
-                shadowConfiguration: .init(backgroundColor: UIColor.black.withAlphaComponent(0.6))
-            )
-        )
+        presentAsBottomSheet(viewControllerToPresent)
     }
 }
