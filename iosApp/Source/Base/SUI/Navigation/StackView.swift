@@ -64,7 +64,7 @@ class StackNavigationController<T: AnyObject>: UINavigationController {
         }
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    @available(*, unavailable) @MainActor dynamic required init?(coder aDecoder: NSCoder) {
         assertionFailure(DeveloperService.Messages.initHasNotBeenImplemented)
         
         return nil

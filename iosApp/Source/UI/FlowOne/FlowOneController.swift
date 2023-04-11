@@ -25,8 +25,4 @@ final class FlowOneController: StackNavigationController<Flow1ComponentChild> {
             }
         }
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
 }
