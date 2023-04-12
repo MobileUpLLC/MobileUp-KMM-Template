@@ -4,6 +4,7 @@ import SwiftUI
 // Ответ: Массивы в свифте - структуры, LoadableState требует класс как подтип
 // TODO: Android
 // Решение: Создать в котлине класс ListContainer с единственным полем values: List<T>, где T должен быть Pokemon
+// Решение работает, смотри InnerPokemonVotesView
 // https://github.com/hhru/kotlin-swift-interopedia/blob/main/docs/types/Collections%20with%20custom%20types%20data.md
 struct PokemonListView: View {
     let component: PokemonListComponent

@@ -28,7 +28,7 @@ struct HomeView: View {
                 case let tabTwo as HomeComponentChild.Tab2:
                     return TabTwoController(component: tabTwo.component)
                 case let pokemons as HomeComponentChild.Tab3:
-                    return PokemonsController(component: pokemons.component)
+                    return PokemonController(component: pokemons.component)
                 default:
                     return nil
                 }

@@ -26,6 +26,6 @@ final class TabOneController: HostingController<TabOneView>, HomeTabViewControll
             return
         }
         
-        rootView = TabOneView(component: component.component)
+        rootView = TabOneView(component: component.component).embedded(in: self)
     }
 }

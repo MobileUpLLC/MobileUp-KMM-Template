@@ -12,5 +12,6 @@ enum DeveloperService {
         static let initHasNotBeenImplemented = "init(coder:) has not been implemented"
         static let noViewControllers = "No viewControllers for StackNavigationController"
         static let cannotCastTab = "Warning: Cannot cast tab viewController to HomeTabViewController"
+        static let cannotCastModifiedView = "Cannot cast SwiftUI view to ModifiedContent"
     }
 }

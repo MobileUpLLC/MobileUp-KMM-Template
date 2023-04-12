@@ -26,6 +26,6 @@ final class TabTwoController: HostingController<TabTwoView>, HomeTabViewControll
             return
         }
         
-        rootView = TabTwoView(component: component.component)
+        rootView = TabTwoView(component: component.component).embedded(in: self)
     }
 }

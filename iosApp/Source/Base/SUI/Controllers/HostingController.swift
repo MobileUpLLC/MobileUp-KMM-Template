@@ -8,9 +8,24 @@
 
 import SwiftUI
 
-class HostingController<T: View>: UIHostingController<T> {
-    override init(rootView: T) {
-        super.init(rootView: rootView)
+typealias ModifiedWithWrapper = _EnvironmentKeyWritingModifier<HostWrapper?>
+
+final class HostWrapper: ObservableObject {
+    weak var controller: UIViewController?
+}
+
+class HostingController<T: View>: UIHostingController<ModifiedContent<T, ModifiedWithWrapper>> {
+    init(rootView: T) {
+        let container = HostWrapper()
+        let hostingAccessingView = rootView.environmentObject(container)
+        
+        guard let modified = hostingAccessingView as? ModifiedContent<T, ModifiedWithWrapper> else {
+            fatalError(DeveloperService.Messages.cannotCastModifiedView)
+        }
+        
+        super.init(rootView: modified)
+        
+        container.controller = self
     }
     
     @available(*, unavailable) @MainActor dynamic required init?(coder aDecoder: NSCoder) {

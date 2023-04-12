@@ -4,15 +4,17 @@ struct RootView: View {
     private let component: RootComponent
     
     @ObservedObject private var childStack: ObservableState<ChildStack<AnyObject, RootComponentChild>>
+    @ObservedObject private var message: NullableObservableState<Message>
     
     init(component: RootComponent) {
         self.component = component
         self.childStack = ObservableState(component.childStack)
+        self.message = NullableObservableState(component.messageComponent.visibleMessage)
     }
     
     var body: some View {
         ZStack {
-            ForEach(component.childStack.value.items, id: \.instance) { child in
+            ForEach(childStack.value.items, id: \.instance) { child in
                 switch child.instance {
                 case let flowOne as RootComponentChild.Flow1:
                     FlowOneView(component: flowOne.component)

@@ -35,18 +35,24 @@
 		8F6AFD8429CC885300DA32B6 /* PreviewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F6AFD8329CC885300DA32B6 /* PreviewAssets.xcassets */; };
 		8F7C774929D19DF1003CB46B /* RootHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C774829D19DF1003CB46B /* RootHolder.swift */; };
 		8F80441129E06F9E000DDA57 /* DeveloperService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F80441029E06F9E000DDA57 /* DeveloperService.swift */; };
-		8F98C4D329DB078D00A8AEC4 /* PokemonsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4D229DB078D00A8AEC4 /* PokemonsController.swift */; };
+		8F98C4D329DB078D00A8AEC4 /* PokemonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4D229DB078D00A8AEC4 /* PokemonController.swift */; };
 		8F98C4D629DB12F200A8AEC4 /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4D529DB12F200A8AEC4 /* HostingController.swift */; };
 		8F98C4D829DB149200A8AEC4 /* TabTwoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4D729DB149200A8AEC4 /* TabTwoView.swift */; };
 		8F98C4DA29DB14F800A8AEC4 /* TabOneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4D929DB14F800A8AEC4 /* TabOneView.swift */; };
 		8F98C4DC29DB54FE00A8AEC4 /* TabOneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4DB29DB54FE00A8AEC4 /* TabOneController.swift */; };
 		8F98C4DF29DB553500A8AEC4 /* TabTwoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F98C4DE29DB553500A8AEC4 /* TabTwoController.swift */; };
-		8FC165C029E071DD00F2928C /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 8FC165BF29E071DD00F2928C /* .gitkeep */; };
 		8FCBFC8729C3A1C400162A8E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC6229C3A1C400162A8E /* LaunchScreen.storyboard */; };
 		8FCBFC8A29C3A1C400162A8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC6929C3A1C400162A8E /* Assets.xcassets */; };
 		8FCBFC8C29C3A1C400162A8E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC6B29C3A1C400162A8E /* Images.xcassets */; };
 		8FCBFC9129C3A1C400162A8E /* debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC7729C3A1C400162A8E /* debug.xcconfig */; };
 		8FCBFC9229C3A1C400162A8E /* release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC7829C3A1C400162A8E /* release.xcconfig */; };
+		8FD588DF29E5B0CE00D26A9E /* UIViewController+BottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD588DE29E5B0CE00D26A9E /* UIViewController+BottomSheet.swift */; };
+		8FD588E229E5B0F200D26A9E /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 8FD588E129E5B0F200D26A9E /* BottomSheet */; };
+		8FD588E429E5B21000D26A9E /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 8FD588E329E5B21000D26A9E /* .gitkeep */; };
+		8FD588E629E5DE0F00D26A9E /* EmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD588E529E5DE0F00D26A9E /* EmptyDataView.swift */; };
+		8FD588E829E5E3AE00D26A9E /* PokemonVotesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD588E729E5E3AE00D26A9E /* PokemonVotesController.swift */; };
+		8FD588EA29E5E3FE00D26A9E /* PokemonVotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD588E929E5E3FE00D26A9E /* PokemonVotesView.swift */; };
+		8FD588EC29E6EC7200D26A9E /* EmbeddedInHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD588EB29E6EC7200D26A9E /* EmbeddedInHostingController.swift */; };
 		8FDBB5C229CB145A00715EDD /* AsyncImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDBB5C129CB145A00715EDD /* AsyncImageView.swift */; };
 		8FDBB5C529CB163900715EDD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 8FDBB5C429CB163900715EDD /* Kingfisher */; };
 		8FDBB5C829CB17F400715EDD /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = 8FDBB5C729CB17F400715EDD /* Rswift */; };
@@ -111,20 +117,24 @@
 		8F6AFD8329CC885300DA32B6 /* PreviewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = PreviewAssets.xcassets; sourceTree = "<group>"; };
 		8F7C774829D19DF1003CB46B /* RootHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootHolder.swift; sourceTree = "<group>"; };
 		8F80441029E06F9E000DDA57 /* DeveloperService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperService.swift; sourceTree = "<group>"; };
-		8F98C4D229DB078D00A8AEC4 /* PokemonsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonsController.swift; sourceTree = "<group>"; };
+		8F98C4D229DB078D00A8AEC4 /* PokemonController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonController.swift; sourceTree = "<group>"; };
 		8F98C4D529DB12F200A8AEC4 /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		8F98C4D729DB149200A8AEC4 /* TabTwoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabTwoView.swift; sourceTree = "<group>"; };
 		8F98C4D929DB14F800A8AEC4 /* TabOneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabOneView.swift; sourceTree = "<group>"; };
 		8F98C4DB29DB54FE00A8AEC4 /* TabOneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabOneController.swift; sourceTree = "<group>"; };
 		8F98C4DE29DB553500A8AEC4 /* TabTwoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabTwoController.swift; sourceTree = "<group>"; };
-		8FC165BD29E071B300F2928C /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
-		8FC165BF29E071DD00F2928C /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitkeep; path = Source/Extensions/UIKit/.gitkeep; sourceTree = SOURCE_ROOT; };
 		8FCBFC6329C3A1C400162A8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8FCBFC6929C3A1C400162A8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8FCBFC6B29C3A1C400162A8E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8FCBFC7729C3A1C400162A8E /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
 		8FCBFC7829C3A1C400162A8E /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		8FCBFC7929C3A1C400162A8E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8FD588DE29E5B0CE00D26A9E /* UIViewController+BottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+BottomSheet.swift"; sourceTree = "<group>"; };
+		8FD588E329E5B21000D26A9E /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		8FD588E529E5DE0F00D26A9E /* EmptyDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDataView.swift; sourceTree = "<group>"; };
+		8FD588E729E5E3AE00D26A9E /* PokemonVotesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonVotesController.swift; sourceTree = "<group>"; };
+		8FD588E929E5E3FE00D26A9E /* PokemonVotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonVotesView.swift; sourceTree = "<group>"; };
+		8FD588EB29E6EC7200D26A9E /* EmbeddedInHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmbeddedInHostingController.swift; sourceTree = "<group>"; };
 		8FDBB5C129CB145A00715EDD /* AsyncImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncImageView.swift; sourceTree = "<group>"; };
 		8FDBB5C929CB198200715EDD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		8FDBB5CB29CB346C00715EDD /* AppearanceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceService.swift; sourceTree = "<group>"; };
@@ -148,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FDBB5C829CB17F400715EDD /* Rswift in Frameworks */,
+				8FD588E229E5B0F200D26A9E /* BottomSheet in Frameworks */,
 				8FDBB5C529CB163900715EDD /* Kingfisher in Frameworks */,
 				8FF40EF529C8BAED00933723 /* Utils in Frameworks */,
 			);
@@ -185,6 +196,8 @@
 			children = (
 				8FDBB5C129CB145A00715EDD /* AsyncImageView.swift */,
 				8F5C1CE029D6EE5300F69FC4 /* BaseView.swift */,
+				8FD588EB29E6EC7200D26A9E /* EmbeddedInHostingController.swift */,
+				8FD588E529E5DE0F00D26A9E /* EmptyDataView.swift */,
 				8F3E49E029CA4D4D00BDCA28 /* LoadingView.swift */,
 				8F5C1CDE29D6EDEE00F69FC4 /* NavigationBarInfoView.swift */,
 				8F3E49DE29C9D67600BDCA28 /* RefreshingLoadingView.swift */,
@@ -319,7 +332,7 @@
 		8FCBFC7129C3A1C400162A8E /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				8FC165BD29E071B300F2928C /* .gitkeep */,
+				8FD588DE29E5B0CE00D26A9E /* UIViewController+BottomSheet.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -391,7 +404,7 @@
 		8FCBFC8229C3A1C400162A8E /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				8FC165BF29E071DD00F2928C /* .gitkeep */,
+				8FD588E329E5B21000D26A9E /* .gitkeep */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -452,11 +465,13 @@
 		AF986D9829BA0AC4000CA7B0 /* Pokemons */ = {
 			isa = PBXGroup;
 			children = (
-				8F98C4D229DB078D00A8AEC4 /* PokemonsController.swift */,
+				8F98C4D229DB078D00A8AEC4 /* PokemonController.swift */,
 				8F5C1CD829D641BB00F69FC4 /* PokemonListController.swift */,
 				AF986D9D29BA0CF3000CA7B0 /* PokemonListView.swift */,
 				8F5C1CDA29D6425C00F69FC4 /* PokemonDetailsController.swift */,
 				AF986D9F29BA0CFF000CA7B0 /* PokemonDetailsView.swift */,
+				8FD588E729E5E3AE00D26A9E /* PokemonVotesController.swift */,
+				8FD588E929E5E3FE00D26A9E /* PokemonVotesView.swift */,
 			);
 			path = Pokemons;
 			sourceTree = "<group>";
@@ -493,6 +508,7 @@
 				8FF40EF429C8BAED00933723 /* Utils */,
 				8FDBB5C429CB163900715EDD /* Kingfisher */,
 				8FDBB5C729CB17F400715EDD /* Rswift */,
+				8FD588E129E5B0F200D26A9E /* BottomSheet */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* iosApp.app */;
@@ -527,6 +543,7 @@
 				8FF40EF329C8BAED00933723 /* XCRemoteSwiftPackageReference "Utils" */,
 				8FDBB5C329CB163900715EDD /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				8FDBB5C629CB17F400715EDD /* XCRemoteSwiftPackageReference "R.swift" */,
+				8FD588E029E5B0F200D26A9E /* XCRemoteSwiftPackageReference "BottomSheet" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -548,7 +565,7 @@
 				8FCBFC9129C3A1C400162A8E /* debug.xcconfig in Resources */,
 				8FCBFC8A29C3A1C400162A8E /* Assets.xcassets in Resources */,
 				8F6AFD8429CC885300DA32B6 /* PreviewAssets.xcassets in Resources */,
-				8FC165C029E071DD00F2928C /* .gitkeep in Resources */,
+				8FD588E429E5B21000D26A9E /* .gitkeep in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -626,15 +643,17 @@
 				8F5C1CDB29D6425C00F69FC4 /* PokemonDetailsController.swift in Sources */,
 				8F5C1CC929D5A0C300F69FC4 /* HomeView.swift in Sources */,
 				8F5C1CD729D63F2400F69FC4 /* ScreenTwoCController.swift in Sources */,
+				8FD588E629E5DE0F00D26A9E /* EmptyDataView.swift in Sources */,
 				8F5C1CC029D4818600F69FC4 /* FlowTwoView.swift in Sources */,
 				8F98C4DC29DB54FE00A8AEC4 /* TabOneController.swift in Sources */,
 				8F5C1CDD29D6EC8900F69FC4 /* Navigatable.swift in Sources */,
+				8FD588EA29E5E3FE00D26A9E /* PokemonVotesView.swift in Sources */,
 				8F5C1CE129D6EE5300F69FC4 /* BaseView.swift in Sources */,
 				8F5C1CB929D477D900F69FC4 /* ScreenOneAView.swift in Sources */,
 				8FF40EED29C88AD900933723 /* BackDispatcherService.swift in Sources */,
 				AF986D9E29BA0CF3000CA7B0 /* PokemonListView.swift in Sources */,
 				8F5C1CE629D706E900F69FC4 /* HomeTabBar.swift in Sources */,
-				8F98C4D329DB078D00A8AEC4 /* PokemonsController.swift in Sources */,
+				8F98C4D329DB078D00A8AEC4 /* PokemonController.swift in Sources */,
 				8F3E49E129CA4D4D00BDCA28 /* LoadingView.swift in Sources */,
 				AF986D9C29BA0B7C000CA7B0 /* StackView.swift in Sources */,
 				8F5C1CBB29D47A7C00F69FC4 /* ScreenOneBView.swift in Sources */,
@@ -645,6 +664,7 @@
 				8F7C774929D19DF1003CB46B /* RootHolder.swift in Sources */,
 				8F80441129E06F9E000DDA57 /* DeveloperService.swift in Sources */,
 				AF3FCA9F29B63FE7004211EA /* UnsafeObservableState.swift in Sources */,
+				8FD588DF29E5B0CE00D26A9E /* UIViewController+BottomSheet.swift in Sources */,
 				8F98C4D829DB149200A8AEC4 /* TabTwoView.swift in Sources */,
 				8FF40EEF29C8B8D700933723 /* Global.swift in Sources */,
 				8F5C1CC629D4823C00F69FC4 /* ScreenTwoCView.swift in Sources */,
@@ -665,8 +685,10 @@
 				8F3E49DF29C9D67600BDCA28 /* RefreshingLoadingView.swift in Sources */,
 				8FDBB5C229CB145A00715EDD /* AsyncImageView.swift in Sources */,
 				8F5C1CB729D4610500F69FC4 /* FlowOneView.swift in Sources */,
+				8FD588E829E5E3AE00D26A9E /* PokemonVotesController.swift in Sources */,
 				AF986DA029BA0CFF000CA7B0 /* PokemonDetailsView.swift in Sources */,
 				8F5C1CD129D619D900F69FC4 /* ScreenOneCController.swift in Sources */,
+				8FD588EC29E6EC7200D26A9E /* EmbeddedInHostingController.swift in Sources */,
 				8F98C4D629DB12F200A8AEC4 /* HostingController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -888,6 +910,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8FD588E029E5B0F200D26A9E /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/joomcode/BottomSheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		8FDBB5C329CB163900715EDD /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
@@ -915,6 +945,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8FD588E129E5B0F200D26A9E /* BottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8FD588E029E5B0F200D26A9E /* XCRemoteSwiftPackageReference "BottomSheet" */;
+			productName = BottomSheet;
+		};
 		8FDBB5C429CB163900715EDD /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8FDBB5C329CB163900715EDD /* XCRemoteSwiftPackageReference "Kingfisher" */;
