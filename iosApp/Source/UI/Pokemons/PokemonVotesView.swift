@@ -48,6 +48,7 @@ private struct InnerPokemonVotesView: View {
                     Text(getVoteText(isPositive: vote.isPositive?.boolValue ?? true))
                         .foregroundColor(vote.isPositive?.boolValue ?? true ? .green : .red)
                 }
+                .padding(.horizontal, 16)
             }
         }
     }
