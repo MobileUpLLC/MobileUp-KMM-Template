@@ -1,144 +1,131 @@
 import SwiftUI
+import Combine
 
-struct NavigationBarItem {
-    let title: String
-    let mode: UINavigationItem.LargeTitleDisplayMode
+protocol StackViewController: UIViewController {
+    var isLastInStack: (() -> Bool)? { get set }
+    var onBack: Closure.Void? { get set }
     
-    static let `default` = NavigationBarItem(title: .empty, mode: .never)
+    func setup(isLastInStack: @escaping () -> Bool, onBack: @escaping Closure.Void)
 }
 
-// Code from Decompose sample
-// https://github.com/arkivanov/Decompose/blob/master/sample/app-ios/app-ios/StackView.swift
-struct StackView<T: AnyObject, Content: View>: View {
+extension StackViewController {
+    func setup(isLastInStack: @escaping () -> Bool, onBack: @escaping Closure.Void) {
+        self.isLastInStack = isLastInStack
+        self.onBack = onBack
+    }
+}
+
+struct StackView<T: AnyObject>: UIViewControllerRepresentable {
+    @ObservedObject var stackState: ObservableState<ChildStack<AnyObject, T>>
+    var childScreen: (T) -> StackViewController?
+    
+    func makeUIViewController(context: Context) -> StackNavigationController<T> {
+        return StackNavigationController(stackState: stackState, childScreen: childScreen)
+    }
+    
+    func updateUIViewController(_ navigationController: StackNavigationController<T>, context: Context) {}
+}
+
+class StackNavigationController<T: AnyObject>: UINavigationController {
     @ObservedObject var stackState: ObservableState<ChildStack<AnyObject, T>>
     
-    var getNavigationBarItem: (T) -> NavigationBarItem
+    var components: [T] { stackState.value.items.compactMap { $0.instance } }
     
-    @ViewBuilder var childContent: (T) -> Content
-    
-    var stack: [Child<AnyObject, T>] { stackState.value.items }
-    
-    private let onBack: Closure.Void = { BackDispatcherService.shared.backDispatcher.back() }
-    
-    var body: some View {
-        StackInteropView(
-            components: stack.compactMap { $0.instance },
-            getNavigationBarItem: getNavigationBarItem,
-            onBack: onBack,
-            childContent: childContent
-        )
-    }
-}
-
-struct StackInteropView<T: AnyObject, Content: View>: UIViewControllerRepresentable {
-    var components: [T]
-    var getNavigationBarItem: (T) -> NavigationBarItem
-    var onBack: () -> Void
-    var childContent: (T) -> Content
-    
-    func makeCoordinator() -> StackInteropViewCoordinator<T, Content> {
-        StackInteropViewCoordinator(self)
-    }
-    
-    func makeUIViewController(context: Context) -> UINavigationController {
-        context.coordinator.syncChanges(self)
-        
-        guard let rootViewController = context.coordinator.viewControllers.first else {
-            return UINavigationController()
-        }
-        
-        return UINavigationController(rootViewController: rootViewController)
-    }
-    
-    func updateUIViewController(_ navigationController: UINavigationController, context: Context) {
-        context.coordinator.syncChanges(self)
-        navigationController.setViewControllers(context.coordinator.viewControllers, animated: true)
-    }
-    
-    func createViewController(
-        _ component: T,
-        _ coordinator: Coordinator
-    ) -> NavigationItemHostingController<T, Content> {
-        let controller = NavigationItemHostingController(
-            rootView: childContent(component),
-            coordinator: coordinator,
-            component: component,
-            navigationBarItem: getNavigationBarItem(component),
-            onBack: onBack
-        )
-        
-        return controller
-    }
-}
-
-class StackInteropViewCoordinator<T: AnyObject, Content: View>: NSObject {
-    var parent: StackInteropView<T, Content>
-    var viewControllers = [NavigationItemHostingController<T, Content>]()
-    var preservedComponents = [T]()
-    
-    init(_ parent: StackInteropView<T, Content>) {
-        self.parent = parent
-    }
-    
-    func syncChanges(_ parent: StackInteropView<T, Content>) {
-        self.parent = parent
-        let count = max(preservedComponents.count, parent.components.count)
-        
-        for i in 0..<count {
-            if i >= parent.components.count {
-                viewControllers.removeLast()
-            } else if i >= preservedComponents.count {
-                viewControllers.append(parent.createViewController(parent.components[i], self))
-            } else if parent.components[i] !== preservedComponents[i] {
-                viewControllers[i] = parent.createViewController(parent.components[i], self)
-            }
-        }
-        
-        preservedComponents = parent.components
-    }
-}
-
-class NavigationItemHostingController<T: AnyObject, Content: View>: UIHostingController<Content> {
-    private weak var coordinator: StackInteropViewCoordinator<T, Content>?
-    private var component: T?
-    private var navigationBarItem: NavigationBarItem = .default
-    private var onBack: (() -> Void)?
-    
-    override init(rootView: Content) {
-        super.init(rootView: rootView)
-    }
+    private let coordinator: StackViewCoordinator<T>
+    private var subscriptions: [AnyCancellable] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = navigationBarItem.mode
-        navigationItem.title = navigationBarItem.title
+        updateControllers()
+        
+        stackState.objectWillChange.sink { [weak self] in
+            DispatchQueue.main.async {
+                self?.updateControllers()
+            }
+        }
+        .store(in: &subscriptions)
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    init(
+        stackState: ObservableState<ChildStack<AnyObject, T>>,
+        childScreen: @escaping (T) -> StackViewController?
+    ) {
+        self.coordinator = StackViewCoordinator(childScreen: childScreen)
+        self.stackState = stackState
         
-        if isMovingFromParent && coordinator?.preservedComponents.last === component {
-            onBack?()
+        coordinator.syncChanges(stackState.value.items.compactMap { $0.instance })
+        
+        if let controller = coordinator.viewControllers.first {
+            super.init(rootViewController: controller)
+        } else {
+            assertionFailure(DeveloperService.Messages.noViewControllers)
+            super.init()
         }
     }
     
-    convenience init(
-        rootView: Content,
-        coordinator: StackInteropViewCoordinator<T, Content>?,
-        component: T?,
-        navigationBarItem: NavigationBarItem,
-        onBack: (() -> Void)?
-    ) {
-        self.init(rootView: rootView)
-        self.coordinator = coordinator
-        self.component = component
-        self.navigationBarItem = navigationBarItem
-        self.onBack = onBack
+    @available(*, unavailable) @MainActor dynamic required init?(coder aDecoder: NSCoder) {
+        assertionFailure(DeveloperService.Messages.initHasNotBeenImplemented)
+        
+        return nil
     }
     
-    @available(*, unavailable) @MainActor dynamic required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    func update(stack: CStateFlow<ChildStack<AnyObject, T>>) {
+        stackState.recreate(stack)
+        
+        // Need it to be sure that order of methods will be
+        // self.update -> self.viewWillAppear -> rootController.viewDidLoad ->
+        // -> rootController.viewWillAppear -> rootController.viewDidAppear-> self.viewDidAppear
+        // after fake component replacement
+        viewControllers = []
+        
+        updateControllers(animated: false)
+    }
+    
+    private func updateControllers(animated: Bool = true) {
+        coordinator.syncChanges(components)
+        setViewControllers(coordinator.viewControllers, animated: animated)
+    }
+}
+
+class StackViewCoordinator<T: AnyObject>: NSObject {
+    var childScreen: (T) -> StackViewController?
+    var viewControllers: [UIViewController] = []
+    
+    private var preservedComponents: [T] = []
+    private let onBack: Closure.Void = { BackDispatcherService.shared.backDispatcher.back() }
+    
+    init(childScreen: @escaping (T) -> StackViewController?) {
+        self.childScreen = childScreen
+    }
+    
+    func syncChanges(_ components: [T] ) {
+        let count = max(preservedComponents.count, components.count)
+        
+        for i in 0..<count {
+            if i >= components.count {
+                viewControllers.removeLast()
+            } else if i >= preservedComponents.count {
+                viewControllers.append(createViewController(components[i]))
+            } else if components[i] !== preservedComponents[i] {
+                viewControllers[i] = createViewController(components[i])
+            }
+        }
+        
+        preservedComponents = components
+    }
+    
+    private func createViewController(_ component: T) -> UIViewController {
+        guard let controller = childScreen(component) else {
+            return UIViewController()
+        }
+        
+        controller.setup { [weak self, weak component] in
+            return self?.preservedComponents.last === component
+        } onBack: { [weak self] in
+            self?.onBack()
+        }
+        
+        return controller
     }
 }
