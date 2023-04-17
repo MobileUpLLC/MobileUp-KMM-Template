@@ -33,6 +33,7 @@ class NavigatableHostingController<Content: View>: HostingController<Content>, S
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
+        // To remove component from stack
         if isMovingFromParent && isLastInStack?() == true {
             onBack?()
         }

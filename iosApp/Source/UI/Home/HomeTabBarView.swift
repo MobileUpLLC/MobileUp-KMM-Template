@@ -1,5 +1,5 @@
 //
-//  HomeTabBar.swift
+//  HomeTabBarView.swift
 //  iosApp
 //
 //  Created by Vladislav Grokhotov on 31.03.2023.
@@ -14,7 +14,7 @@ protocol HomeTabViewController: UIViewController {
     func update(component: HomeComponentChild)
 }
 
-struct HomeTabBar: UIViewControllerRepresentable {
+struct HomeTabBarView: UIViewControllerRepresentable {
     @ObservedObject var tabsStack: ObservableState<ChildStack<AnyObject, HomeComponentChild>>
     
     var tabScreen: (HomeComponentChild) -> HomeTabViewController?
@@ -118,7 +118,7 @@ class HomeTabBarCoordinator: NSObject, UITabBarControllerDelegate {
         shouldSelect viewController: UIViewController
     ) -> Bool {
         guard let controller = viewController as? HomeTabViewController else {
-            print("Warning: Cannot cast tab viewController to HomeTabViewController")
+            print(DeveloperService.Messages.cannotCastTab)
             
             return false
         }

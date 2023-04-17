@@ -19,7 +19,7 @@ struct HomeView: View {
     }
     
     var body: some View {
-        HomeTabBar(
+        HomeTabBarView(
             tabsStack: childStack,
             tabScreen: { child in
                 switch child {

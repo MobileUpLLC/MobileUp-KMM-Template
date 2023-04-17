@@ -1,11 +1,11 @@
 import SwiftUI
 
-// Не получилось объявить ObservableState<LoadableState<[Pokemon]>>. Как это обойти?
-// Ответ: Массивы в свифте - структуры, LoadableState требует класс как подтип
-// TODO: Android
-// Решение: Создать в котлине класс ListContainer с единственным полем values: List<T>, где T должен быть Pokemon
-// Решение работает, смотри InnerPokemonVotesView
-// https://github.com/hhru/kotlin-swift-interopedia/blob/main/docs/types/Collections%20with%20custom%20types%20data.md
+// Cannot define ObservableState<LoadableState<[Pokemon]>>. How to do it?
+// Reason: In Swift arrays are structures, LoadableState needs class as subtype
+// TODO: Android change component.types, component.pokemonsState
+// Solution: In Kotlin create class ListContainer with single field values: List<T>, where T is Pokemon
+// Solution works, see InnerPokemonVotesView
+
 struct PokemonListView: View {
     let component: PokemonListComponent
 

@@ -102,9 +102,9 @@ struct FlowTwoView: View {
 ```
 
 ## TabBar
-To create a tabBar you should copy `HomeTabBar` and `HomeTabBarCoordinator` and fix it to use your components and represent your screens. Actually, all you have to do is to change types, all other specific logic should not be changed.
+To create a tabBar you should copy `HomeTabBarView` and `HomeTabBarCoordinator` and fix it to use your components and represent your screens. Actually, all you have to do is to change types, all other specific logic should not be changed.
 
-\* Mention the `addViewController` and `update` methods of `HomeTabBar` and `HomeTabBarCoordinator`. The mechanism of replacing/updating of child components is needed since the tabItem is the part of the viewController, we need all view controllers as tabBar children before all tabBar components are inited and placed to the stack, and the recreating of viewControllers is not good idea.
+\* Mention the `addViewController` and `update` methods of `HomeTabBarView` and `HomeTabBarCoordinator`. The mechanism of replacing/updating of child components is needed since the tabItem is the part of the viewController, we need all view controllers as tabBar children before all tabBar components are inited and placed to the stack, and the recreating of viewControllers is not good idea.
 
 \*\* Pay attention, that in `update` method of TabOneController we use `embedded(in:)` modifier to keep access of SUI view to its hosting controller
 
