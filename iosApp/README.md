@@ -1,7 +1,74 @@
 # KMM iOS MobileUp Template
 
 ## Project structure
-TBD
+```
+.
+├── Source
+│   ├── Application
+│   │   ├── Application.swift - Application class where we initialize Shared SDK.
+│   │   ├── Global.swift - Global imports of shared module and Utils library.
+│   │   └── RootHolder.swift - Class for life circle management and configuration. 
+│   ├── Base
+│   │   ├── Foundation
+│   │   │   └── State - The states to connect Kotlin CStateFlow with Swift ObservableObject.
+│   │   │       ├── NullableObservableState.swift - State to handle optional values.
+│   │   │       ├── ObservableState.swift - State to handle non optional values.
+│   │   │       └── UnsafeObservableState.swift - State to handle unsafe values.
+│   │   ├── SUI
+│   │   │   ├── Controllers
+│   │   │   │   ├── HostingController.swift - Base controller to host SUI view.
+│   │   │   │   └── NavigatableHostingController.swift - Base controller to host SUI view to place in StackView.
+│   │   │   ├── Navigation
+│   │   │   │   └── StackView.swift - Base class to use as navigation controller.
+│   │   │   └── Views - Some base views to use.
+│   │   └── UIKit
+│   ├── Configs
+│   │   ├── Build configs
+│   │   │   ├── debug.xcconfig
+│   │   │   └── release.xcconfig
+│   │   └── Info.plist
+│   ├── Extensions
+│   │   ├── Foundation
+│   │   ├── SUI
+│   │   │   └── ViewModifiers
+│   │   │       └── Refreshable.swift - Modifier for adding refreshable logic to view.
+│   │   └── UIKit
+│   │       └── UIViewController+BottomSheet.swift - Extension to present BottomSheet.
+│   ├── Resources
+│   │   ├── Assets
+│   │   │   ├── Assets.xcassets - Assets imported from Figma.
+│   │   │   └── Images.xcassets - Assets added from Figma via manual way.
+│   │   └── R.generated - Generated file to use assets.
+│   ├── Preview Content
+│   │   └── PreviewAssets.xcassets - Preview assets.
+│   ├── Protocols
+│   │   └── Navigatable.swift - Protocol for navigation bar configuration.
+│   ├── Services
+│   │   ├── AppearanceService.swift - Service for setting custom appearance.  
+│   │   ├── BackDispatcherService.swift - Service for providing Kotlin component deletion from stack.
+│   │   ├── EnvironmentService.swift - Service for current enum checking.
+│   │   └── DeveloperService.swift - Enum with strings for developing usage.
+│   └── UI
+│       ├── FlowOne
+│       ├── FlowTwo
+│       ├── Home
+│       │   ├── HomeTabBarView.swift - Example of the tab bar usage.
+│       │   └── ...
+│       ├── Launch
+│       ├── Pokemons - Feature example for the template.
+│       │   ├── PokemonController.swift - Inheritor of StackNavigationController, provides the representation of the whole feature.
+│       │   ├── PokemonListController.swift - NavigatableHostingController for hosting the Pokemon list view.
+│       │   ├── PokemonListView.swift - SUI view for the Pokemon list.
+│       │   ├── PokemonDetailsController.swift - NavigatableHostingController for hosting of the Pokemon details view.
+│       │   ├── PokemonDetailsView.swift - SUI view for the Pokemon details.
+│       │   ├── PokemonVotesController.swift - HostingController for hosting of Pokemon votes view.
+│       │   └── PokemonVotesView.swift - SUI view for the Pokemon votes.
+│       └── Root
+│           └── RootView.swift - The root view of the application.
+├── rswift - Executable file for RSwift.
+├── swiftlint.yml - SwiftLint settings file.
+└── iosApp.xcodeproj
+```
 
 ## Technology stack
 SwiftUI, UIKit, BottomSheet, Kingfisher, Utils, R, iOS 15.1+

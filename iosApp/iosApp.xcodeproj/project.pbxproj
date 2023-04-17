@@ -384,9 +384,9 @@
 		8FCBFC7F29C3A1C400162A8E /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				8FCBFC8429C3A1C400162A8E /* Foundation */,
 				8FCBFC8029C3A1C400162A8E /* SUI */,
 				8FCBFC8229C3A1C400162A8E /* UIKit */,
-				8FCBFC8429C3A1C400162A8E /* Foundation */,
 			);
 			path = Base;
 			sourceTree = "<group>";

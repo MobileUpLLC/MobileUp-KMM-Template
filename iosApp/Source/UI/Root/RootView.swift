@@ -31,8 +31,8 @@ struct RootView: View {
         .animation(.easeInOut, value: component.childStack.value.items)
         .ignoresSafeArea()
         
-        // TODO: iOS добавить отображение ошибок из MessageComponent.
-        // На Android они отображаются в виде снекбаров поверх основного содержимого.
+        // TODO: iOS add error view from MessageComponent.
+        // In Android it is implemented via snack bars over the main content
     }
 }
 
