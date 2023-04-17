@@ -44,11 +44,8 @@
 		8FCBFC8729C3A1C400162A8E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC6229C3A1C400162A8E /* LaunchScreen.storyboard */; };
 		8FCBFC8A29C3A1C400162A8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC6929C3A1C400162A8E /* Assets.xcassets */; };
 		8FCBFC8C29C3A1C400162A8E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC6B29C3A1C400162A8E /* Images.xcassets */; };
-		8FCBFC9129C3A1C400162A8E /* debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC7729C3A1C400162A8E /* debug.xcconfig */; };
-		8FCBFC9229C3A1C400162A8E /* release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 8FCBFC7829C3A1C400162A8E /* release.xcconfig */; };
 		8FD588DF29E5B0CE00D26A9E /* UIViewController+BottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD588DE29E5B0CE00D26A9E /* UIViewController+BottomSheet.swift */; };
 		8FD588E229E5B0F200D26A9E /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 8FD588E129E5B0F200D26A9E /* BottomSheet */; };
-		8FD588E429E5B21000D26A9E /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 8FD588E329E5B21000D26A9E /* .gitkeep */; };
 		8FD588E629E5DE0F00D26A9E /* EmptyDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD588E529E5DE0F00D26A9E /* EmptyDataView.swift */; };
 		8FD588E829E5E3AE00D26A9E /* PokemonVotesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD588E729E5E3AE00D26A9E /* PokemonVotesController.swift */; };
 		8FD588EA29E5E3FE00D26A9E /* PokemonVotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD588E929E5E3FE00D26A9E /* PokemonVotesView.swift */; };
@@ -520,8 +517,9 @@
 		7555FF73242A565900829871 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = orgName;
 				TargetAttributes = {
 					7555FF7A242A565900829871 = {
@@ -560,12 +558,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FCBFC8C29C3A1C400162A8E /* Images.xcassets in Resources */,
-				8FCBFC9229C3A1C400162A8E /* release.xcconfig in Resources */,
 				8FCBFC8729C3A1C400162A8E /* LaunchScreen.storyboard in Resources */,
-				8FCBFC9129C3A1C400162A8E /* debug.xcconfig in Resources */,
 				8FCBFC8A29C3A1C400162A8E /* Assets.xcassets in Resources */,
 				8F6AFD8429CC885300DA32B6 /* PreviewAssets.xcassets in Resources */,
-				8FD588E429E5B21000D26A9E /* .gitkeep in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
