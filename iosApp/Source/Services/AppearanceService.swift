@@ -13,6 +13,15 @@ enum AppearanceService {
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.backgroundColor = .white
         
+        // Change font for specific project style
+        // navigationBarAppearance.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 15)]
+        
         UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+        
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.backgroundColor = .white
+
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().tintColor = .black
     }
 }

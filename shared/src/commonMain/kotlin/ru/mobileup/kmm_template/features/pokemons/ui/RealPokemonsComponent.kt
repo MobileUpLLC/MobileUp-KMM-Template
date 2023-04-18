@@ -8,12 +8,16 @@ import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import ru.mobileup.kmm_template.core.ComponentFactory
+import ru.mobileup.kmm_template.core.bottom_sheet.BottomSheetControl
+import ru.mobileup.kmm_template.core.bottom_sheet.bottomSheetControl
 import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.utils.toCStateFlow
 import ru.mobileup.kmm_template.features.pokemons.createPokemonDetailsComponent
 import ru.mobileup.kmm_template.features.pokemons.createPokemonListComponent
+import ru.mobileup.kmm_template.features.pokemons.createPokemonVotesComponent
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonId
 import ru.mobileup.kmm_template.features.pokemons.ui.list.PokemonListComponent
+import ru.mobileup.kmm_template.features.pokemons.ui.pokemon_votes.PokemonVotesComponent
 
 class RealPokemonsComponent(
     componentContext: ComponentContext,
@@ -28,6 +32,20 @@ class RealPokemonsComponent(
         handleBackButton = true,
         childFactory = ::createChild
     ).toCStateFlow(lifecycle)
+
+    override val bottomSheetControl: BottomSheetControl<PokemonVotesComponent.Config, PokemonVotesComponent> =
+        bottomSheetControl(
+            bottomSheetComponentFactory = { _, context, _ ->
+                componentFactory.createPokemonVotesComponent(context)
+            },
+            halfExpandingSupported = true,
+            hidingSupported = true,
+            handleBackButton = true
+        )
+
+    override fun onPokemonVotesButtonClick() {
+        bottomSheetControl.show(PokemonVotesComponent.Config)
+    }
 
     private fun createChild(
         config: ChildConfig,

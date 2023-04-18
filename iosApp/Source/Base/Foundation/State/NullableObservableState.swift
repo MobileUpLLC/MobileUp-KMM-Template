@@ -7,11 +7,13 @@ public class NullableObservableState<T: AnyObject>: ObservableObject {
     private var cancelable: Cancelable?
     
     init(_ state: CNullableStateFlow<T>) {
-        self.value = state.value
+        value = state.value
 
-        cancelable = FlowWrapper(flow: state).collect(consumer: { value in
-             self.value = value
-         })
+        cancelable = FlowWrapper(flow: state).collect(
+            consumer: { [weak self] value in
+                self?.value = value
+            }
+        )
     }
     
     deinit {

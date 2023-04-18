@@ -38,34 +38,29 @@ fun PokemonListUi(
     val selectedTypeId by component.selectedTypeId.collectAsState()
     val pokemonsState by component.pokemonsState.collectAsState()
 
-    Surface(
-        modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colors.background
-    ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            PokemonTypesRow(
-                types = types,
-                selectedTypeId = selectedTypeId,
-                onTypeClick = component::onTypeClick
-            )
+    Column(modifier = modifier.fillMaxSize()) {
+        PokemonTypesRow(
+            types = types,
+            selectedTypeId = selectedTypeId,
+            onTypeClick = component::onTypeClick
+        )
 
-            SwipeRefreshLceWidget(
-                state = pokemonsState,
-                onRefresh = component::onRefresh,
-                onRetryClick = component::onRetryClick
-            ) { pokemons, refreshing ->
-                if (pokemons.isNotEmpty()) {
-                    PokemonListContent(
-                        pokemons = pokemons,
-                        onPokemonClick = component::onPokemonClick
-                    )
-                } else {
-                    EmptyPlaceholder(
-                        description = stringResource(MR.strings.pokemons_empty_description)
-                    )
-                }
-                RefreshingProgress(refreshing)
+        SwipeRefreshLceWidget(
+            state = pokemonsState,
+            onRefresh = component::onRefresh,
+            onRetryClick = component::onRetryClick
+        ) { pokemons, refreshing ->
+            if (pokemons.isNotEmpty()) {
+                PokemonListContent(
+                    pokemons = pokemons,
+                    onPokemonClick = component::onPokemonClick
+                )
+            } else {
+                EmptyPlaceholder(
+                    description = stringResource(MR.strings.pokemons_empty_description)
+                )
             }
+            RefreshingProgress(refreshing)
         }
     }
 }

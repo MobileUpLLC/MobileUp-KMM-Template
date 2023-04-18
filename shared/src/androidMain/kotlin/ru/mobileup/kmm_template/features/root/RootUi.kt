@@ -12,7 +12,9 @@ import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.mobileup.kmm_template.core.message.ui.MessageUi
 import ru.mobileup.kmm_template.core.theme.AppTheme
-import ru.mobileup.kmm_template.features.pokemons.PokemonsUi
+import ru.mobileup.kmm_template.features.flow1.Flow1Ui
+import ru.mobileup.kmm_template.features.flow2.Flow2Ui
+import ru.mobileup.kmm_template.features.home.HomeUi
 import ru.mobileup.kmm_template.features.root.ui.FakeRootComponent
 import ru.mobileup.kmm_template.features.root.ui.RootComponent
 
@@ -27,7 +29,9 @@ fun RootUi(
 
     Children(childStack, modifier) { child ->
         when (val instance = child.instance) {
-            is RootComponent.Child.Pokemons -> PokemonsUi(instance.component)
+            is RootComponent.Child.Flow1 -> Flow1Ui(instance.component)
+            is RootComponent.Child.Home -> HomeUi(instance.component)
+            is RootComponent.Child.Flow2 -> Flow2Ui(instance.component)
         }
     }
 

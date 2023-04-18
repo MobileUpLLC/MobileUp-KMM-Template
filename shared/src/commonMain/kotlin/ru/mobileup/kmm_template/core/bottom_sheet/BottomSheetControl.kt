@@ -1,0 +1,25 @@
+package ru.mobileup.kmm_template.core.bottom_sheet
+
+import com.arkivanov.decompose.router.overlay.ChildOverlay
+import com.arkivanov.essenty.parcelable.Parcelable
+import kotlinx.coroutines.flow.Flow
+import ru.mobileup.kmm_template.core.state.CStateFlow
+
+/**
+ * Class to configure and control Bottom Sheet's behaviours
+ */
+abstract class BottomSheetControl<C : Parcelable, T : Any> {
+    abstract val sheetOverlay: CStateFlow<ChildOverlay<*, T>>
+    abstract val sheetState: CStateFlow<State>
+    abstract val halfExpandingSupported: Boolean
+    abstract val hidingSupported: Boolean
+    abstract val dismissEvent: Flow<Unit>
+
+    abstract fun onStateChanged(state: State): Boolean
+    abstract fun show(config: C)
+    abstract fun dismiss()
+
+    enum class State {
+        Expanded, HalfExpanded, Hidden
+    }
+}

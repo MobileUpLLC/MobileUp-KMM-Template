@@ -1,6 +1,9 @@
 <resources>
     <!-- Common -->
     <string name="common_retry">Retry</string>
+    <string name="common_next">Next</string>
+    <string name="common_finish">Finish</string>
+    <string name="common_exit">Exit</string>
 
     <!-- Errors -->
     <string name="error_unexpected">Something went wrong. The developers are already fixing the problem.</string>
