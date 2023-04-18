@@ -33,7 +33,6 @@
 │   │   │   └── ViewModifiers
 │   │   │       └── Refreshable.swift - Modifier for adding refreshable logic to view.
 │   │   └── UIKit
-│   │       └── UIViewController+BottomSheet.swift - Extension to present BottomSheet.
 │   ├── Resources
 │   │   ├── Assets
 │   │   │   ├── Assets.xcassets - Assets imported from Figma.
@@ -42,6 +41,7 @@
 │   ├── Preview Content
 │   │   └── PreviewAssets.xcassets - Preview assets.
 │   ├── Protocols
+│   │   ├── BottomSheetPresentable.swift - Protocol for BottomSheet presenting.
 │   │   └── Navigatable.swift - Protocol for navigation bar configuration.
 │   ├── Services
 │   │   ├── AppearanceService.swift - Service for setting custom appearance.  
@@ -176,12 +176,12 @@ To create a tabBar you should copy `HomeTabBarView` and `HomeTabBarCoordinator` 
 \*\* Pay attention, that in `update` method of TabOneController we use `embedded(in:)` modifier to keep access of SUI view to its hosting controller
 
 ## Bottom Sheet
-To present a bottom sheet you should use the `presentAsBottomSheet(_ controller:)` method or its modification. Since the lib we use for bottom sheets should be called from viewController, all presenting logic should be moved to hosting controller of SUI view. Since children of `StackNavigationController` and `StackView` are `UIHostingController`-s, the logic of presenting should be placed there. The bottom sheet content will be the `HostingController` with its specific SUI view. Don't forget to put `control.dismiss()` to the `deinit` of hosting controller.
+To present a bottom sheet you should use the `presentAsBottomSheet(_ controller:)` method of `BottomSheetPresentable`. Since the lib we use for bottom sheets should be called from viewController, all presenting logic should be moved to hosting controller of SUI view. Since children of `StackNavigationController` and `StackView` are `UIHostingController`-s, the logic of presenting should be placed there. `StackNavigationController` and `HostingController` are `BottomSheetPresentable` by default.  The bottom sheet content will be the `HostingController` with its specific SUI view. Don't forget to put `control.dismiss()` to the `deinit` of hosting controller. `BottomSheetPresentable` supports the presenting of non dismissible bottom sheet via overriding `canBottomSheetBeDismissed` in the  parent controller. 
 
 In the case if the logic of bottom sheet presenting could not be moved to hosting controller for some reason, you can use next code in SUI view to get hosting controller from view:
 ```swift
 // The way to get hosting controller of the view
-@EnvironmentObject private var hostWrapper: HostWrapper
+@EnvironmentObject private var hostWrapper: HostWrapper<Self>
 
 ...
 

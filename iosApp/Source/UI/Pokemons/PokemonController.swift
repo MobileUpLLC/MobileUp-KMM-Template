@@ -10,6 +10,8 @@ import SwiftUI
 import Combine
 
 final class PokemonController: StackNavigationController<PokemonsComponentChild>, HomeTabViewController {
+    override var canBottomSheetBeDismissed: Bool { component.bottomSheetControl.hidingSupported  }
+    
     var homeTab: HomeTab { .tab3 }
     
     private var component: PokemonsComponent

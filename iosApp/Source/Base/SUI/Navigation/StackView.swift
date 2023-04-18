@@ -26,10 +26,12 @@ struct StackView<T: AnyObject>: UIViewControllerRepresentable {
     func updateUIViewController(_ navigationController: StackNavigationController<T>, context: Context) {}
 }
 
-class StackNavigationController<T: AnyObject>: UINavigationController {
+class StackNavigationController<T: AnyObject>: UINavigationController, BottomSheetPresentable {
     @ObservedObject var stackState: ObservableState<ChildStack<AnyObject, T>>
     
     var components: [T] { stackState.value.items.compactMap { $0.instance } }
+    var transitionDelegate: BottomSheetTransitioningDelegate?
+    var canBottomSheetBeDismissed: Bool { true }
     
     private let coordinator: StackViewCoordinator<T>
     private var subscriptions: [AnyCancellable] = []

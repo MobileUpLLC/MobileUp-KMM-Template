@@ -7,19 +7,24 @@
 //
 
 import SwiftUI
+import BottomSheet
 
-typealias ModifiedWithWrapper = _EnvironmentKeyWritingModifier<HostWrapper?>
+typealias ModifiedWithWrapper<T: View> = _EnvironmentKeyWritingModifier<HostWrapper<T>?>
+typealias ModifiedWithWrapperContent<T: View> = ModifiedContent<T, ModifiedWithWrapper<T>>
 
-final class HostWrapper: ObservableObject {
-    weak var controller: UIViewController?
+final class HostWrapper<T: View>: ObservableObject {
+    weak var controller: HostingController<T>?
 }
 
-class HostingController<T: View>: UIHostingController<ModifiedContent<T, ModifiedWithWrapper>> {
+class HostingController<T: View>: UIHostingController<ModifiedWithWrapperContent<T>>, BottomSheetPresentable {
+    var transitionDelegate: BottomSheetTransitioningDelegate?
+    var canBottomSheetBeDismissed: Bool { true }
+    
     init(rootView: T) {
-        let container = HostWrapper()
+        let container = HostWrapper<T>()
         let hostingAccessingView = rootView.environmentObject(container)
         
-        guard let modified = hostingAccessingView as? ModifiedContent<T, ModifiedWithWrapper> else {
+        guard let modified = hostingAccessingView as? ModifiedWithWrapperContent<T> else {
             fatalError(DeveloperService.Messages.cannotCastModifiedView)
         }
         

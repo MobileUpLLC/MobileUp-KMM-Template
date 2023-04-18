@@ -10,14 +10,14 @@ import SwiftUI
 
 extension View {
     func embedded<T: View>(
-        in hostingController: UIHostingController<ModifiedContent<T, ModifiedWithWrapper>>
-    ) -> ModifiedContent<T, ModifiedWithWrapper> {
-        let container = HostWrapper()
+        in hostingController: HostingController<T>
+    ) -> ModifiedWithWrapperContent<T> {
+        let container = HostWrapper<T>()
         container.controller = hostingController
         
         let hostingAccessingView = environmentObject(container)
         
-        guard let viewToReturn = hostingAccessingView as? ModifiedContent<T, ModifiedWithWrapper> else {
+        guard let viewToReturn = hostingAccessingView as? ModifiedWithWrapperContent<T> else {
             fatalError(DeveloperService.Messages.cannotCastModifiedView)
         }
         
