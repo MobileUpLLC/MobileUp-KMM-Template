@@ -128,7 +128,6 @@
 		8FCBFC7729C3A1C400162A8E /* debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
 		8FCBFC7829C3A1C400162A8E /* release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		8FCBFC7929C3A1C400162A8E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8FD588E329E5B21000D26A9E /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		8FD588E529E5DE0F00D26A9E /* EmptyDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyDataView.swift; sourceTree = "<group>"; };
 		8FD588E729E5E3AE00D26A9E /* PokemonVotesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonVotesController.swift; sourceTree = "<group>"; };
 		8FD588E929E5E3FE00D26A9E /* PokemonVotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonVotesView.swift; sourceTree = "<group>"; };
@@ -193,11 +192,8 @@
 			isa = PBXGroup;
 			children = (
 				8FDBB5C129CB145A00715EDD /* AsyncImageView.swift */,
-				8F5C1CE029D6EE5300F69FC4 /* BaseView.swift */,
-				8FD588EB29E6EC7200D26A9E /* EmbeddedInHostingController.swift */,
 				8FD588E529E5DE0F00D26A9E /* EmptyDataView.swift */,
 				8F3E49E029CA4D4D00BDCA28 /* LoadingView.swift */,
-				8F5C1CDE29D6EDEE00F69FC4 /* NavigationBarInfoView.swift */,
 				8F3E49DE29C9D67600BDCA28 /* RefreshingLoadingView.swift */,
 			);
 			path = Views;
@@ -403,7 +399,8 @@
 		8FCBFC8229C3A1C400162A8E /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				8FD588E329E5B21000D26A9E /* .gitkeep */,
+				8F5C1CE029D6EE5300F69FC4 /* BaseView.swift */,
+				8F5C1CDE29D6EDEE00F69FC4 /* NavigationBarInfoView.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -429,8 +426,8 @@
 			children = (
 				8FDBB5CB29CB346C00715EDD /* AppearanceService.swift */,
 				8FF40EEC29C88AD900933723 /* BackDispatcherService.swift */,
-				8FF40EEA29C883AC00933723 /* EnvironmentService.swift */,
 				8F80441029E06F9E000DDA57 /* DeveloperService.swift */,
+				8FF40EEA29C883AC00933723 /* EnvironmentService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -438,6 +435,7 @@
 		8FF40EF029C8B97700933723 /* ViewModifiers */ = {
 			isa = PBXGroup;
 			children = (
+				8FD588EB29E6EC7200D26A9E /* EmbeddedInHostingController.swift */,
 				8FF40EF129C8B98E00933723 /* Refreshable.swift */,
 			);
 			path = ViewModifiers;

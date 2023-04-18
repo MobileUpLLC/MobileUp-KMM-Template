@@ -21,7 +21,7 @@
 │   │   │   ├── Navigation
 │   │   │   │   └── StackView.swift - Base class to use as navigation controller.
 │   │   │   └── Views - Some base views to use.
-│   │   └── UIKit
+│   │   └── UIKit - Some base views to use.
 │   ├── Configs
 │   │   ├── Build configs
 │   │   │   ├── debug.xcconfig
@@ -31,6 +31,7 @@
 │   │   ├── Foundation
 │   │   ├── SUI
 │   │   │   └── ViewModifiers
+│   │   │       ├── EmbeddedInHostingController.swift - Modifier for consistent redefinition of root view of hosting controller.
 │   │   │       └── Refreshable.swift - Modifier for adding refreshable logic to view.
 │   │   └── UIKit
 │   ├── Resources
