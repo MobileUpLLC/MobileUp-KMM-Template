@@ -1,7 +1,7 @@
 package ru.mobileup.kmm_template.features.pokemons.domain.vote
 
-data class PokemonVotes(
-    val votes: List<PokemonVote>
+data class ListWrapper<T : Any>(
+    val list: List<T>
 )
 
 data class PokemonVote(

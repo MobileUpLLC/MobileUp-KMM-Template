@@ -27,7 +27,7 @@ struct PokemonVotesView: View {
 
 private struct InnerPokemonVotesView: View {
     private let component: PokemonVotesComponent
-    @ObservedObject private var votes: ObservableState<PokemonVotes>
+    @ObservedObject private var votes: ObservableState<ListWrapper<PokemonVote>>
     
     init(component: PokemonVotesComponent) {
         self.component = component
@@ -35,12 +35,12 @@ private struct InnerPokemonVotesView: View {
     }
     
     var body: some View {
-        if votes.value.votes.isEmpty {
+        if votes.value.list.isEmpty {
             EmptyDataView(
                 item: EmptyDataViewItem(title:  MR.strings().pokemons_votes_empty_description.desc().localized())
             )
         } else {
-            ForEach(votes.value.votes, id: \.pokemonName) { vote in
+            ForEach(votes.value.list, id: \.pokemonName) { vote in
                 HStack(spacing: 0) {
                     Text(vote.pokemonName)
                     Spacer()

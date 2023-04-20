@@ -7,7 +7,7 @@ import ru.mobileup.kmm_template.features.pokemons.data.PokemonVotesStorage
 class GetAllVotesForPokemonInteractor(
     private val pokemonVotesStorage: PokemonVotesStorage
 ) {
-    fun execute(): CStateFlow<PokemonVotes> {
+    fun execute(): CStateFlow<ListWrapper<PokemonVote>> {
         return pokemonVotesStorage.allPokemonVotes.toCStateFlow()
     }
 }
