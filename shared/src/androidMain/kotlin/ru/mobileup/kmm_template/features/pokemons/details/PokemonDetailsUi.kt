@@ -160,6 +160,11 @@ private fun PokemonDetailsDialog(
         is PokemonVoteDialogComponent -> {
             val dialogData = dialogComponent.dialogData.collectAsState()
 
+            /**
+             * 'dismiss' можно вызвать непосредственно у dialogControl
+             * или же пробросить вызов через реализацию компонента диалога
+             * 'dialogComponent::dismiss' где реализовать специфическую логику
+             */
             AlertDialog(
                 onDismissRequest = component.dialogControl::dismiss,
                 buttons = {

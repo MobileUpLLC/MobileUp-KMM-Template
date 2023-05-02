@@ -11,6 +11,12 @@ import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.utils.toCStateFlow
 import kotlin.reflect.KClass
 
+/**
+ * Если в одном компоненте подразумевается использоваение более одного ботомшита/диалога
+ * то каждому из них должен быть присвоен уникальный строковый ключ-идентификатор.
+ * Иначе приложение упадет с ошибкой (Another supplier is already registered with the key)
+ * Это особенность реализации childOverlay в библиотеку decompose
+ */
 private const val SHEET_CHILD_OVERLAY_KEY = "sheetChildOverlay"
 
 inline fun <reified C : Parcelable, T : Any> ComponentContext.bottomSheetControl(
@@ -61,13 +67,22 @@ private class RealBottomSheetControl<C : Parcelable, T : Any>(
 
     private val sheetNavigation = OverlayNavigation<C>()
 
-    override val sheetState = CMutableStateFlow(BottomSheetControl.State.Hidden)
+    override val sheetState = CMutableStateFlow(State.Hidden)
 
     override val dismissEvent = MutableSharedFlow<Unit>(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
+    /**
+     * child overlay это один из типов навигации в decompose, у него может быть только один instance
+     * Когда надо показать bottom sheet мы добавляем в него компонент боттом шита,
+     * когда он закрывается его удаляем. Можно для каждого боттом шита использовать отдельный
+     * компонент, можно сделать какой-то общий компонент и передавать его
+     *
+     * https://arkivanov.github.io/Decompose/navigation/slot/overview/
+     * D либе Decompose переименовали child overlay в child slot
+     */
     override val sheetOverlay: CStateFlow<ChildOverlay<*, T>> =
         componentContext.childOverlay(
             source = sheetNavigation,
@@ -79,34 +94,41 @@ private class RealBottomSheetControl<C : Parcelable, T : Any>(
             }
         ).toCStateFlow(componentContext.lifecycle)
 
-    override fun onStateChanged(state: BottomSheetControl.State): Boolean {
+    override fun onStateChangedFromUI(state: State) {
         if (sheetOverlay.value.overlay?.instance == null) {
             logger.w("BottomSheetControl: instance is null")
-            return false
+            sheetState.value = State.Hidden
+            return
         }
 
-        val shouldUpdate = shouldUpdateState(state)
-        if (shouldUpdate) {
-            sheetState.value = state
-            if (state == BottomSheetControl.State.Hidden) dismiss()
+        sheetState.value = state
+    }
+
+    override fun onStateChangeAnimationEnd(targetState: State) {
+        if (targetState == State.Hidden) {
+            sheetNavigation.dismiss()
+            dismissEvent.tryEmit(Unit)
         }
-        return shouldUpdate
     }
 
     override fun show(config: C) {
         sheetNavigation.activate(config)
-        sheetState.value = BottomSheetControl.State.Expanded
+        sheetState.value = State.Expanded
     }
 
     override fun dismiss() {
-        sheetState.value = BottomSheetControl.State.Hidden
+        sheetState.value = State.Hidden
         sheetNavigation.dismiss()
         dismissEvent.tryEmit(Unit)
     }
 
-    private fun shouldUpdateState(newState: BottomSheetControl.State) = when (newState) {
-        BottomSheetControl.State.Expanded -> true
-        BottomSheetControl.State.HalfExpanded -> halfExpandingSupported
-        BottomSheetControl.State.Hidden -> hidingSupported
+    /**
+     * в shouldUpdateState мы делаем проверку, может ли bottom sheet перейти в это состояние.
+     * например проверка флага hiddenSupported
+     */
+    override fun shouldUpdateState(newState: State) = when (newState) {
+        State.Expanded -> true
+        State.HalfExpanded -> halfExpandingSupported
+        State.Hidden -> hidingSupported
     }
 }

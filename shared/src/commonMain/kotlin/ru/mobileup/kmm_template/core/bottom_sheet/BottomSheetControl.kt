@@ -15,7 +15,9 @@ abstract class BottomSheetControl<C : Parcelable, T : Any> {
     abstract val hidingSupported: Boolean
     abstract val dismissEvent: Flow<Unit>
 
-    abstract fun onStateChanged(state: State): Boolean
+    abstract fun shouldUpdateState(newState: State): Boolean
+    abstract fun onStateChangedFromUI(state: State)
+    abstract fun onStateChangeAnimationEnd(targetState: State)
     abstract fun show(config: C)
     abstract fun dismiss()
 

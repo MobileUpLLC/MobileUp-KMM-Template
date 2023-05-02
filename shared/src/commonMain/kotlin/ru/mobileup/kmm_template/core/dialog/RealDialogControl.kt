@@ -9,6 +9,12 @@ import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.utils.toCStateFlow
 import kotlin.reflect.KClass
 
+/**
+ * Если в одном компоненте подразумевается использоваение более одного ботомшита/диалога
+ * то каждому из них должен быть присвоен уникальный строковый ключ-идентификатор.
+ * Иначе приложение упадет с ошибкой (Another supplier is already registered with the key)
+ * Это особенность реализации childOverlay в библиотеку decompose
+ */
 private const val DIALOG_CHILD_OVERLAY_KEY = "dialogChildOverlay"
 
 inline fun <reified C : Parcelable, T : Any> ComponentContext.dialogControl(
@@ -57,6 +63,15 @@ private class RealDialogControl<C : Parcelable, T : Any>(
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
+    /**
+     * child overlay это один из типов навигации в decompose, у него может быть только один instance
+     * Когда надо показать dialog мы добавляем в него компонент диалога, когда он закрывается его
+     * удаляем. Можно для каждого диалога использовать отдельный компонент, можно сделать какой-то
+     * общий компонент и передавать его
+     *
+     * https://arkivanov.github.io/Decompose/navigation/slot/overview/
+     * D либе Decompose переименовали child overlay в child slot
+     */
     override val dialogOverlay: CStateFlow<ChildOverlay<*, T>> =
         componentContext.childOverlay(
             source = dialogNavigation,

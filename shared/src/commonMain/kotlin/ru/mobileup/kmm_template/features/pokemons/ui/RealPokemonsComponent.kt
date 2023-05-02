@@ -33,9 +33,13 @@ class RealPokemonsComponent(
         childFactory = ::createChild
     ).toCStateFlow(lifecycle)
 
+    /**
+     * Создание ботомшита без ключа, т.к. он уникален для данного компонента.
+     * В параметре 'config' можно указать payload данные
+     */
     override val bottomSheetControl: BottomSheetControl<PokemonVotesComponent.Config, PokemonVotesComponent> =
         bottomSheetControl(
-            bottomSheetComponentFactory = { _, context, _ ->
+            bottomSheetComponentFactory = { config, context, _ ->
                 componentFactory.createPokemonVotesComponent(context)
             },
             halfExpandingSupported = true,
@@ -43,6 +47,9 @@ class RealPokemonsComponent(
             handleBackButton = true
         )
 
+    /**
+     * Для показа ботомшита есть метод 'show', а для закрытия 'dismiss'
+     */
     override fun onPokemonVotesButtonClick() {
         bottomSheetControl.show(PokemonVotesComponent.Config)
     }

@@ -8,18 +8,16 @@ import ru.mobileup.kmm_template.core.utils.createFakeChildOverlay
 
 class FakeBottomSheetControl<C : Parcelable, T : Any>(bottomSheetComponent: T) :
     BottomSheetControl<C, T>() {
-    override val sheetOverlay: CStateFlow<ChildOverlay<*, T>> =
-        createFakeChildOverlay(bottomSheetComponent)
+    override val sheetOverlay = createFakeChildOverlay(bottomSheetComponent)
 
-    override val sheetState: CStateFlow<BottomSheetControl.State> =
-        CMutableStateFlow(BottomSheetControl.State.Hidden)
     override val halfExpandingSupported: Boolean = true
     override val hidingSupported: Boolean = true
+    override val sheetState: CStateFlow<State> = CMutableStateFlow(State.Hidden)
     override val dismissEvent: CStateFlow<Unit> = CMutableStateFlow(Unit)
 
-    override fun onStateChanged(state: BottomSheetControl.State) = true
-
+    override fun shouldUpdateState(newState: State): Boolean = true
+    override fun onStateChangedFromUI(state: State) = Unit
+    override fun onStateChangeAnimationEnd(targetState: State) = Unit
     override fun show(config: C) = Unit
-
     override fun dismiss() = Unit
 }
