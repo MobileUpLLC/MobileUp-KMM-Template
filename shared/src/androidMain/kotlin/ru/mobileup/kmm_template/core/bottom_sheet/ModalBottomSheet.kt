@@ -9,13 +9,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import kotlinx.coroutines.launch
 import ru.mobileup.kmm_template.core.utils.LocalEdgeToEdgeSettings
 import ru.mobileup.kmm_template.core.utils.accumulate
@@ -28,6 +33,8 @@ fun <T : Any> ModalBottomSheet(
     control: BottomSheetControl<*, T>,
     bottomSheetContent: @Composable (T) -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+
     val systemBarsPadding = WindowInsets.systemBars.asPaddingValues()
     val statusBarHeight = systemBarsPadding.calculateTopPadding()
     val navigationBarHeight = systemBarsPadding.calculateBottomPadding()
@@ -73,25 +80,38 @@ fun <T : Any> ModalBottomSheet(
         )
     }
 
-    ModalBottomSheetLayout(
-        scrimColor = Color.Transparent,
-        modifier = modifier,
-        sheetContent = {
-            (bottomSheetOverlay.overlay?.instance)?.let {
-                val contentModifier = if (addNavigationBarPadding && needNavigationBarPadding) {
-                    Modifier.padding(bottom = navigationBarHeight)
-                } else {
-                    Modifier
+    (bottomSheetOverlay.overlay?.instance)?.let {
+        Popup(
+            alignment = Alignment.BottomCenter,
+            properties = PopupProperties(
+                focusable = true
+            ),
+            onDismissRequest = {
+                scope.launch {
+                    modalBottomSheetState.hide()
                 }
+            },
+            offset = IntOffset(x = 0, y = with(LocalDensity.current) { -navigationBarHeight.toPx().toInt() })
+        ) {
+            ModalBottomSheetLayout(
+                scrimColor = Color.Transparent,
+                modifier = modifier,
+                sheetContent = {
+                    val contentModifier = if (addNavigationBarPadding && needNavigationBarPadding) {
+                        Modifier.padding(bottom = navigationBarHeight)
+                    } else {
+                        Modifier
+                    }
 
-                Box(modifier = contentModifier) {
-                    bottomSheetContent(it)
-                }
-            }
-        },
-        sheetState = modalBottomSheetState,
-        sheetShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-    ) {}
+                    Box(modifier = contentModifier) {
+                        bottomSheetContent(it)
+                    }
+                },
+                sheetState = modalBottomSheetState,
+                sheetShape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+            ) {}
+        }
+    }
 }
 
 @Composable
