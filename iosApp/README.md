@@ -74,6 +74,15 @@
 ## Technology stack
 SwiftUI, UIKit, BottomSheet, Kingfisher, Utils, R, iOS 15.1+
 
+## Инициализация
+Стартовой точкой входа является UIKit - flow, мы используем App и SceneDelegate. В SceneDelegate проставляем рутовым контроллер RootController. В базовую реализацию мы сразу добавили SplashScreen, находящийся на отдельном контроллере, после анимации которого происходит updateWindow с проставлением RootController и настройкой transition. В RootController необходимо создать компонент RootComponent, для этого используется класс RootHolder, обращающийся к shared core коду. 
+
+## Важные сущности:
+
+### Таббар
+
+
+
 ## RootView
 `RootView` is the SUI view which represents all components in root stack dynamically base on stack changes. The stack components are represented via SUI views, one for specific flow (straight navigation usually), some kind of container for stack component child. To make it work just change the types of views (SUI views) and components (created on android side).
 

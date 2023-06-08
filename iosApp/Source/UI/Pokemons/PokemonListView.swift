@@ -21,18 +21,17 @@ struct PokemonListView: View {
     }
     
     var body: some View {
-        RefreshingLoadingView(
+        PokemonsContentView(
+            pokemons: (pokemonsState.value.data as? [Pokemon]) ?? [],
+            types: (types.value as? [PokemonType]) ?? [],
+            selectedTypeId: selectedTypeId.value,
+            onPokemonClick: { id in component.onPokemonClick(pokemonId: id) },
+            onTypeClick: { id in component.onTypeClick(typeId: id) }
+        )
+        .loadableWithError(
             loadableState: pokemonsState,
-            content: { pokemons in
-                PokemonsContentView(
-                    pokemons: (pokemons as? [Pokemon]) ?? [],
-                    types: (types.value as? [PokemonType]) ?? [],
-                    selectedTypeId: selectedTypeId.value,
-                    onPokemonClick: { id in component.onPokemonClick(pokemonId: id) },
-                    onTypeClick: { id in component.onTypeClick(typeId: id) }
-                )
-            },
-            onRefresh: { component.onRefresh() }
+            onRefresh: { component.onRefresh() },
+            onRetryClick: { component.onRetryClick() }
         )
     }
 }

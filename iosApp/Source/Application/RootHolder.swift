@@ -6,7 +6,7 @@
 //  Copyright © 2023 orgName. All rights reserved.
 //
 
-class RootHolder: ObservableObject {
+final class RootHolder: ObservableObject {
     let lifecycle: LifecycleRegistry
     let rootComponent: RootComponent
     

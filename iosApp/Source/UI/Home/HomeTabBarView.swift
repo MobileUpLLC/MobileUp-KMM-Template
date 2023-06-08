@@ -76,13 +76,13 @@ class HomeTabBarController: UITabBarController, BottomSheetPresentable {
         
         switch tabsStack.value.active.instance {
         case _ as HomeComponentChild.Tab1:
-            selectedIndex = 0
+            selectedIndex = .zero
         case _ as HomeComponentChild.Tab2:
-            selectedIndex = 1
+            selectedIndex = .one
         case _ as HomeComponentChild.Tab3:
-            selectedIndex = 2
+            selectedIndex = .two
         default:
-            selectedIndex = 0
+            selectedIndex = .zero
         }
     }
 }
@@ -90,7 +90,6 @@ class HomeTabBarController: UITabBarController, BottomSheetPresentable {
 class HomeTabBarCoordinator: NSObject, UITabBarControllerDelegate {
     var tabScreen: (HomeComponentChild) -> HomeTabViewController?
     var onTabSelected: Closure.Generic<HomeTab>
-    var faked: Set<HomeTab> = []
     
     init(
         tabScreen: @escaping (HomeComponentChild) -> HomeTabViewController?,
@@ -151,9 +150,7 @@ class HomeTabBarCoordinator: NSObject, UITabBarControllerDelegate {
         tab: HomeTab,
         type: T.Type
     ) {
-        if faked.contains(tab), let component = instances.compactMap({ $0 as? T }).first {
-            faked.remove(tab)
-            
+        if let component = instances.compactMap({ $0 as? T }).first {
             viewControllers
                 .compactMap({ $0 as? HomeTabViewController })
                 .first(where: { $0.homeTab == tab })?
@@ -169,7 +166,6 @@ class HomeTabBarCoordinator: NSObject, UITabBarControllerDelegate {
         if let tab = instances.compactMap({ $0 as? T }).first, let controller = tabScreen(tab) {
             viewControllers.append(controller)
         } else if let controller = tabScreen(fakeTabBuilder()) {
-            faked.insert(controller.homeTab)
             viewControllers.append(controller)
         }
     }

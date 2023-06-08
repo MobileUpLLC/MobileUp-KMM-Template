@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		8F39192429EE85D600B6F0CA /* BottomSheetPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F39192329EE85D600B6F0CA /* BottomSheetPresentable.swift */; };
 		8F3E49DF29C9D67600BDCA28 /* RefreshingLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3E49DE29C9D67600BDCA28 /* RefreshingLoadingView.swift */; };
-		8F3E49E129CA4D4D00BDCA28 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3E49E029CA4D4D00BDCA28 /* LoadingView.swift */; };
 		8F5C1CB729D4610500F69FC4 /* FlowOneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5C1CB629D4610500F69FC4 /* FlowOneView.swift */; };
 		8F5C1CB929D477D900F69FC4 /* ScreenOneAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5C1CB829D477D900F69FC4 /* ScreenOneAView.swift */; };
 		8F5C1CBB29D47A7C00F69FC4 /* ScreenOneBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5C1CBA29D47A7C00F69FC4 /* ScreenOneBView.swift */; };
@@ -66,8 +65,23 @@
 		AF986D9E29BA0CF3000CA7B0 /* PokemonListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF986D9D29BA0CF3000CA7B0 /* PokemonListView.swift */; };
 		AF986DA029BA0CFF000CA7B0 /* PokemonDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF986D9F29BA0CFF000CA7B0 /* PokemonDetailsView.swift */; };
 		AF9877A1298AA65900DE6A5A /* ObservableState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9877A0298AA65900DE6A5A /* ObservableState.swift */; };
-		AFB74D3E2989635100E545A4 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB74D3D2989635100E545A4 /* Application.swift */; };
 		AFB74D412989639700E545A4 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB74D402989639700E545A4 /* RootView.swift */; };
+		E5ED92BA2A324533003C4247 /* LoadableWithError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92B92A324533003C4247 /* LoadableWithError.swift */; };
+		E5ED92BC2A32458C003C4247 /* FullScreenErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92BB2A32458C003C4247 /* FullScreenErrorView.swift */; };
+		E5ED92BE2A3247C9003C4247 /* NavigateBackOnSwipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92BD2A3247C9003C4247 /* NavigateBackOnSwipe.swift */; };
+		E5ED92C02A324830003C4247 /* FullScreenEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92BF2A324830003C4247 /* FullScreenEmptyView.swift */; };
+		E5ED92C22A324897003C4247 /* FullScreenLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92C12A324897003C4247 /* FullScreenLoadingView.swift */; };
+		E5ED92C42A324978003C4247 /* If.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92C32A324978003C4247 /* If.swift */; };
+		E5ED92C62A3249C2003C4247 /* RootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92C52A3249C2003C4247 /* RootController.swift */; };
+		E5ED92C82A324A3B003C4247 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92C72A324A3B003C4247 /* AppDelegate.swift */; };
+		E5ED92CA2A324A79003C4247 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92C92A324A79003C4247 /* SceneDelegate.swift */; };
+		E5ED92CC2A324C2A003C4247 /* UIApplication+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92CB2A324C2A003C4247 /* UIApplication+Ext.swift */; };
+		E5ED92CE2A324C4A003C4247 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92CD2A324C4A003C4247 /* UIViewController+Ext.swift */; };
+		E5ED92D12A325458003C4247 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92D02A325458003C4247 /* SplashView.swift */; };
+		E5ED92D32A325479003C4247 /* SplashController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92D22A325479003C4247 /* SplashController.swift */; };
+		E5ED92D52A325778003C4247 /* Hidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92D42A325778003C4247 /* Hidden.swift */; };
+		E5ED92D72A32614C003C4247 /* PokemonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92D62A32614C003C4247 /* PokemonView.swift */; };
+		E5ED92D92A3261AD003C4247 /* ScrollOnOverflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92D82A3261AD003C4247 /* ScrollOnOverflow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -85,10 +99,8 @@
 
 /* Begin PBXFileReference section */
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F1A309F29EE9F8D002DD4AC /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		8F39192329EE85D600B6F0CA /* BottomSheetPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPresentable.swift; sourceTree = "<group>"; };
 		8F3E49DE29C9D67600BDCA28 /* RefreshingLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshingLoadingView.swift; sourceTree = "<group>"; };
-		8F3E49E029CA4D4D00BDCA28 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		8F5C1CB629D4610500F69FC4 /* FlowOneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowOneView.swift; sourceTree = "<group>"; };
 		8F5C1CB829D477D900F69FC4 /* ScreenOneAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenOneAView.swift; sourceTree = "<group>"; };
 		8F5C1CBA29D47A7C00F69FC4 /* ScreenOneBView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenOneBView.swift; sourceTree = "<group>"; };
@@ -145,8 +157,23 @@
 		AF986D9D29BA0CF3000CA7B0 /* PokemonListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonListView.swift; sourceTree = "<group>"; };
 		AF986D9F29BA0CFF000CA7B0 /* PokemonDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonDetailsView.swift; sourceTree = "<group>"; };
 		AF9877A0298AA65900DE6A5A /* ObservableState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableState.swift; sourceTree = "<group>"; };
-		AFB74D3D2989635100E545A4 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		AFB74D402989639700E545A4 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		E5ED92B92A324533003C4247 /* LoadableWithError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableWithError.swift; sourceTree = "<group>"; };
+		E5ED92BB2A32458C003C4247 /* FullScreenErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenErrorView.swift; sourceTree = "<group>"; };
+		E5ED92BD2A3247C9003C4247 /* NavigateBackOnSwipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigateBackOnSwipe.swift; sourceTree = "<group>"; };
+		E5ED92BF2A324830003C4247 /* FullScreenEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenEmptyView.swift; sourceTree = "<group>"; };
+		E5ED92C12A324897003C4247 /* FullScreenLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenLoadingView.swift; sourceTree = "<group>"; };
+		E5ED92C32A324978003C4247 /* If.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = If.swift; sourceTree = "<group>"; };
+		E5ED92C52A3249C2003C4247 /* RootController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootController.swift; sourceTree = "<group>"; };
+		E5ED92C72A324A3B003C4247 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E5ED92C92A324A79003C4247 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		E5ED92CB2A324C2A003C4247 /* UIApplication+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Ext.swift"; sourceTree = "<group>"; };
+		E5ED92CD2A324C4A003C4247 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
+		E5ED92D02A325458003C4247 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		E5ED92D22A325479003C4247 /* SplashController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashController.swift; sourceTree = "<group>"; };
+		E5ED92D42A325778003C4247 /* Hidden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hidden.swift; sourceTree = "<group>"; };
+		E5ED92D62A32614C003C4247 /* PokemonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonView.swift; sourceTree = "<group>"; };
+		E5ED92D82A3261AD003C4247 /* ScrollOnOverflow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollOnOverflow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,8 +220,10 @@
 			children = (
 				8FDBB5C129CB145A00715EDD /* AsyncImageView.swift */,
 				8FD588E529E5DE0F00D26A9E /* EmptyDataView.swift */,
-				8F3E49E029CA4D4D00BDCA28 /* LoadingView.swift */,
+				E5ED92C12A324897003C4247 /* FullScreenLoadingView.swift */,
+				E5ED92BF2A324830003C4247 /* FullScreenEmptyView.swift */,
 				8F3E49DE29C9D67600BDCA28 /* RefreshingLoadingView.swift */,
+				E5ED92BB2A32458C003C4247 /* FullScreenErrorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -269,6 +298,7 @@
 		8FCBFC6029C3A1C400162A8E /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E5ED92CF2A32542C003C4247 /* Splash */,
 				8F5C1CB529D460E600F69FC4 /* FlowOne */,
 				8F5C1CBE29D480B700F69FC4 /* FlowTwo */,
 				8F5C1CC729D59ED200F69FC4 /* Home */,
@@ -326,7 +356,8 @@
 		8FCBFC7129C3A1C400162A8E /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
-				8F1A309F29EE9F8D002DD4AC /* .gitkeep */,
+				E5ED92CB2A324C2A003C4247 /* UIApplication+Ext.swift */,
+				E5ED92CD2A324C4A003C4247 /* UIViewController+Ext.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -360,7 +391,8 @@
 		8FCBFC7A29C3A1C400162A8E /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				AFB74D3D2989635100E545A4 /* Application.swift */,
+				E5ED92C72A324A3B003C4247 /* AppDelegate.swift */,
+				E5ED92C92A324A79003C4247 /* SceneDelegate.swift */,
 				8FF40EEE29C8B8D700933723 /* Global.swift */,
 				8F7C774829D19DF1003CB46B /* RootHolder.swift */,
 			);
@@ -437,6 +469,11 @@
 			children = (
 				8FD588EB29E6EC7200D26A9E /* EmbeddedInHostingController.swift */,
 				8FF40EF129C8B98E00933723 /* Refreshable.swift */,
+				E5ED92B92A324533003C4247 /* LoadableWithError.swift */,
+				E5ED92C32A324978003C4247 /* If.swift */,
+				E5ED92D42A325778003C4247 /* Hidden.swift */,
+				E5ED92BD2A3247C9003C4247 /* NavigateBackOnSwipe.swift */,
+				E5ED92D82A3261AD003C4247 /* ScrollOnOverflow.swift */,
 			);
 			path = ViewModifiers;
 			sourceTree = "<group>";
@@ -463,6 +500,7 @@
 			isa = PBXGroup;
 			children = (
 				8F98C4D229DB078D00A8AEC4 /* PokemonController.swift */,
+				E5ED92D62A32614C003C4247 /* PokemonView.swift */,
 				8F5C1CD829D641BB00F69FC4 /* PokemonListController.swift */,
 				AF986D9D29BA0CF3000CA7B0 /* PokemonListView.swift */,
 				8F5C1CDA29D6425C00F69FC4 /* PokemonDetailsController.swift */,
@@ -477,8 +515,18 @@
 			isa = PBXGroup;
 			children = (
 				AFB74D402989639700E545A4 /* RootView.swift */,
+				E5ED92C52A3249C2003C4247 /* RootController.swift */,
 			);
 			path = Root;
+			sourceTree = "<group>";
+		};
+		E5ED92CF2A32542C003C4247 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				E5ED92D22A325479003C4247 /* SplashController.swift */,
+				E5ED92D02A325458003C4247 /* SplashView.swift */,
+			);
+			path = Splash;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -632,14 +680,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5ED92CC2A324C2A003C4247 /* UIApplication+Ext.swift in Sources */,
 				8F5C1CE429D700A900F69FC4 /* TabBarItem.swift in Sources */,
 				8FF40EF229C8B98E00933723 /* Refreshable.swift in Sources */,
 				8F5C1CCB29D6171200F69FC4 /* ScreenOneAController.swift in Sources */,
 				8F5C1CDB29D6425C00F69FC4 /* PokemonDetailsController.swift in Sources */,
+				E5ED92BA2A324533003C4247 /* LoadableWithError.swift in Sources */,
 				8F5C1CC929D5A0C300F69FC4 /* HomeView.swift in Sources */,
+				E5ED92C42A324978003C4247 /* If.swift in Sources */,
 				8F5C1CD729D63F2400F69FC4 /* ScreenTwoCController.swift in Sources */,
 				8FD588E629E5DE0F00D26A9E /* EmptyDataView.swift in Sources */,
 				8F5C1CC029D4818600F69FC4 /* FlowTwoView.swift in Sources */,
+				E5ED92BE2A3247C9003C4247 /* NavigateBackOnSwipe.swift in Sources */,
 				8F98C4DC29DB54FE00A8AEC4 /* TabOneController.swift in Sources */,
 				8F5C1CDD29D6EC8900F69FC4 /* Navigatable.swift in Sources */,
 				8FD588EA29E5E3FE00D26A9E /* PokemonVotesView.swift in Sources */,
@@ -648,33 +700,42 @@
 				8FF40EED29C88AD900933723 /* BackDispatcherService.swift in Sources */,
 				AF986D9E29BA0CF3000CA7B0 /* PokemonListView.swift in Sources */,
 				8F5C1CE629D706E900F69FC4 /* HomeTabBarView.swift in Sources */,
+				E5ED92CA2A324A79003C4247 /* SceneDelegate.swift in Sources */,
 				8F98C4D329DB078D00A8AEC4 /* PokemonController.swift in Sources */,
-				8F3E49E129CA4D4D00BDCA28 /* LoadingView.swift in Sources */,
 				AF986D9C29BA0B7C000CA7B0 /* StackView.swift in Sources */,
 				8F5C1CBB29D47A7C00F69FC4 /* ScreenOneBView.swift in Sources */,
 				8F98C4DA29DB14F800A8AEC4 /* TabOneView.swift in Sources */,
 				AFB74D412989639700E545A4 /* RootView.swift in Sources */,
 				8F5C1CBD29D47AD100F69FC4 /* ScreenOneCView.swift in Sources */,
+				E5ED92C62A3249C2003C4247 /* RootController.swift in Sources */,
 				8FDBB5CA29CB198200715EDD /* R.generated.swift in Sources */,
 				8F7C774929D19DF1003CB46B /* RootHolder.swift in Sources */,
+				E5ED92D72A32614C003C4247 /* PokemonView.swift in Sources */,
 				8F80441129E06F9E000DDA57 /* DeveloperService.swift in Sources */,
 				AF3FCA9F29B63FE7004211EA /* UnsafeObservableState.swift in Sources */,
 				8F98C4D829DB149200A8AEC4 /* TabTwoView.swift in Sources */,
 				8FF40EEF29C8B8D700933723 /* Global.swift in Sources */,
 				8F5C1CC629D4823C00F69FC4 /* ScreenTwoCView.swift in Sources */,
 				8FF40EEB29C883AC00933723 /* EnvironmentService.swift in Sources */,
+				E5ED92BC2A32458C003C4247 /* FullScreenErrorView.swift in Sources */,
+				E5ED92C02A324830003C4247 /* FullScreenEmptyView.swift in Sources */,
 				8F5C1CD929D641BB00F69FC4 /* PokemonListController.swift in Sources */,
 				8F5C1CD329D63DB000F69FC4 /* ScreenTwoAController.swift in Sources */,
 				8F5C1CC229D4822A00F69FC4 /* ScreenTwoAView.swift in Sources */,
+				E5ED92D52A325778003C4247 /* Hidden.swift in Sources */,
 				8F5C1CDF29D6EDEE00F69FC4 /* NavigationBarInfoView.swift in Sources */,
 				8F5C1CCF29D6194900F69FC4 /* ScreenOneBController.swift in Sources */,
 				8F5C1CC429D4823300F69FC4 /* ScreenTwoBView.swift in Sources */,
+				E5ED92D32A325479003C4247 /* SplashController.swift in Sources */,
+				E5ED92CE2A324C4A003C4247 /* UIViewController+Ext.swift in Sources */,
+				E5ED92D92A3261AD003C4247 /* ScrollOnOverflow.swift in Sources */,
 				8FDBB5CC29CB346C00715EDD /* AppearanceService.swift in Sources */,
 				8F5C1CD529D63E6E00F69FC4 /* ScreenTwoBController.swift in Sources */,
 				AF92614D298BFA9C00D12970 /* NullableObservableState.swift in Sources */,
-				AFB74D3E2989635100E545A4 /* Application.swift in Sources */,
+				E5ED92D12A325458003C4247 /* SplashView.swift in Sources */,
 				8F98C4DF29DB553500A8AEC4 /* TabTwoController.swift in Sources */,
 				8F5C1CCD29D6175600F69FC4 /* NavigatableHostingController.swift in Sources */,
+				E5ED92C82A324A3B003C4247 /* AppDelegate.swift in Sources */,
 				AF9877A1298AA65900DE6A5A /* ObservableState.swift in Sources */,
 				8F3E49DF29C9D67600BDCA28 /* RefreshingLoadingView.swift in Sources */,
 				8FDBB5C229CB145A00715EDD /* AsyncImageView.swift in Sources */,
@@ -685,6 +746,7 @@
 				8F5C1CD129D619D900F69FC4 /* ScreenOneCController.swift in Sources */,
 				8FD588EC29E6EC7200D26A9E /* EmbeddedInHostingController.swift in Sources */,
 				8F98C4D629DB12F200A8AEC4 /* HostingController.swift in Sources */,
+				E5ED92C22A324897003C4247 /* FullScreenLoadingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,17 +15,20 @@ struct PokemonDetailsView: View {
     }
     
     var body: some View {
-        RefreshingLoadingView(
-            loadableState: pokemonState,
-            content: { pokemon in
-                return PokemonDetailsBodyView(
+        Group {
+            if let pokemon = pokemonState.value.data {
+                PokemonDetailsBodyView(
                     pokemon: pokemon,
                     voteState: voteState.value,
                     dialogComponent: dialog.value.overlay?.instance,
                     onVoteClick: { component.onVoteClick() }
                 )
-            },
-            onRefresh: { component.onRefresh() }
+            }
+        }
+        .loadableWithError(
+            loadableState: pokemonState,
+            onRefresh: { component.onRefresh() },
+            onRetryClick: { component.onRetryClick() }
         )
     }
 }

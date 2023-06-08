@@ -8,15 +8,11 @@
 
 import SwiftUI
 
-class NavigatableHostingController<Content: View>: HostingController<Content>, StackViewController, Navigatable {
+class NavigatableHostingController<Content: View>: SuperHostingController<Content>, StackViewController, Navigatable {
     var navigationBarModel: NavigationBarModel = .default { didSet { setupNavBar() } }
     var isNavigationBarHidden: Bool { false }
     var isLastInStack: (() -> Bool)?
     var onBack: Closure.Void?
-    
-    override init(rootView: Content) {
-        super.init(rootView: rootView)
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

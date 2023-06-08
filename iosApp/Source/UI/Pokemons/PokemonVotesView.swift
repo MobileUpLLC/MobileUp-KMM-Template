@@ -20,14 +20,16 @@ struct PokemonVotesView: View {
     var body: some View {
         if let instance = overlay.value.overlay?.instance {
             InnerPokemonVotesView(component: instance)
-                .padding(.top, 16)
+                .padding(.top, 32)
+                .padding(.bottom, 16)
         }
     }
 }
 
 private struct InnerPokemonVotesView: View {
-    private let component: PokemonVotesComponent
     @ObservedObject private var votes: ObservableState<PokemonVotes>
+    
+    private let component: PokemonVotesComponent
     
     init(component: PokemonVotesComponent) {
         self.component = component
@@ -40,16 +42,19 @@ private struct InnerPokemonVotesView: View {
                 item: EmptyDataViewItem(title:  MR.strings().pokemons_votes_empty_description.desc().localized())
             )
         } else {
-            ForEach(votes.value.votes, id: \.pokemonName) { vote in
-                HStack(spacing: 0) {
-                    Text(vote.pokemonName)
-                    Spacer()
-                    
-                    Text(getVoteText(isPositive: vote.isPositive?.boolValue ?? true))
-                        .foregroundColor(vote.isPositive?.boolValue ?? true ? .green : .red)
+            VStack(spacing: .zero) {
+                ForEach(votes.value.votes, id: \.self) { vote in
+                    HStack(spacing: 0) {
+                        Text(vote.pokemonName)
+                        Spacer()
+                        
+                        Text(getVoteText(isPositive: vote.isPositive?.boolValue ?? true))
+                            .foregroundColor(vote.isPositive?.boolValue ?? true ? .green : .red)
+                    }
+                    .padding(16)
                 }
-                .padding(.horizontal, 16)
             }
+            .scrollOnOverflow(verticalInsets: 48)
         }
     }
     

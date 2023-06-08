@@ -3,7 +3,7 @@
 //  iosApp
 //
 //  Created by Vladislav Grokhotov on 18.04.2023.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 Mobile Up. All rights reserved.
 //
 
 import BottomSheet
@@ -36,7 +36,11 @@ extension BottomSheetPresentable {
             presentedViewController: presentedViewController,
             presentingViewController: presentingViewController,
             dismissalHandler: self,
-            configuration: .default
+            configuration: .init(
+                cornerRadius: 24,
+                pullBarConfiguration: .hidden,
+                shadowConfiguration: .init(backgroundColor: .black.withAlphaComponent(0.3), blur: .regular)
+            )
         )
     }
     
@@ -51,8 +55,8 @@ extension BottomSheetPresentable {
     
     private func setPreferredContentSize(_ controller: UIViewController) {
         controller.view.layoutIfNeeded()
-        
-        let targetSize = CGSize(width: UIScreen.main.bounds.width, height: UIView.layoutFittingCompressedSize.height)
+
+        let targetSize = CGSize(width: UIScreen.main.bounds.width, height: UIView.layoutFittingExpandedSize.height)
         controller.preferredContentSize = controller.view.systemLayoutSizeFitting(targetSize)
     }
 }
