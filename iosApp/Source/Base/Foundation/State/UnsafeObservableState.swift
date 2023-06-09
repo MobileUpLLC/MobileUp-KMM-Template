@@ -2,7 +2,8 @@
  * Used to observe Flow from SwiftUI.
  * NOTE: It is unsafe. Types and nullability are not checked in compile time.
  */
-public final class UnsafeObservableState<T: AnyObject>: ObservableObject {
+
+final class UnsafeObservableState<T: AnyObject>: ObservableObject {
     @Published var value: T?
 
     private var cancelable: Cancelable?

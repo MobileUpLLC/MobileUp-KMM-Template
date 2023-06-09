@@ -11,7 +11,11 @@ import SwiftUI
 final class TabTwoController: HostingController<TabTwoView>, HomeTabViewController {
     var homeTab: HomeTab { .tab2 }
     
+    private var component: Tab2Component
+    
     init(component: Tab2Component) {
+        self.component = component
+        
         super.init(rootView: TabTwoView(component: component))
         
         tabBarItem = UITabBarItem(
@@ -22,10 +26,14 @@ final class TabTwoController: HostingController<TabTwoView>, HomeTabViewControll
     }
     
     func update(component: HomeComponentChild) {
-        guard let component = component as? HomeComponentChild.Tab2 else {
+        guard
+            let homeComponentChild = component as? HomeComponentChild.Tab2,
+            homeComponentChild.component !== component
+        else {
             return
         }
         
-        rootView = TabTwoView(component: component.component).embedded(in: self)
+        self.component = homeComponentChild.component
+        rootView = TabTwoView(component: homeComponentChild.component).embedded(in: self)
     }
 }

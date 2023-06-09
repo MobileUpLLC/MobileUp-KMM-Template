@@ -28,7 +28,7 @@ struct HomeTabBarView: UIViewControllerRepresentable {
     func updateUIViewController(_ navigationController: HomeTabBarController, context: Context) {}
 }
 
-class HomeTabBarController: UITabBarController, BottomSheetPresentable {
+final class HomeTabBarController: UITabBarController, BottomSheetPresentable {
     var transitionDelegate: BottomSheetTransitioningDelegate?
     var canBottomSheetBeDismissed: Bool { true }
     
@@ -37,19 +37,6 @@ class HomeTabBarController: UITabBarController, BottomSheetPresentable {
     private var subscriptions: [AnyCancellable] = []
     
     @ObservedObject private var tabsStack: ObservableState<ChildStack<AnyObject, HomeComponentChild>>
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        updateControllers()
-        
-        tabsStack.objectWillChange.sink { [weak self] in
-            DispatchQueue.main.async {
-                self?.updateControllers()
-            }
-        }
-        .store(in: &subscriptions)
-    }
     
     init(
         tabsStack: ObservableState<ChildStack<AnyObject, HomeComponentChild>>,
@@ -63,6 +50,19 @@ class HomeTabBarController: UITabBarController, BottomSheetPresentable {
         
         viewControllers = coordinator.createTabViewControllers(stack: stack)
         delegate = coordinator
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        updateControllers()
+        
+        tabsStack.objectWillChange.sink { [weak self] in
+            DispatchQueue.main.async {
+                self?.updateControllers()
+            }
+        }
+        .store(in: &subscriptions)
     }
     
     @available(*, unavailable) @MainActor dynamic required init?(coder aDecoder: NSCoder) {

@@ -42,6 +42,12 @@ class SuperHostingController<T: View>: UIViewController, BottomSheetPresentable 
     var canBottomSheetBeDismissed: Bool { true }
     let controller: HostingController<T>
     
+    init(rootView: T) {
+        controller = HostingController(rootView: rootView)
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,12 +63,6 @@ class SuperHostingController<T: View>: UIViewController, BottomSheetPresentable 
         
         // removing strong references from presenting controller to call deinit
         performDismissal(animated: true)
-    }
-    
-    init(rootView: T) {
-        controller = HostingController(rootView: rootView)
-        
-        super.init(nibName: nil, bundle: nil)
     }
     
     @available(*, unavailable) @MainActor dynamic required init?(coder aDecoder: NSCoder) {

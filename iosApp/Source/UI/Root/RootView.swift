@@ -23,7 +23,7 @@ struct RootView: View {
                     onActionClick: { component.messageComponent.onActionClick() }
                 )
                 .padding(.horizontal, 16)
-                .padding(.top, UIApplication.getSafeAreaInsets().top + 8)
+                .padding(.top, UIApplication.getSafeAreaInsets().top + .eight)
                 .hidden(message.value == nil)
                 .animation(.easeIn(duration: 0.3), value: message.value)
                 .transition(.move(edge: .top))
@@ -98,9 +98,9 @@ private struct MessageView: View {
             }
             .padding(.leading, 16)
             .padding(.trailing, 24)
-            .padding(.vertical, 8)
+            .padding(.vertical, .eight)
             .background(.black)
-            .cornerRadius(8)
+            .cornerRadius(.eight)
         }
     }
 }

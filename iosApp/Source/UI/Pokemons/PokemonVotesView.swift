@@ -9,17 +9,15 @@
 import SwiftUI
 
 struct PokemonVotesView: View {
-    private let control: BottomSheetControl<PokemonVotesComponentConfig, PokemonVotesComponent>
     @ObservedObject private var overlay: ObservableState<ChildOverlay<AnyObject, PokemonVotesComponent>>
     
     init(control: BottomSheetControl<PokemonVotesComponentConfig, PokemonVotesComponent>) {
-        self.control = control
         self.overlay = ObservableState(control.sheetOverlay)
     }
     
     var body: some View {
-        if let instance = overlay.value.overlay?.instance {
-            InnerPokemonVotesView(component: instance)
+        if let component = overlay.value.overlay?.instance {
+            InnerPokemonVotesView(component: component)
                 .padding(.top, 32)
                 .padding(.bottom, 16)
         }
@@ -29,10 +27,7 @@ struct PokemonVotesView: View {
 private struct InnerPokemonVotesView: View {
     @ObservedObject private var votes: ObservableState<PokemonVotes>
     
-    private let component: PokemonVotesComponent
-    
     init(component: PokemonVotesComponent) {
-        self.component = component
         self.votes = ObservableState(component.pokemonVotes)
     }
     
@@ -44,7 +39,7 @@ private struct InnerPokemonVotesView: View {
         } else {
             VStack(spacing: .zero) {
                 ForEach(votes.value.votes, id: \.self) { vote in
-                    HStack(spacing: 0) {
+                    HStack(spacing: .zero) {
                         Text(vote.pokemonName)
                         Spacer()
                         

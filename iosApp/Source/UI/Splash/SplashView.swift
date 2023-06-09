@@ -29,21 +29,29 @@ struct SplashView: View {
             Color.white
                 .ignoresSafeArea()
             
-            Group {
+            VStack(alignment: .leading, spacing: 20) {
+                Spacer()
+                Spacer()
+                
                 RockLogoView(progress: $pathProgress)
-                    .frame(width: 200, height: 200)
-                    .overlay(alignment: .bottomTrailing) {
+                    .aspectRatio(.one, contentMode: .fit)
+                    .padding(.leading, 10)
+                    .overlay(alignment: .bottomLeading) {
                         MobileUpLogoView(pathProgress: $pathProgress)
-                            .padding(.trailing, -20)
+                            .padding(.leading, 40)
                     }
                 
-                Text(Constants.logoTitle)
-                    .font(.system(size: Constants.logoFontSize, weight: .bold))
-                    .foregroundColor(.blue)
-                    .frame(maxHeight: .infinity, alignment: .bottom)
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 150)
+                HStack {
+                    Text(Constants.logoTitle)
+                        .font(.system(size: Constants.logoFontSize, weight: .bold))
+                        .foregroundColor(.blue)
+                 
+                    Spacer()
+                }
+                
+                Spacer()
             }
+            .padding(.horizontal, 60)
         }
         .onAppear {
             Task {
@@ -88,8 +96,8 @@ private struct RockLogoView: View {
                 
                 path.addCurve(
                     to: CGPoint(x: rect.minX, y: rect.midY),
-                    control1: CGPoint(x: rect.maxY / 2, y: rect.minY),
-                    control2: CGPoint(x: rect.maxX, y: rect.midY)
+                    control1: CGPoint(x: rect.maxX / 2, y: rect.minY),
+                    control2: CGPoint(x: rect.maxX / 2, y: rect.midY)
                 )
             }
         }

@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct HomeView: View {
-    let component: HomeComponent
-    
     @ObservedObject private var childStack: ObservableState<ChildStack<AnyObject, HomeComponentChild>>
+    
+    private let component: HomeComponent
     
     init(component: HomeComponent) {
         self.component = component

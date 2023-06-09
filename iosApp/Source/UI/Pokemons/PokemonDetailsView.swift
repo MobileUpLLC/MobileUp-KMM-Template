@@ -1,11 +1,11 @@
 import SwiftUI
 
 struct PokemonDetailsView: View {
-    private let component: PokemonDetailsComponent
-    
     @ObservedObject private var pokemonState: ObservableState<LoadableState<DetailedPokemon>>
     @ObservedObject private var voteState: ObservableState<PokemonVoteState>
     @ObservedObject private var dialog: ObservableState<ChildOverlay<AnyObject, PokemonVoteDialogComponent>>
+    
+    private let component: PokemonDetailsComponent
     
     init(component: PokemonDetailsComponent) {
         self.component = component

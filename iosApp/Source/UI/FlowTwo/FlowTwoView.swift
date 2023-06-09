@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct FlowTwoView: View {
-    let component: Flow2Component
-    
     @ObservedObject private var childStack: ObservableState<ChildStack<AnyObject, Flow2ComponentChild>>
+    
+    private let component: Flow2Component
     
     init(component: Flow2Component) {
         self.component = component

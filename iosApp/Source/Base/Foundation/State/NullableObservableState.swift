@@ -1,7 +1,7 @@
 /**
  * Used to observe CNullableStateFlow from SwiftUI
  */
-public class NullableObservableState<T: AnyObject>: ObservableObject {
+final class NullableObservableState<T: AnyObject>: ObservableObject {
     @Published var value: T?
     
     private var cancelable: Cancelable?

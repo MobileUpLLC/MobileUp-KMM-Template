@@ -13,6 +13,12 @@ class RootController: SuperHostingController<RootView> {
     private let component: RootComponent
     private var rootHolder = RootHolder()
     
+    init() {
+        self.component = rootHolder.rootComponent
+        
+        super.init(rootView: RootView(component: component))
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -23,11 +29,5 @@ class RootController: SuperHostingController<RootView> {
         super.viewWillDisappear(animated)
 
         rootHolder.onViewDisappear()
-    }
-    
-    init() {
-        self.component = rootHolder.rootComponent
-        
-        super.init(rootView: RootView(component: component))
     }
 }
