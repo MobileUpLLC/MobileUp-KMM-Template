@@ -3,7 +3,7 @@
 //  iosApp
 //
 //  Created by Vladislav Grokhotov on 31.03.2023.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 MobileUp. All rights reserved.
 //
 
 import SwiftUI
@@ -87,7 +87,7 @@ final class HomeTabBarController: UITabBarController, BottomSheetPresentable {
     }
 }
 
-class HomeTabBarCoordinator: NSObject, UITabBarControllerDelegate {
+final class HomeTabBarCoordinator: NSObject, UITabBarControllerDelegate {
     var tabScreen: (HomeComponentChild) -> HomeTabViewController?
     var onTabSelected: Closure.Generic<HomeTab>
     

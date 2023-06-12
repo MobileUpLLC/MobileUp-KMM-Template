@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8F39192429EE85D600B6F0CA /* BottomSheetPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F39192329EE85D600B6F0CA /* BottomSheetPresentable.swift */; };
-		8F3E49DF29C9D67600BDCA28 /* RefreshingLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3E49DE29C9D67600BDCA28 /* RefreshingLoadingView.swift */; };
 		8F5C1CB729D4610500F69FC4 /* FlowOneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5C1CB629D4610500F69FC4 /* FlowOneView.swift */; };
 		8F5C1CB929D477D900F69FC4 /* ScreenOneAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5C1CB829D477D900F69FC4 /* ScreenOneAView.swift */; };
 		8F5C1CBB29D47A7C00F69FC4 /* ScreenOneBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5C1CBA29D47A7C00F69FC4 /* ScreenOneBView.swift */; };
@@ -102,7 +101,6 @@
 /* Begin PBXFileReference section */
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F39192329EE85D600B6F0CA /* BottomSheetPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetPresentable.swift; sourceTree = "<group>"; };
-		8F3E49DE29C9D67600BDCA28 /* RefreshingLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshingLoadingView.swift; sourceTree = "<group>"; };
 		8F5C1CB629D4610500F69FC4 /* FlowOneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowOneView.swift; sourceTree = "<group>"; };
 		8F5C1CB829D477D900F69FC4 /* ScreenOneAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenOneAView.swift; sourceTree = "<group>"; };
 		8F5C1CBA29D47A7C00F69FC4 /* ScreenOneBView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenOneBView.swift; sourceTree = "<group>"; };
@@ -227,7 +225,6 @@
 				E5ED92BF2A324830003C4247 /* FullScreenEmptyView.swift */,
 				E5ED92BB2A32458C003C4247 /* FullScreenErrorView.swift */,
 				E5ED92C12A324897003C4247 /* FullScreenLoadingView.swift */,
-				8F3E49DE29C9D67600BDCA28 /* RefreshingLoadingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -745,7 +742,6 @@
 				8F5C1CCD29D6175600F69FC4 /* NavigatableHostingController.swift in Sources */,
 				E5ED92C82A324A3B003C4247 /* AppDelegate.swift in Sources */,
 				AF9877A1298AA65900DE6A5A /* ObservableState.swift in Sources */,
-				8F3E49DF29C9D67600BDCA28 /* RefreshingLoadingView.swift in Sources */,
 				8FDBB5C229CB145A00715EDD /* AsyncImageView.swift in Sources */,
 				8F5C1CB729D4610500F69FC4 /* FlowOneView.swift in Sources */,
 				8F39192429EE85D600B6F0CA /* BottomSheetPresentable.swift in Sources */,
