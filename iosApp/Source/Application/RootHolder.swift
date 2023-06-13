@@ -3,10 +3,10 @@
 //  iosApp
 //
 //  Created by Vladislav Grokhotov on 27.03.2023.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 MobileUp. All rights reserved.
 //
 
-class RootHolder: ObservableObject {
+final class RootHolder: ObservableObject {
     let lifecycle: LifecycleRegistry
     let rootComponent: RootComponent
     

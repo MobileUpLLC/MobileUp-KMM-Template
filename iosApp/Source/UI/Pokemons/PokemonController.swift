@@ -3,41 +3,33 @@
 //  iosApp
 //
 //  Created by Vladislav Grokhotov on 03.04.2023.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 MobileUp. All rights reserved.
 //
 
 import SwiftUI
 import Combine
 
-final class PokemonController: StackNavigationController<PokemonsComponentChild>, HomeTabViewController {
+final class PokemonController: NavigatableHostingController<PokemonView>, HomeTabViewController {
     override var canBottomSheetBeDismissed: Bool { component.bottomSheetControl.hidingSupported  }
     
     var homeTab: HomeTab { .tab3 }
     
-    private var component: PokemonsComponent
     @ObservedObject private var bottomSheetState: ObservableState<BottomSheetControlState>
     
+    private var component: PokemonsComponent
     private var subscriptions: [AnyCancellable] = []
     
     init(component: PokemonsComponent) {
         self.component = component
         self.bottomSheetState = ObservableState(component.bottomSheetControl.sheetState)
         
-        super.init(
-            stackState: ObservableState(component.childStack)
-        ) { child in
-            switch child {
-            case let pokemonsList as PokemonsComponentChildList:
-                return PokemonListController(component: pokemonsList.component)
-            case let pokemonsDetails as PokemonsComponentChildDetails:
-                let controller = PokemonDetailsController(component: pokemonsDetails.component)
-                controller.hidesBottomBarWhenPushed = true
-                
-                return controller
-            default:
-                return nil
-            }
-        }
+        super.init(rootView: PokemonView(component: component))
+        
+        tabBarItem = UITabBarItem(
+            title: MR.strings().home_tab3_label.desc().localized(),
+            image: UIImage(systemName: "3.square"),
+            tag: .two
+        )
         
         bottomSheetState.objectWillChange.sink { [weak self] in
             let value = self?.bottomSheetState.value ?? .hidden
@@ -47,12 +39,6 @@ final class PokemonController: StackNavigationController<PokemonsComponentChild>
             }
         }
         .store(in: &subscriptions)
-        
-        tabBarItem = UITabBarItem(
-            title: MR.strings().home_tab3_label.desc().localized(),
-            image: UIImage(systemName: "3.square"),
-            tag: .two
-        )
     }
     
     override func viewDidLoad() {
@@ -62,14 +48,17 @@ final class PokemonController: StackNavigationController<PokemonsComponentChild>
     }
     
     func update(component: HomeComponentChild) {
-        guard let component = component as? HomeComponentChild.Tab3 else {
+        guard
+            let homeChildComponent = component as? HomeComponentChild.Tab3,
+            homeChildComponent !== self.component
+        else {
             return
         }
         
-        self.component = component.component
+        self.component = homeChildComponent.component
+        controller.rootView = PokemonView(component: homeChildComponent.component).embedded(in: controller)
         
-        bottomSheetState.recreate(component.component.bottomSheetControl.sheetState)
-        update(stack: component.component.childStack)
+        bottomSheetState.recreate(homeChildComponent.component.bottomSheetControl.sheetState)
     }
     
     private func setupButton() {
@@ -99,13 +88,19 @@ final class PokemonController: StackNavigationController<PokemonsComponentChild>
             
             presentBottomSheet()
         case .hidden:
-            break
+            if oldValue == .hidden {
+                break
+            }
+            
+            dismiss(animated: true)
         default:
             break
         }
     }
     
     private func presentBottomSheet() {
-        presentAsBottomSheet(PokemonVotesController(control: component.bottomSheetControl))
+        let controller = PokemonVotesController(control: component.bottomSheetControl)
+        
+        presentAsBottomSheet(controller)
     }
 }

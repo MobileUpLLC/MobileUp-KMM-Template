@@ -1,18 +1,12 @@
 import SwiftUI
 
-// Cannot define ObservableState<LoadableState<[Pokemon]>>. How to do it?
-// Reason: In Swift arrays are structures, LoadableState needs class as subtype
-// TODO: Android change component.types, component.pokemonsState
-// Solution: In Kotlin create class ListContainer with single field values: List<T>, where T is Pokemon
-// Solution works, see InnerPokemonVotesView
-
 struct PokemonListView: View {
-    let component: PokemonListComponent
-
     @ObservedObject private var pokemonsState: ObservableState<LoadableState<NSArray>>
     @ObservedObject private var types: ObservableState<NSArray>
     @ObservedObject private var selectedTypeId: ObservableState<PokemonTypeId>
     
+    private let component: PokemonListComponent
+
     init(component: PokemonListComponent) {
         self.component = component
         self.pokemonsState = ObservableState(component.pokemonsState)
@@ -21,18 +15,17 @@ struct PokemonListView: View {
     }
     
     var body: some View {
-        RefreshingLoadingView(
+        PokemonsContentView(
+            pokemons: (pokemonsState.value.data as? [Pokemon]) ?? [],
+            types: (types.value as? [PokemonType]) ?? [],
+            selectedTypeId: selectedTypeId.value,
+            onPokemonClick: { id in component.onPokemonClick(pokemonId: id) },
+            onTypeClick: { id in component.onTypeClick(typeId: id) }
+        )
+        .loadableWithError(
             loadableState: pokemonsState,
-            content: { pokemons in
-                PokemonsContentView(
-                    pokemons: (pokemons as? [Pokemon]) ?? [],
-                    types: (types.value as? [PokemonType]) ?? [],
-                    selectedTypeId: selectedTypeId.value,
-                    onPokemonClick: { id in component.onPokemonClick(pokemonId: id) },
-                    onTypeClick: { id in component.onTypeClick(typeId: id) }
-                )
-            },
-            onRefresh: { component.onRefresh() }
+            onRefresh: { component.onRefresh() },
+            onRetryClick: { component.onRetryClick() }
         )
     }
 }
@@ -74,7 +67,7 @@ private struct PokemonTypesView: View {
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
+            HStack(spacing: .eight) {
                 ForEach(types, id: \.id) { type in
                     PokemonTypeView(
                         type: type,
@@ -83,7 +76,7 @@ private struct PokemonTypesView: View {
                     )
                 }
             }
-            .padding(.vertical, 8)
+            .padding(.vertical, .eight)
             .padding(.horizontal, 16)
         }
     }
@@ -95,24 +88,22 @@ private struct PokemonTypeView: View {
     let onTypeClick: Closure.Generic<PokemonTypeId>
     
     var body: some View {
-        VStack {
-            Text(type.name)
-                .foregroundColor(isSelected ? .white : .black)
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 9)
-        .background(isSelected ? .blue : .clear)
-        .cornerRadius(16)
-        .overlay {
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(.blue, lineWidth: 1)
-        }
-        .shadow(color: .gray.opacity(0.2), radius: 3, y: 2)
-        .onTapGesture {
-            if isSelected == false {
-                onTypeClick(type.id)
+        Text(type.name)
+            .foregroundColor(isSelected ? .white : .black)
+            .padding(.horizontal, 16)
+            .padding(.vertical, .nine)
+            .background(isSelected ? .blue : .clear)
+            .cornerRadius(16)
+            .overlay {
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(.blue, lineWidth: .one)
             }
-        }
+            .shadow(color: .gray.opacity(0.2), radius: .three, y: .two)
+            .onTapGesture {
+                if isSelected == false {
+                    onTypeClick(type.id)
+                }
+            }
     }
 }
 

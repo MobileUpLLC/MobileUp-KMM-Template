@@ -3,15 +3,15 @@
 //  iosApp
 //
 //  Created by Vladislav Grokhotov on 30.03.2023.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 MobileUp. All rights reserved.
 //
 
 import SwiftUI
 
 struct HomeView: View {
-    let component: HomeComponent
-    
     @ObservedObject private var childStack: ObservableState<ChildStack<AnyObject, HomeComponentChild>>
+    
+    private let component: HomeComponent
     
     init(component: HomeComponent) {
         self.component = component

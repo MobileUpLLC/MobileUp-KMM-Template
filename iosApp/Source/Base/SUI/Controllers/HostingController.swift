@@ -2,8 +2,8 @@
 //  HostingController.swift
 //  iosApp
 //
-//  Created by Vladislav Grokhotov on 03.04.2023.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Created by Vladislav Grokhotov on 18.04.2023.
+//  Copyright © 2023 Mobile Up. All rights reserved.
 //
 
 import SwiftUI
@@ -16,9 +16,8 @@ final class HostWrapper<T: View>: ObservableObject {
     weak var controller: HostingController<T>?
 }
 
-class HostingController<T: View>: UIHostingController<ModifiedWithWrapperContent<T>>, BottomSheetPresentable {
-    var transitionDelegate: BottomSheetTransitioningDelegate?
-    var canBottomSheetBeDismissed: Bool { true }
+class HostingController<T: View>: UIHostingController<ModifiedWithWrapperContent<T>> {
+    weak var parentController: UIViewController?
     
     init(rootView: T) {
         let container = HostWrapper<T>()
@@ -35,5 +34,38 @@ class HostingController<T: View>: UIHostingController<ModifiedWithWrapperContent
     
     @available(*, unavailable) @MainActor dynamic required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+}
+
+class SuperHostingController<T: View>: UIViewController, BottomSheetPresentable {
+    var transitionDelegate: BottomSheetTransitioningDelegate?
+    var canBottomSheetBeDismissed: Bool { true }
+    let controller: HostingController<T>
+    
+    init(rootView: T) {
+        controller = HostingController(rootView: rootView)
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        addChild(controller)
+        view.addSubview(controller.view)
+        controller.view.frame = view.bounds
+        controller.didMove(toParent: self)
+        controller.parentController = self
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        // removing strong references from presenting controller to call deinit
+        performDismissal(animated: true)
+    }
+    
+    @available(*, unavailable) @MainActor dynamic required init?(coder aDecoder: NSCoder) {
+        fatalError(DeveloperService.Messages.initHasNotBeenImplemented)
     }
 }

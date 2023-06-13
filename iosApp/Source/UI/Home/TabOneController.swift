@@ -3,7 +3,7 @@
 //  iosApp
 //
 //  Created by Vladislav Grokhotov on 03.04.2023.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 MobileUp. All rights reserved.
 //
 
 import SwiftUI
@@ -11,7 +11,11 @@ import SwiftUI
 final class TabOneController: HostingController<TabOneView>, HomeTabViewController {
     var homeTab: HomeTab { .tab1 }
     
+    private var component: Tab1Component
+    
     init(component: Tab1Component) {
+        self.component = component
+        
         super.init(rootView: TabOneView(component: component))
         
         tabBarItem = UITabBarItem(
@@ -22,10 +26,14 @@ final class TabOneController: HostingController<TabOneView>, HomeTabViewControll
     }
     
     func update(component: HomeComponentChild) {
-        guard let component = component as? HomeComponentChild.Tab1 else {
+        guard
+            let homeChildComponent = component as? HomeComponentChild.Tab1,
+            homeChildComponent.component !== self.component
+        else {
             return
         }
         
-        rootView = TabOneView(component: component.component).embedded(in: self)
+        self.component = homeChildComponent.component
+        rootView = TabOneView(component: homeChildComponent.component).embedded(in: self)
     }
 }

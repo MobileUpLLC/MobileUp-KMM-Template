@@ -26,7 +26,7 @@ struct StackView<T: AnyObject>: UIViewControllerRepresentable {
     func updateUIViewController(_ navigationController: StackNavigationController<T>, context: Context) {}
 }
 
-class StackNavigationController<T: AnyObject>: UINavigationController, BottomSheetPresentable {
+final class StackNavigationController<T: AnyObject>: UINavigationController, BottomSheetPresentable {
     @ObservedObject var stackState: ObservableState<ChildStack<AnyObject, T>>
     
     var components: [T] { stackState.value.items.compactMap { $0.instance } }
@@ -35,19 +35,6 @@ class StackNavigationController<T: AnyObject>: UINavigationController, BottomShe
     
     private let coordinator: StackViewCoordinator<T>
     private var subscriptions: [AnyCancellable] = []
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        updateControllers()
-        
-        stackState.objectWillChange.sink { [weak self] in
-            DispatchQueue.main.async {
-                self?.updateControllers()
-            }
-        }
-        .store(in: &subscriptions)
-    }
     
     init(
         stackState: ObservableState<ChildStack<AnyObject, T>>,
@@ -70,6 +57,19 @@ class StackNavigationController<T: AnyObject>: UINavigationController, BottomShe
         assertionFailure(DeveloperService.Messages.initHasNotBeenImplemented)
         
         return nil
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        updateControllers()
+        
+        stackState.objectWillChange.sink { [weak self] in
+            DispatchQueue.main.async {
+                self?.updateControllers()
+            }
+        }
+        .store(in: &subscriptions)
     }
     
     func update(stack: CStateFlow<ChildStack<AnyObject, T>>) {
@@ -104,7 +104,7 @@ class StackViewCoordinator<T: AnyObject>: NSObject {
     func syncChanges(_ components: [T] ) {
         let count = max(preservedComponents.count, components.count)
         
-        for i in 0..<count {
+        for i in .zero..<count {
             if i >= components.count {
                 viewControllers.removeLast()
             } else if i >= preservedComponents.count {

@@ -3,15 +3,15 @@
 //  iosApp
 //
 //  Created by Vladislav Grokhotov on 29.03.2023.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 MobileUp. All rights reserved.
 //
 
 import SwiftUI
 
 struct FlowOneView: View {
-    let component: Flow1Component
-    
     @ObservedObject private var childStack: ObservableState<ChildStack<AnyObject, Flow1ComponentChild>>
+    
+    private let component: Flow1Component
     
     init(component: Flow1Component) {
         self.component = component

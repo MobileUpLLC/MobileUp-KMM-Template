@@ -3,7 +3,7 @@
 //  iosApp
 //
 //  Created by Vladislav Grokhotov on 31.03.2023.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 MobileUp. All rights reserved.
 //
 
 import SwiftUI
@@ -28,7 +28,7 @@ struct HomeTabBarView: UIViewControllerRepresentable {
     func updateUIViewController(_ navigationController: HomeTabBarController, context: Context) {}
 }
 
-class HomeTabBarController: UITabBarController, BottomSheetPresentable {
+final class HomeTabBarController: UITabBarController, BottomSheetPresentable {
     var transitionDelegate: BottomSheetTransitioningDelegate?
     var canBottomSheetBeDismissed: Bool { true }
     
@@ -37,19 +37,6 @@ class HomeTabBarController: UITabBarController, BottomSheetPresentable {
     private var subscriptions: [AnyCancellable] = []
     
     @ObservedObject private var tabsStack: ObservableState<ChildStack<AnyObject, HomeComponentChild>>
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        updateControllers()
-        
-        tabsStack.objectWillChange.sink { [weak self] in
-            DispatchQueue.main.async {
-                self?.updateControllers()
-            }
-        }
-        .store(in: &subscriptions)
-    }
     
     init(
         tabsStack: ObservableState<ChildStack<AnyObject, HomeComponentChild>>,
@@ -65,6 +52,19 @@ class HomeTabBarController: UITabBarController, BottomSheetPresentable {
         delegate = coordinator
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        updateControllers()
+        
+        tabsStack.objectWillChange.sink { [weak self] in
+            DispatchQueue.main.async {
+                self?.updateControllers()
+            }
+        }
+        .store(in: &subscriptions)
+    }
+    
     @available(*, unavailable) @MainActor dynamic required init?(coder aDecoder: NSCoder) {
         assertionFailure(DeveloperService.Messages.initHasNotBeenImplemented)
         
@@ -76,21 +76,20 @@ class HomeTabBarController: UITabBarController, BottomSheetPresentable {
         
         switch tabsStack.value.active.instance {
         case _ as HomeComponentChild.Tab1:
-            selectedIndex = 0
+            selectedIndex = .zero
         case _ as HomeComponentChild.Tab2:
-            selectedIndex = 1
+            selectedIndex = .one
         case _ as HomeComponentChild.Tab3:
-            selectedIndex = 2
+            selectedIndex = .two
         default:
-            selectedIndex = 0
+            selectedIndex = .zero
         }
     }
 }
 
-class HomeTabBarCoordinator: NSObject, UITabBarControllerDelegate {
+final class HomeTabBarCoordinator: NSObject, UITabBarControllerDelegate {
     var tabScreen: (HomeComponentChild) -> HomeTabViewController?
     var onTabSelected: Closure.Generic<HomeTab>
-    var faked: Set<HomeTab> = []
     
     init(
         tabScreen: @escaping (HomeComponentChild) -> HomeTabViewController?,
@@ -151,9 +150,7 @@ class HomeTabBarCoordinator: NSObject, UITabBarControllerDelegate {
         tab: HomeTab,
         type: T.Type
     ) {
-        if faked.contains(tab), let component = instances.compactMap({ $0 as? T }).first {
-            faked.remove(tab)
-            
+        if let component = instances.compactMap({ $0 as? T }).first {
             viewControllers
                 .compactMap({ $0 as? HomeTabViewController })
                 .first(where: { $0.homeTab == tab })?
@@ -169,7 +166,6 @@ class HomeTabBarCoordinator: NSObject, UITabBarControllerDelegate {
         if let tab = instances.compactMap({ $0 as? T }).first, let controller = tabScreen(tab) {
             viewControllers.append(controller)
         } else if let controller = tabScreen(fakeTabBuilder()) {
-            faked.insert(controller.homeTab)
             viewControllers.append(controller)
         }
     }

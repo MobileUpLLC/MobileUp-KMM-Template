@@ -3,7 +3,7 @@
 //  iosApp
 //
 //  Created by Vladislav Grokhotov on 31.03.2023.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 MobileUp. All rights reserved.
 //
 
 import UIKit
@@ -83,7 +83,7 @@ protocol Navigatable {
 }
 
 extension Navigatable where Self: UIViewController {
-    fileprivate var avatarSize: CGFloat { 28 }
+    private var avatarSize: CGFloat { 28 }
     
     func setupNavBar() {
         setupTitleDisplayMode()
@@ -171,7 +171,7 @@ extension Navigatable where Self: UIViewController {
     }
 }
 
-fileprivate extension UIViewController {
+private extension UIViewController {
     @objc func leftToolbarItemDidTap() {
         guard let self = self as? Navigatable else {
             return

@@ -3,7 +3,7 @@
 //  iosApp
 //
 //  Created by Vladislav Grokhotov on 11.04.2023.
-//  Copyright © 2023 orgName. All rights reserved.
+//  Copyright © 2023 MobileUp. All rights reserved.
 //
 
 import SwiftUI
