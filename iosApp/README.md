@@ -23,6 +23,10 @@
 │   │   │   ├── Navigation
 │   │   │   │   └── StackView.swift - Base class to use as navigation controller.
 │   │   │   └── Views - Some base views to use.
+│   │   │       └── TextField
+│   │   │           ├── InlineTextField.swift – Base realization of one-line textfield.
+│   │   │           ├── MultilineTextField.swift – Base realization of multi-line textfield.
+│   │   │           └── TextFieldContainer.swift – Base view, that must be filled with types of apps textfields.
 │   │   └── UIKit - Some base views to use.
 │   ├── Configs
 │   │   ├── Build configs
@@ -34,7 +38,11 @@
 │   │   ├── SUI
 │   │   │   └── ViewModifiers
 │   │   │       ├── EmbeddedInHostingController.swift - Modifier for consistent redefinition of root view of hosting controller.
+│   │   │       ├── Hidden.swift - Modifier for hiding view via bool-flag.
+│   │   │       ├── If.swift - Modifier for conditional application of modifiers.
 │   │   │       ├── LoadableWithError.swift - Modifier for handling LoadingState Kotlin-values, that can be empty, loading or error.
+│   │   │       ├── NavigateBackOnSwipe.swift - Modifier for recreating system back-swipe gesture.
+│   │   │       ├── Refreshable.swift - Modifier for handling pull-to-refresh logic.
 │   │   │       └── ScrollOnOverflow.swift - Modifier for view with dynamic height, that may contains scrollable content.
 │   │   └── UIKit
 │   ├── Preview Content
@@ -60,7 +68,8 @@
 │       │   └── ...
 │       ├── Launch
 │       ├── Pokemons - Feature example for the template.
-│       │   ├── PokemonController.swift - Inheritor of StackNavigationController, provides the representation of the whole feature.
+│       │   ├── PokemonController.swift - Inheritor of NavigatableHostingController, provides the representation of the whole feature.
+│       │   ├── PokemonView.swift - PokemonController's view that handle navigation via StackView.
 │       │   ├── PokemonListController.swift - NavigatableHostingController for hosting the Pokemon list view.
 │       │   ├── PokemonListView.swift - SUI view for the Pokemon list.
 │       │   ├── PokemonDetailsController.swift - NavigatableHostingController for hosting of the Pokemon details view.
@@ -78,7 +87,7 @@
 ## Technology stack
 SwiftUI, UIKit, BottomSheet, Kingfisher, Utils, R, iOS 15.1+
 
-## Инициализация
+## Initialization
 The entry point is UIKit-flow, we use AppDelegate and SceneDelegate. In SceneDelegate set rootController. In the basic implementation we immediately added SplashScreen, which is on a separate controller, that triggers `updateWindow` func after animation. In the RootController we need to create the RootComponent, for this we use the RootHolder class, which accesses the core shared code.
 
 ```swift
@@ -183,11 +192,11 @@ final class PokemonController: SuperHostingController<PokemonView>, HomeTabViewC
         
         super.init(rootView: PokemonView(component: component))
         
-//1     bottomSheetState.objectWillChange.sink { [weak self] in
+        bottomSheetState.objectWillChange.sink { [weak self] in //1 
             let value = self?.bottomSheetState.value ?? .hidden
             
             DispatchQueue.main.async {
-//2             self?.updateBottomSheetState(oldValue: value)
+                self?.updateBottomSheetState(oldValue: value) //2 
             }
         }
         .store(in: &subscriptions)
@@ -206,7 +215,7 @@ final class PokemonController: SuperHostingController<PokemonView>, HomeTabViewC
                 break
             }
             
-//3         presentBottomSheet()
+            presentBottomSheet() //3
         case .hidden:
             if oldValue == .hidden {
                 break
@@ -234,7 +243,7 @@ final class PokemonVotesController: HostingController<PokemonVotesView> {
         super.init(rootView: PokemonVotesView(control: control))
     }
     
-//4 deinit {
+    deinit { //4 
         control.dismiss()
     }
 }
@@ -295,6 +304,7 @@ To create a tabBar you should copy `HomeTabBarView` and `HomeTabBarCoordinator` 
 
 \*\* Pay attention, that in `update` method of TabOneController we use `embedded(in:)` modifier to keep access of SUI view to its hosting controller
 
+\*\*\* If we created a subscription via @ObservedObject + objectWillChange.sink, we should recreate each ObservableState via recreate method
 
 ```swift 
 func update(component: HomeComponentChild) {
@@ -308,7 +318,7 @@ func update(component: HomeComponentChild) {
     self.component = homeChildComponent.component // Save new component
     controller.rootView = PokemonView(component: homeChildComponent.component).embedded(in: controller) // Update the View
     
-    bottomSheetState.recreate(homeChildComponent.component.bottomSheetControl.sheetState) // Recreate BottomSheet with new `Control`
+    bottomSheetState.recreate(homeChildComponent.component.bottomSheetControl.sheetState) // Recreate BottomSheet with new state
 }
 ```
 
@@ -366,7 +376,7 @@ Call ```BackDispatcherService.shared.backDispatcher.back()``` to jump back to th
 ## ViewModifiers:
 
 ### LoadableWithError
-Used for LoadableState variables, defines the loadable state - empty data, load, error. Adds the ability to pull-to-refresh and repeat the request by action. 
+Used for LoadableState variables, defines the loadable state - empty data, load, error. Adds the ability to pull-to-refresh and repeat the request by action. Apply to any view you needed (for example, not to hide all screen content under loader).
 
 ```swift
 var body: some View {

@@ -83,6 +83,9 @@
 		E5ED92D52A325778003C4247 /* Hidden.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92D42A325778003C4247 /* Hidden.swift */; };
 		E5ED92D72A32614C003C4247 /* PokemonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92D62A32614C003C4247 /* PokemonView.swift */; };
 		E5ED92D92A3261AD003C4247 /* ScrollOnOverflow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5ED92D82A3261AD003C4247 /* ScrollOnOverflow.swift */; };
+		E5FBE4322A3895AC009B1A31 /* TextFieldContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FBE4312A3895AC009B1A31 /* TextFieldContainer.swift */; };
+		E5FBE4342A389900009B1A31 /* InlineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FBE4332A389900009B1A31 /* InlineTextField.swift */; };
+		E5FBE4362A389919009B1A31 /* MultilineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FBE4352A389919009B1A31 /* MultilineTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -176,6 +179,9 @@
 		E5ED92D42A325778003C4247 /* Hidden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hidden.swift; sourceTree = "<group>"; };
 		E5ED92D62A32614C003C4247 /* PokemonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonView.swift; sourceTree = "<group>"; };
 		E5ED92D82A3261AD003C4247 /* ScrollOnOverflow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollOnOverflow.swift; sourceTree = "<group>"; };
+		E5FBE4312A3895AC009B1A31 /* TextFieldContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldContainer.swift; sourceTree = "<group>"; };
+		E5FBE4332A389900009B1A31 /* InlineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineTextField.swift; sourceTree = "<group>"; };
+		E5FBE4352A389919009B1A31 /* MultilineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +226,7 @@
 		8F3E49DD29C9D65600BDCA28 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E5FBE4302A38959C009B1A31 /* TextField */,
 				8FDBB5C129CB145A00715EDD /* AsyncImageView.swift */,
 				8FD588E529E5DE0F00D26A9E /* EmptyDataView.swift */,
 				E5ED92BF2A324830003C4247 /* FullScreenEmptyView.swift */,
@@ -532,6 +539,16 @@
 			path = Splash;
 			sourceTree = "<group>";
 		};
+		E5FBE4302A38959C009B1A31 /* TextField */ = {
+			isa = PBXGroup;
+			children = (
+				E5FBE4332A389900009B1A31 /* InlineTextField.swift */,
+				E5FBE4352A389919009B1A31 /* MultilineTextField.swift */,
+				E5FBE4312A3895AC009B1A31 /* TextFieldContainer.swift */,
+			);
+			path = TextField;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -689,7 +706,9 @@
 				8F5C1CCB29D6171200F69FC4 /* ScreenOneAController.swift in Sources */,
 				8F5C1CDB29D6425C00F69FC4 /* PokemonDetailsController.swift in Sources */,
 				E5824F922A33257500672D36 /* CFlowWrapper.swift in Sources */,
+				E5FBE4362A389919009B1A31 /* MultilineTextField.swift in Sources */,
 				E5ED92BA2A324533003C4247 /* LoadableWithError.swift in Sources */,
+				E5FBE4322A3895AC009B1A31 /* TextFieldContainer.swift in Sources */,
 				8F5C1CC929D5A0C300F69FC4 /* HomeView.swift in Sources */,
 				E5ED92C42A324978003C4247 /* If.swift in Sources */,
 				8F5C1CD729D63F2400F69FC4 /* ScreenTwoCController.swift in Sources */,
@@ -748,6 +767,7 @@
 				8FD588E829E5E3AE00D26A9E /* PokemonVotesController.swift in Sources */,
 				AF986DA029BA0CFF000CA7B0 /* PokemonDetailsView.swift in Sources */,
 				8F5C1CD129D619D900F69FC4 /* ScreenOneCController.swift in Sources */,
+				E5FBE4342A389900009B1A31 /* InlineTextField.swift in Sources */,
 				8FD588EC29E6EC7200D26A9E /* EmbeddedInHostingController.swift in Sources */,
 				8F98C4D629DB12F200A8AEC4 /* HostingController.swift in Sources */,
 				E5ED92C22A324897003C4247 /* FullScreenLoadingView.swift in Sources */,

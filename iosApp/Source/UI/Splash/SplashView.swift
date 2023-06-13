@@ -33,7 +33,7 @@ struct SplashView: View {
                 Spacer()
                 Spacer()
                 
-                RockLogoView(progress: $pathProgress)
+                PokemonLogoView(progress: $pathProgress)
                     .aspectRatio(.one, contentMode: .fit)
                     .padding(.leading, 10)
                     .overlay(alignment: .bottomLeading) {
@@ -73,7 +73,7 @@ struct SplashView: View {
     }
 }
 
-private struct RockLogoView: View {
+private struct PokemonLogoView: View {
     private enum Constants {
         static let defaultLineWidth: CGFloat = 20
     }
@@ -83,12 +83,12 @@ private struct RockLogoView: View {
     @Binding var progress: Double
     
     var body: some View {
-        RockLogoShape()
+        PokemonLogoShape()
             .trim(from: .zero, to: progress)
             .stroke(Color.blue, lineWidth: Constants.defaultLineWidth)
     }
     
-    private struct RockLogoShape: Shape {
+    private struct PokemonLogoShape: Shape {
         func path(in rect: CGRect) -> Path {
             Path { path in
                 path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
