@@ -14,10 +14,10 @@ final class PokemonController: NavigatableHostingController<PokemonView>, HomeTa
     
     var homeTab: HomeTab { .tab3 }
     
+    @ObservedObject private var bottomSheetState: ObservableState<BottomSheetControlState>
+    
     private var component: PokemonsComponent
     private var subscriptions: [AnyCancellable] = []
-    
-    @ObservedObject private var bottomSheetState: ObservableState<BottomSheetControlState>
     
     init(component: PokemonsComponent) {
         self.component = component

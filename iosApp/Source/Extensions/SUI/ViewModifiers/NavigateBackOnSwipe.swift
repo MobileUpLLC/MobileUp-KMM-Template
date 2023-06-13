@@ -10,20 +10,15 @@ import SwiftUI
 
 extension View {
     func navigateBackOnSwipe(isEnabled: Bool = true) -> some View {
-        Group {
-            if isEnabled {
-                self
-                    .gesture(
-                        DragGesture()
-                            .onEnded { value in
-                                if value.predictedEndTranslation.width > 100 {
-                                    BackDispatcherService.shared.backDispatcher.back()
-                                }
-                            }
-                    )
-            } else {
-                self
-            }
+        self.if(isEnabled) {
+            $0.gesture(
+                DragGesture()
+                    .onEnded { value in
+                        if value.predictedEndTranslation.width > 100 {
+                            BackDispatcherService.shared.backDispatcher.back()
+                        }
+                    }
+            )
         }
     }
 }

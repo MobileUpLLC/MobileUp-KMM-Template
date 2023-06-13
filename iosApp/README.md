@@ -173,6 +173,7 @@ private struct ChildView: View {
 ```
 
 ## SuperHostingController
+The reason to use is the correct rendering of navigation items: UIHostingController have some issues for now.
 Base-class is used to create controllers with ability to present BottomSheets. When creating controller, use a composition of methods that replicate the logic:
 - 1. Subscribe to ControlState changes
 - 2. Produce `updateBottomSheetState` when ControlState changes
@@ -398,7 +399,7 @@ var body: some View {
 ### ScrollOnOverflow
 Used to work with BottomSheet that contains a ScrollView. If your BottomSheet should be dynamic height and contain Scrollable Content, this modifier will calculate the height of the resulting content and wrap it in ScrollView if necessary.
 
-``swift
+```swift
 VStack(spacing: .zero) {
     ForEach(votes.value.votes, id: \.self) { vote in
         HStack(spacing: .zero) {
@@ -411,7 +412,7 @@ VStack(spacing: .zero) {
         .padding(16)
     }
 }
-.scrollOnOverflow(verticalInsets: 48) // You have to calculate all another views height, to define minimal height
+.scrollOnOverflow(verticalInsets: 48) // You have to calculate all another views height, to define minimal height not including safe area
 ```
 
 ### NavigateBackOnSwipe
