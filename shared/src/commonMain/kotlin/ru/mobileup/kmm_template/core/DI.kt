@@ -20,8 +20,7 @@ fun commonCoreModule(configuration: Configuration) = module {
         NetworkApiFactory(
             loggingEnabled = configuration.buildType == BuildType.Debug,
             backendUrl = BackendUrl.getMainUrl(configuration.backend),
-            httpClientEngine = get(),
-            errorCollector = getOrNull()
+            httpClientEngine = get()
         )
     }
 }

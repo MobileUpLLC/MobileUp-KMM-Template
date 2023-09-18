@@ -1,14 +1,13 @@
 package ru.mobileup.kmm_template.core.bottom_sheet
 
-import com.arkivanov.decompose.router.overlay.ChildOverlay
 import com.arkivanov.essenty.parcelable.Parcelable
 import ru.mobileup.kmm_template.core.state.CMutableStateFlow
 import ru.mobileup.kmm_template.core.state.CStateFlow
-import ru.mobileup.kmm_template.core.utils.createFakeChildOverlay
+import ru.mobileup.kmm_template.core.utils.createFakeChildSlot
 
 class FakeBottomSheetControl<C : Parcelable, T : Any>(bottomSheetComponent: T) :
     BottomSheetControl<C, T>() {
-    override val sheetOverlay = createFakeChildOverlay(bottomSheetComponent)
+    override val sheetOverlay = createFakeChildSlot(bottomSheetComponent)
 
     override val halfExpandingSupported: Boolean = true
     override val hidingSupported: Boolean = true

@@ -8,6 +8,4 @@ interface AndroidDebugTools {
     val interceptors: List<Interceptor>
 
     fun launch(replicaClient: ReplicaClient)
-
-    fun collectNetworkError(exception: Exception)
 }

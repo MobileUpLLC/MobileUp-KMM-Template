@@ -7,7 +7,11 @@ import org.koin.dsl.module
 import ru.mobileup.kmm_template.core.ComponentFactory
 import ru.mobileup.kmm_template.core.dialog.DialogControl
 import ru.mobileup.kmm_template.core.network.NetworkApiFactory
-import ru.mobileup.kmm_template.features.pokemons.data.*
+import ru.mobileup.kmm_template.features.pokemons.data.PokemonApi
+import ru.mobileup.kmm_template.features.pokemons.data.PokemonRepository
+import ru.mobileup.kmm_template.features.pokemons.data.PokemonRepositoryImpl
+import ru.mobileup.kmm_template.features.pokemons.data.PokemonVotesStorage
+import ru.mobileup.kmm_template.features.pokemons.data.PokemonVotesStorageImpl
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonId
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.GetAllVotesForPokemonInteractor
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.GetVoteForPokemonInteractor

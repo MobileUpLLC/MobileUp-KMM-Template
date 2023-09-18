@@ -46,7 +46,6 @@ fun Tab1Ui(
     }
 }
 
-
 @Preview(showSystemUi = true)
 @Composable
 fun Tab1UiPreview() {

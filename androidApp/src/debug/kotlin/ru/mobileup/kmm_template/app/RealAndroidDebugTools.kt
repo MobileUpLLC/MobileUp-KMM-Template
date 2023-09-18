@@ -38,9 +38,4 @@ class RealAndroidDebugTools(private val context: Context) : AndroidDebugTools {
     override fun launch(replicaClient: ReplicaClient) {
         ReplicaDevTools(replicaClient, context).launch()
     }
-
-    @Suppress("DEPRECATION")
-    override fun collectNetworkError(exception: Exception) {
-        chuckerCollector.onError("DebugTools", exception)
-    }
 }

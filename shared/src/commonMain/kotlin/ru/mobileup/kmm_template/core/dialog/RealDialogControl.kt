@@ -1,7 +1,11 @@
 package ru.mobileup.kmm_template.core.dialog
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.overlay.*
+import com.arkivanov.decompose.router.slot.ChildSlot
+import com.arkivanov.decompose.router.slot.SlotNavigation
+import com.arkivanov.decompose.router.slot.activate
+import com.arkivanov.decompose.router.slot.childSlot
+import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.essenty.parcelable.Parcelable
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -56,7 +60,7 @@ private class RealDialogControl<C : Parcelable, T : Any>(
     override val canDismissed: Boolean
 ) : DialogControl<C, T>() {
 
-    private val dialogNavigation = OverlayNavigation<C>()
+    private val dialogNavigation = SlotNavigation<C>()
 
     override val dismissEvent = MutableSharedFlow<Unit>(
         extraBufferCapacity = 1,
@@ -72,8 +76,8 @@ private class RealDialogControl<C : Parcelable, T : Any>(
      * https://arkivanov.github.io/Decompose/navigation/slot/overview/
      * D либе Decompose переименовали child overlay в child slot
      */
-    override val dialogOverlay: CStateFlow<ChildOverlay<*, T>> =
-        componentContext.childOverlay(
+    override val dialogOverlay: CStateFlow<ChildSlot<*, T>> =
+        componentContext.childSlot(
             source = dialogNavigation,
             handleBackButton = handleBackButton,
             key = key,
@@ -82,7 +86,6 @@ private class RealDialogControl<C : Parcelable, T : Any>(
                 dialogComponentFactory(configuration, context, this)
             }
         ).toCStateFlow(componentContext.lifecycle)
-
 
     override fun show(config: C) {
         dialogNavigation.activate(config)

@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.arkivanov.decompose.router.overlay.ChildOverlay
+import com.arkivanov.decompose.router.slot.ChildSlot
 import dev.icerock.moko.resources.compose.stringResource
 import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.core.theme.AppTheme
@@ -37,13 +37,14 @@ import ru.mobileup.kmm_template.features.pokemons.ui.details.PokemonDetailsCompo
 import ru.mobileup.kmm_template.features.pokemons.ui.details.vote.PokemonVoteDialogComponent
 import ru.mobileup.kmm_template.features.pokemons.ui.details.vote.model.PokemonVoteState
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PokemonDetailsUi(
     component: PokemonDetailsComponent,
     modifier: Modifier = Modifier
 ) {
     val pokemonState by component.pokemonState.collectAsState()
-    val dialogOverlay by component.dialogControl.dialogOverlay.collectAsState()
+    val dialogSlot by component.dialogControl.dialogOverlay.collectAsState()
     val pokemonVoteState by component.pokemonVoteState.collectAsState()
 
     val context = LocalContext.current
@@ -74,7 +75,7 @@ fun PokemonDetailsUi(
         }
     }
 
-    PokemonDetailsDialog(dialogOverlay, component)
+    PokemonDetailsDialog(dialogSlot, component)
 }
 
 @Composable
@@ -150,13 +151,12 @@ private fun PokemonDetailsContent(
     }
 }
 
-
 @Composable
 private fun PokemonDetailsDialog(
-    dialogOverlay: ChildOverlay<*, PokemonVoteDialogComponent>,
+    dialogSlot: ChildSlot<*, PokemonVoteDialogComponent>,
     component: PokemonDetailsComponent
 ) {
-    when (val dialogComponent = dialogOverlay.overlay?.instance) {
+    when (val dialogComponent = dialogSlot.child?.instance) {
         is PokemonVoteDialogComponent -> {
             val dialogData = dialogComponent.dialogData.collectAsState()
 

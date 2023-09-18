@@ -1,4 +1,4 @@
-package ru.mobileup.kmm_template.features.flow1.screen1B
+package ru.mobileup.kmm_template.features.flow1.screen1C
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,12 +17,12 @@ import dev.icerock.moko.resources.compose.stringResource
 import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.core.theme.AppTheme
 import ru.mobileup.kmm_template.core.widget.Toolbar
-import ru.mobileup.kmm_template.features.flow1.ui.screen1B.FakeScreen1BComponent
-import ru.mobileup.kmm_template.features.flow1.ui.screen1B.Screen1BComponent
+import ru.mobileup.kmm_template.features.flow1.ui.screen1C.FakeScreen1CComponent
+import ru.mobileup.kmm_template.features.flow1.ui.screen1C.Screen1CComponent
 
 @Composable
-fun Screen1BUi(
-    component: Screen1BComponent,
+fun Screen1CUi(
+    component: Screen1CComponent,
     modifier: Modifier = Modifier
 ) {
     val text by component.title.collectAsState()
@@ -36,18 +36,17 @@ fun Screen1BUi(
 
         Button(
             modifier = Modifier.padding(top = 48.dp),
-            onClick = component::onNextClick
+            onClick = component::onFinishClick
         ) {
-            Text(text = stringResource(MR.strings.common_next))
+            Text(text = stringResource(MR.strings.common_finish))
         }
     }
 }
 
-
 @Preview(showSystemUi = true)
 @Composable
-fun Screen1BUiPreview() {
+fun Screen1CUiUiPreview() {
     AppTheme {
-        Screen1BUi(FakeScreen1BComponent())
+        Screen1CUi(FakeScreen1CComponent())
     }
 }

@@ -43,7 +43,6 @@ fun Screen2BUi(
     }
 }
 
-
 @Preview(showSystemUi = true)
 @Composable
 fun Screen2BUiPreview() {

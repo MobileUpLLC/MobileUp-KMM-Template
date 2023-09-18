@@ -1,13 +1,13 @@
 package ru.mobileup.kmm_template.core.widget
 
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.PullRefreshState
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
-import com.google.accompanist.swiperefresh.SwipeRefreshState
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import ru.mobileup.kmm_template.core.utils.LoadableState
 
 /**
@@ -15,14 +15,16 @@ import ru.mobileup.kmm_template.core.utils.LoadableState
  *
  * Note: a value of refreshing in [content] is true only when data is refreshing and swipe gesture didn't occur.
  */
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun <T : Any> SwipeRefreshLceWidget(
     state: LoadableState<T>,
     onRefresh: () -> Unit,
     onRetryClick: () -> Unit,
     modifier: Modifier = Modifier,
-    swipeRefreshIndicator: @Composable (state: SwipeRefreshState, refreshTrigger: Dp) -> Unit = { s, trigger ->
-        SwipeRefreshIndicator(s, trigger, contentColor = MaterialTheme.colors.primaryVariant)
+    pullRefreshIndicator: @Composable (state: PullRefreshState, refreshing: Boolean) -> Unit = { s, refreshing ->
+        // SwipeRefreshIndicator(s, trigger, contentColor = MaterialTheme.colors.primaryVariant)
+        PullRefreshIndicator(refreshing = refreshing, state = s)
     },
     content: @Composable (data: T, refreshing: Boolean) -> Unit
 ) {
@@ -37,17 +39,23 @@ fun <T : Any> SwipeRefreshLceWidget(
             if (!refreshing) swipeGestureOccurred = false
         }
 
-        val swipeRefreshState = rememberSwipeRefreshState(swipeGestureOccurred && refreshing)
+        val pullRefreshState = rememberPullRefreshState(
+            refreshing = swipeGestureOccurred && refreshing,
+            onRefresh = onRefresh
+        )
 
-        SwipeRefresh(
-            state = swipeRefreshState,
-            onRefresh = {
-                swipeGestureOccurred = true
-                onRefresh()
-            },
-            indicator = swipeRefreshIndicator
+        Box(
+            modifier = Modifier
+                .pullRefresh(pullRefreshState)
         ) {
-            content(data, refreshing && !swipeGestureOccurred)
+            pullRefreshIndicator(
+                pullRefreshState,
+                swipeGestureOccurred && refreshing
+            )
+            content(
+                data,
+                refreshing && !swipeGestureOccurred
+            )
         }
     }
 }

@@ -77,7 +77,7 @@ fun <T : Any> ModalBottomSheet(
         scrimColor = Color.Transparent,
         modifier = modifier,
         sheetContent = {
-            (bottomSheetOverlay.overlay?.instance)?.let {
+            (bottomSheetOverlay.child?.instance)?.let {
                 val contentModifier = if (addNavigationBarPadding && needNavigationBarPadding) {
                     Modifier.padding(bottom = navigationBarHeight)
                 } else {

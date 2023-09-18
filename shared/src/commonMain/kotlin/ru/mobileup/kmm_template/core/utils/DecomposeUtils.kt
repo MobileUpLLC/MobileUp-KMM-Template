@@ -2,7 +2,7 @@ package ru.mobileup.kmm_template.core.utils
 
 import com.arkivanov.decompose.Child
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.overlay.ChildOverlay
+import com.arkivanov.decompose.router.slot.ChildSlot
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
@@ -33,9 +33,9 @@ fun <T : Any> createFakeChildStack(instance: T): CStateFlow<ChildStack<*, T>> {
 /**
  * Creates a [ChildOverlay] with a single active component. Should be used to create an overlay for UI-preview.
  */
-fun <T : Any> createFakeChildOverlay(instance: T): CStateFlow<ChildOverlay<*, T>> {
+fun <T : Any> createFakeChildSlot(instance: T): CStateFlow<ChildSlot<*, T>> {
     return CMutableStateFlow(
-        ChildOverlay(
+        ChildSlot(
             Child.Created(
                 configuration = "<fake>",
                 instance = instance

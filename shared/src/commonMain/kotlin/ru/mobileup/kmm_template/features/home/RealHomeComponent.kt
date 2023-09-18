@@ -65,7 +65,7 @@ class RealHomeComponent(
         }
     }
 
-    private fun HomeTab.toChildConfig():ChildConfig = when(this) {
+    private fun HomeTab.toChildConfig(): ChildConfig = when (this) {
         HomeTab.Tab1 -> ChildConfig.Tab1
         HomeTab.Tab2 -> ChildConfig.Tab2
         HomeTab.Tab3 -> ChildConfig.Tab3

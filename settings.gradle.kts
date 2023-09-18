@@ -4,28 +4,6 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
     }
-
-    val kotlinVersion = "1.8.0"
-    val androidPluginVersion = "7.4.1"
-    val kspVersion = "1.8.0-1.0.9"
-    val ktorfitVersion = "1.0.0"
-    val mokoResourcesVersion = "0.20.1"
-    val moduleGraphVersion = "1.3.3"
-    val detektVersion = "1.22.0"
-
-    plugins {
-        kotlin("android") version kotlinVersion
-        kotlin("multiplatform") version kotlinVersion
-        kotlin("plugin.serialization") version kotlinVersion
-        kotlin("plugin.parcelize") version kotlinVersion
-        id("com.android.application") version androidPluginVersion
-        id("com.android.library") version androidPluginVersion
-        id("com.google.devtools.ksp") version kspVersion
-        id("de.jensklingenberg.ktorfit") version ktorfitVersion
-        id("dev.icerock.mobile.multiplatform-resources") version mokoResourcesVersion
-        id("ru.mobileup.module-graph") version moduleGraphVersion
-        id("io.gitlab.arturbosch.detekt") version detektVersion
-    }
 }
 
 rootProject.name = "MobileUp KMM Template"
@@ -41,17 +19,17 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             // Kotlin
-            val dateTimeVersion = "0.4.0"
+            val dateTimeVersion = "0.4.1"
             library("kotlinx-datetime", "org.jetbrains.kotlinx", "kotlinx-datetime").version(dateTimeVersion)
 
             // Concurrency
-            val coroutinesVersion = "1.6.4"
+            val coroutinesVersion = "1.7.3"
             library("coroutines-core", "org.jetbrains.kotlinx", "kotlinx-coroutines-core").version(coroutinesVersion)
             library("coroutines-android", "org.jetbrains.kotlinx", "kotlinx-coroutines-android").version(coroutinesVersion)
 
             // Architecture
-            val decomposeVersion = "1.0.0"
-            val essentyVersion = "1.0.0"
+            val decomposeVersion = "2.0.2"
+            val essentyVersion = "1.1.0"
             library("decompose-core", "com.arkivanov.decompose", "decompose").version(decomposeVersion)
             library("decompose-compose", "com.arkivanov.decompose", "extensions-compose-jetpack").version(decomposeVersion)
             library("essenty-lifecycle", "com.arkivanov.essenty", "lifecycle").version(
@@ -62,8 +40,8 @@ dependencyResolutionManagement {
             )
 
             // Network
-            val ktorVersion = "2.2.2"
-            val ktorfitVersion = "1.0.0-beta17"
+            val ktorVersion = "2.3.4"
+            val ktorfitVersion = "1.7.0"
             library("ktor-core", "io.ktor", "ktor-client-core").version(ktorVersion)
             library("ktor-auth", "io.ktor", "ktor-client-auth").version(ktorVersion)
             library("ktor-serialization", "io.ktor", "ktor-serialization-kotlinx-json").version(ktorVersion)
@@ -85,7 +63,7 @@ dependencyResolutionManagement {
             )
 
             // Replica
-            val replicaVersion = "1.0.0-alpha10"
+            val replicaVersion = "1.0.0-alpha13"
             library("replica-core", "com.github.aartikov", "replica-core").version(replicaVersion)
             library("replica-algebra", "com.github.aartikov", "replica-algebra").version(replicaVersion)
             library("replica-decompose", "com.github.aartikov", "replica-decompose").version(replicaVersion)
@@ -101,7 +79,7 @@ dependencyResolutionManagement {
             )
 
             // DI
-            val koinVersion = "3.3.2"
+            val koinVersion = "3.5.0"
             library("koin-core", "io.insert-koin", "koin-core").version(koinVersion)
 
             // Form validation
@@ -113,11 +91,11 @@ dependencyResolutionManagement {
             library("logger-kermit", "co.touchlab", "kermit").version(kermitVersion)
 
             // Code quality
-            val detectVersion = "1.22.0"
+            val detectVersion = "1.23.1"
             library("detekt-formatting", "io.gitlab.arturbosch.detekt", "detekt-formatting").version(detectVersion)
 
             // Resources
-            val mokoResourcesVersion = "0.20.1"
+            val mokoResourcesVersion = "0.23.0"
             library("moko-resources", "dev.icerock.moko", "resources").version(mokoResourcesVersion)
             library("moko-resourcesCompose", "dev.icerock.moko", "resources-compose").version(mokoResourcesVersion)
 
@@ -126,13 +104,13 @@ dependencyResolutionManagement {
             library("android-desugar", "com.android.tools", "desugar_jdk_libs").version(androidDesugarVersion)
 
             // Android UI
-            val composeVersion = "1.4.0-beta02"
-            version("composeCompiler", "1.4.0")
-            val activityComposeVersion = "1.6.1"
-            val activityVersion = "1.6.1"
-            val coilVersion = "2.1.0"
+            val composeVersion = "1.5.1"
+            version("composeCompiler", "1.5.3")
+            val activityComposeVersion = "1.7.2"
+            val activityVersion = "1.7.2"
+            val coilVersion = "2.4.0"
             val splashscreenVersion = "1.0.0"
-            val accompanistVersion = "0.24.13-rc"
+            val accompanistVersion = "0.32.0"
             library("compose-ui", "androidx.compose.ui", "ui").version(composeVersion)
             library("compose-material", "androidx.compose.material", "material").version(composeVersion)
             library("compose-tooling", "androidx.compose.ui", "ui-tooling").version(composeVersion)
@@ -161,8 +139,8 @@ dependencyResolutionManagement {
             )
 
             // Debug tools
-            val chuckerVersion = "3.5.2"
-            val hyperionVersion = "0.9.34"
+            val chuckerVersion = "4.0.0"
+            val hyperionVersion = "0.9.37"
             val hyperionAddonsVersion = "0.3.3"
             library("chucker", "com.github.chuckerteam.chucker", "library").version(chuckerVersion)
             library("hyperion-core", "com.willowtreeapps.hyperion", "hyperion-core").version(hyperionVersion)

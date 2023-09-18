@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -29,6 +30,7 @@ import ru.mobileup.kmm_template.features.pokemons.domain.PokemonTypeId
 import ru.mobileup.kmm_template.features.pokemons.ui.list.FakePokemonListComponent
 import ru.mobileup.kmm_template.features.pokemons.ui.list.PokemonListComponent
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PokemonListUi(
     component: PokemonListComponent,

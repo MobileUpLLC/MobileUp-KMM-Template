@@ -48,7 +48,6 @@ fun Screen1AUi(
     }
 }
 
-
 @Preview(showSystemUi = true)
 @Composable
 fun Screen1AUiPreview() {

@@ -11,7 +11,7 @@ plugins {
 }
 
 kotlin {
-    android()
+    androidTarget()
 
     listOf(
         iosX64(),
@@ -45,6 +45,7 @@ kotlin {
         }
 
         val androidMain by getting {
+            dependsOn(commonMain) // было добавлено чтобы решить эту проблему: https://stackoverflow.com/questions/72704714/kmm-project-expected-class-has-no-actual-declaration-in-module-for-jvm
             dependencies {
                 implementation(libs.forms)
                 implementation(libs.coroutines.android)
@@ -83,13 +84,12 @@ android {
     compileSdk = targetSdkVersion
     defaultConfig {
         minSdk = minSdkVersion
-        targetSdk = targetSdkVersion
     }
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
@@ -100,14 +100,14 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
-    packagingOptions {
+    packaging {
         resources.excludes += "META-INF/*"
     }
 
     sourceSets.getByName("main") {
         res.srcDirs(
             // Workaround for Moko resources. See: https://github.com/icerockdev/moko-resources/issues/353#issuecomment-1179713713
-            File(buildDir, "generated/moko/androidMain/res")
+            File(layout.buildDirectory.asFile.get(), "generated/moko/androidMain/res")
         )
     }
 }

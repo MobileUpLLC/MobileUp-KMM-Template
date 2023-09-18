@@ -8,7 +8,7 @@ import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
 data class PokemonVoteDialogData(
     val pokemonName: String,
     val pokemonTypes: List<String>
-) : Parcelable{
+) : Parcelable {
     val formatPokemonTypes = pokemonTypes.joinToString(separator = ", ")
 }
 

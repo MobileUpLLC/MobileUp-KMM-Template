@@ -2,7 +2,11 @@ package ru.mobileup.kmm_template.core.bottom_sheet
 
 import co.touchlab.kermit.Logger
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.overlay.*
+import com.arkivanov.decompose.router.slot.ChildSlot
+import com.arkivanov.decompose.router.slot.SlotNavigation
+import com.arkivanov.decompose.router.slot.activate
+import com.arkivanov.decompose.router.slot.childSlot
+import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.essenty.parcelable.Parcelable
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -65,7 +69,7 @@ private class RealBottomSheetControl<C : Parcelable, T : Any>(
 
     private val logger = Logger.withTag("BottomSheetControl")
 
-    private val sheetNavigation = OverlayNavigation<C>()
+    private val sheetNavigation = SlotNavigation<C>()
 
     override val sheetState = CMutableStateFlow(State.Hidden)
 
@@ -83,8 +87,8 @@ private class RealBottomSheetControl<C : Parcelable, T : Any>(
      * https://arkivanov.github.io/Decompose/navigation/slot/overview/
      * D либе Decompose переименовали child overlay в child slot
      */
-    override val sheetOverlay: CStateFlow<ChildOverlay<*, T>> =
-        componentContext.childOverlay(
+    override val sheetOverlay: CStateFlow<ChildSlot<*, T>> =
+        componentContext.childSlot(
             source = sheetNavigation,
             handleBackButton = handleBackButton,
             key = key,
@@ -95,7 +99,7 @@ private class RealBottomSheetControl<C : Parcelable, T : Any>(
         ).toCStateFlow(componentContext.lifecycle)
 
     override fun onStateChangedFromUI(state: State) {
-        if (sheetOverlay.value.overlay?.instance == null) {
+        if (sheetOverlay.value.child?.instance == null) {
             logger.w("BottomSheetControl: instance is null")
             sheetState.value = State.Hidden
             return
