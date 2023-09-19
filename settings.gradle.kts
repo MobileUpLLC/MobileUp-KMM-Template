@@ -100,7 +100,7 @@ dependencyResolutionManagement {
             library("moko-resourcesCompose", "dev.icerock.moko", "resources-compose").version(mokoResourcesVersion)
 
             // Android
-            val androidDesugarVersion = "1.1.5"
+            val androidDesugarVersion = "2.0.2"
             library("android-desugar", "com.android.tools", "desugar_jdk_libs").version(androidDesugarVersion)
 
             // Android UI
