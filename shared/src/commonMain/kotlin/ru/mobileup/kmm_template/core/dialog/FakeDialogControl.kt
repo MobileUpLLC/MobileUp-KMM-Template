@@ -8,7 +8,7 @@ import ru.mobileup.kmm_template.core.utils.createFakeChildSlot
 
 class FakeDialogControl<C : Parcelable, T : Any>(dialogComponent: T) :
     DialogControl<C, T>() {
-    override val dialogOverlay: CStateFlow<ChildSlot<*, T>> =
+    override val dialogSlot: CStateFlow<ChildSlot<*, T>> =
         createFakeChildSlot(dialogComponent)
 
     override val dismissEvent: CStateFlow<Unit> = CMutableStateFlow(Unit)

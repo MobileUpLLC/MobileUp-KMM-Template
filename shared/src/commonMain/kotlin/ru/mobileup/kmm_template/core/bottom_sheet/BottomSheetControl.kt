@@ -9,7 +9,7 @@ import ru.mobileup.kmm_template.core.state.CStateFlow
  * Class to configure and control Bottom Sheet's behaviours
  */
 abstract class BottomSheetControl<C : Parcelable, T : Any> {
-    abstract val sheetOverlay: CStateFlow<ChildSlot<*, T>>
+    abstract val sheetSlot: CStateFlow<ChildSlot<*, T>>
     abstract val sheetState: CStateFlow<State>
     abstract val halfExpandingSupported: Boolean
     abstract val hidingSupported: Boolean

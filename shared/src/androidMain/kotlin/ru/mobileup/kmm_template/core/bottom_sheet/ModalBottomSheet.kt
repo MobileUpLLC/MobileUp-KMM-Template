@@ -34,7 +34,7 @@ fun <T : Any> ModalBottomSheet(
     val edgeToEdgeSettings = LocalEdgeToEdgeSettings.current.accumulate()
     val needNavigationBarPadding = edgeToEdgeSettings.transparentNavigationBar
 
-    val bottomSheetOverlay by control.sheetOverlay.collectAsState()
+    val bottomSheetSlot by control.sheetSlot.collectAsState()
     val componentBottomSheetState by control.sheetState.collectAsState()
 
     val initialValue = remember { componentBottomSheetState.toCompose() }
@@ -77,7 +77,7 @@ fun <T : Any> ModalBottomSheet(
         scrimColor = Color.Transparent,
         modifier = modifier,
         sheetContent = {
-            (bottomSheetOverlay.child?.instance)?.let {
+            (bottomSheetSlot.child?.instance)?.let {
                 val contentModifier = if (addNavigationBarPadding && needNavigationBarPadding) {
                     Modifier.padding(bottom = navigationBarHeight)
                 } else {

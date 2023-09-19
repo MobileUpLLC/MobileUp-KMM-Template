@@ -17,9 +17,9 @@ import kotlin.reflect.KClass
  * Если в одном компоненте подразумевается использоваение более одного ботомшита/диалога
  * то каждому из них должен быть присвоен уникальный строковый ключ-идентификатор.
  * Иначе приложение упадет с ошибкой (Another supplier is already registered with the key)
- * Это особенность реализации childOverlay в библиотеку decompose
+ * Это особенность реализации childSlot в библиотеку decompose
  */
-private const val DIALOG_CHILD_OVERLAY_KEY = "dialogChildOverlay"
+private const val DIALOG_CHILD_SLOT_KEY = "dialogChildSlot"
 
 inline fun <reified C : Parcelable, T : Any> ComponentContext.dialogControl(
     noinline dialogComponentFactory: (C, ComponentContext, DialogControl<C, T>) -> T,
@@ -45,7 +45,7 @@ fun <C : Parcelable, T : Any> ComponentContext.dialogControl(
 ): DialogControl<C, T> = RealDialogControl(
     this,
     dialogComponentFactory,
-    key ?: DIALOG_CHILD_OVERLAY_KEY,
+    key ?: DIALOG_CHILD_SLOT_KEY,
     handleBackButton,
     clazz,
     canDismissed
@@ -76,7 +76,7 @@ private class RealDialogControl<C : Parcelable, T : Any>(
      * https://arkivanov.github.io/Decompose/navigation/slot/overview/
      * D либе Decompose переименовали child overlay в child slot
      */
-    override val dialogOverlay: CStateFlow<ChildSlot<*, T>> =
+    override val dialogSlot: CStateFlow<ChildSlot<*, T>> =
         componentContext.childSlot(
             source = dialogNavigation,
             handleBackButton = handleBackButton,

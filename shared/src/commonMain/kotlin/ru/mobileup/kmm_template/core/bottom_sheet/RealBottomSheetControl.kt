@@ -21,7 +21,7 @@ import kotlin.reflect.KClass
  * Иначе приложение упадет с ошибкой (Another supplier is already registered with the key)
  * Это особенность реализации childOverlay в библиотеку decompose
  */
-private const val SHEET_CHILD_OVERLAY_KEY = "sheetChildOverlay"
+private const val SHEET_CHILD_SLOT_KEY = "sheetChildSlot"
 
 inline fun <reified C : Parcelable, T : Any> ComponentContext.bottomSheetControl(
     noinline bottomSheetComponentFactory: (C, ComponentContext, BottomSheetControl<C, T>) -> T,
@@ -50,7 +50,7 @@ fun <C : Parcelable, T : Any> ComponentContext.bottomSheetControl(
 ): BottomSheetControl<C, T> = RealBottomSheetControl(
     this,
     bottomSheetComponentFactory,
-    key ?: SHEET_CHILD_OVERLAY_KEY,
+    key ?: SHEET_CHILD_SLOT_KEY,
     halfExpandingSupported,
     hidingSupported,
     handleBackButton,
@@ -87,7 +87,7 @@ private class RealBottomSheetControl<C : Parcelable, T : Any>(
      * https://arkivanov.github.io/Decompose/navigation/slot/overview/
      * D либе Decompose переименовали child overlay в child slot
      */
-    override val sheetOverlay: CStateFlow<ChildSlot<*, T>> =
+    override val sheetSlot: CStateFlow<ChildSlot<*, T>> =
         componentContext.childSlot(
             source = sheetNavigation,
             handleBackButton = handleBackButton,
@@ -99,7 +99,7 @@ private class RealBottomSheetControl<C : Parcelable, T : Any>(
         ).toCStateFlow(componentContext.lifecycle)
 
     override fun onStateChangedFromUI(state: State) {
-        if (sheetOverlay.value.child?.instance == null) {
+        if (sheetSlot.value.child?.instance == null) {
             logger.w("BottomSheetControl: instance is null")
             sheetState.value = State.Hidden
             return

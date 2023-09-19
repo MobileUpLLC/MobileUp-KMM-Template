@@ -29,7 +29,7 @@ import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.core.theme.AppTheme
 import ru.mobileup.kmm_template.core.utils.dispatchOnBackPressed
 import ru.mobileup.kmm_template.core.widget.RefreshingProgress
-import ru.mobileup.kmm_template.core.widget.SwipeRefreshLceWidget
+import ru.mobileup.kmm_template.core.widget.PullRefreshLceWidget
 import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
 import ru.mobileup.kmm_template.features.pokemons.list.PokemonTypeItem
 import ru.mobileup.kmm_template.features.pokemons.ui.details.FakePokemonDetailsComponent
@@ -44,7 +44,7 @@ fun PokemonDetailsUi(
     modifier: Modifier = Modifier
 ) {
     val pokemonState by component.pokemonState.collectAsState()
-    val dialogSlot by component.dialogControl.dialogOverlay.collectAsState()
+    val dialogSlot by component.dialogControl.dialogSlot.collectAsState()
     val pokemonVoteState by component.pokemonVoteState.collectAsState()
 
     val context = LocalContext.current
@@ -61,7 +61,7 @@ fun PokemonDetailsUi(
             Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
         }
 
-        SwipeRefreshLceWidget(
+        PullRefreshLceWidget(
             state = pokemonState,
             onRefresh = component::onRefresh,
             onRetryClick = component::onRetryClick

@@ -22,7 +22,7 @@ import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.core.theme.AppTheme
 import ru.mobileup.kmm_template.core.widget.EmptyPlaceholder
 import ru.mobileup.kmm_template.core.widget.RefreshingProgress
-import ru.mobileup.kmm_template.core.widget.SwipeRefreshLceWidget
+import ru.mobileup.kmm_template.core.widget.PullRefreshLceWidget
 import ru.mobileup.kmm_template.features.pokemons.domain.Pokemon
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonId
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonType
@@ -47,7 +47,7 @@ fun PokemonListUi(
             onTypeClick = component::onTypeClick
         )
 
-        SwipeRefreshLceWidget(
+        PullRefreshLceWidget(
             state = pokemonsState,
             onRefresh = component::onRefresh,
             onRetryClick = component::onRetryClick

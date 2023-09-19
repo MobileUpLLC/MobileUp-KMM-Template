@@ -130,11 +130,9 @@ dependencyResolutionManagement {
             library("splashscreen", "androidx.core", "core-splashscreen").version(splashscreenVersion)
 
             library("accompanist-systemuicontroller", "com.google.accompanist", "accompanist-systemuicontroller").version(accompanistVersion)
-            library("accompanist-swiperefresh", "com.google.accompanist", "accompanist-swiperefresh").version(accompanistVersion)
             bundle("accompanist",
                 listOf(
-                    "accompanist-systemuicontroller",
-                    "accompanist-swiperefresh",
+                    "accompanist-systemuicontroller"
                 )
             )
 

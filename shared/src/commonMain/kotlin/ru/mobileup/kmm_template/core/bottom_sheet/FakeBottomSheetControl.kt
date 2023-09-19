@@ -7,7 +7,7 @@ import ru.mobileup.kmm_template.core.utils.createFakeChildSlot
 
 class FakeBottomSheetControl<C : Parcelable, T : Any>(bottomSheetComponent: T) :
     BottomSheetControl<C, T>() {
-    override val sheetOverlay = createFakeChildSlot(bottomSheetComponent)
+    override val sheetSlot = createFakeChildSlot(bottomSheetComponent)
 
     override val halfExpandingSupported: Boolean = true
     override val hidingSupported: Boolean = true
