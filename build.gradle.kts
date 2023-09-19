@@ -2,7 +2,6 @@ val minSdkVersion by extra(23)
 val targetSdkVersion by extra(34)
 
 plugins {
-    // пришлось перенести сюда из-за вот этой проблемы: https://youtrack.jetbrains.com/issue/KT-46200
     val kotlinVersion = "1.9.10"
     val androidPluginVersion = "8.1.1"
     val kspVersion = "1.9.10-1.0.13"
