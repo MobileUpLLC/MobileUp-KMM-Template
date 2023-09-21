@@ -5,7 +5,6 @@ plugins {
     id("com.google.devtools.ksp")
     id("de.jensklingenberg.ktorfit")
     kotlin("plugin.parcelize")
-    id("dev.icerock.mobile.multiplatform-resources")
     id("ru.mobileup.module-graph")
     id("io.gitlab.arturbosch.detekt")
 }
@@ -19,17 +18,16 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "shared"
-            export(libs.decompose.core)
-            export(libs.essenty.lifecycle)
-            export(libs.essenty.backhandler)
-            export(libs.moko.resources)
+            baseName = "strings"
+            isStatic = true
         }
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(project(":strings"))
+
                 implementation(libs.forms)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.coroutines.core)
@@ -39,8 +37,8 @@ kotlin {
                 implementation(libs.bundles.replica.shared)
                 implementation(libs.koin.core)
                 implementation(libs.logger.kermit)
-                api(libs.moko.resources)
                 implementation(libs.forms)
+                implementation(libs.moko.resources)
             }
         }
 
@@ -103,13 +101,6 @@ android {
     packaging {
         resources.excludes += "META-INF/*"
     }
-
-    sourceSets.getByName("main") {
-        res.srcDirs(
-            // Workaround for Moko resources. See: https://github.com/icerockdev/moko-resources/issues/353#issuecomment-1179713713
-            File(layout.buildDirectory.asFile.get(), "generated/moko/androidMain/res")
-        )
-    }
 }
 
 dependencies {
@@ -119,10 +110,6 @@ dependencies {
     add("kspIosX64", libs.ktorfit.ksp)
     add("kspIosArm64", libs.ktorfit.ksp)
     add("kspIosSimulatorArm64", libs.ktorfit.ksp)
-}
-
-multiplatformResources {
-    multiplatformResourcesPackage = "ru.mobileup.kmm_template"
 }
 
 // Usage: ./gradlew generateModuleGraph detectGraphCycles

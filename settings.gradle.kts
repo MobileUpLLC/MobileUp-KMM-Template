@@ -9,6 +9,7 @@ pluginManagement {
 rootProject.name = "MobileUp KMM Template"
 include(":androidApp")
 include(":shared")
+include(":strings")
 
 dependencyResolutionManagement {
     repositories {
@@ -161,3 +162,4 @@ dependencyResolutionManagement {
         }
     }
 }
+include(":strings")
