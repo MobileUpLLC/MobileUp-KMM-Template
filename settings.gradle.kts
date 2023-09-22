@@ -6,7 +6,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "MobileUp KMM Template"
+rootProject.name = "MobileUp-KMM-Template"
 include(":androidApp")
 include(":shared")
 include(":strings")
@@ -83,9 +83,10 @@ dependencyResolutionManagement {
             val koinVersion = "3.5.0"
             library("koin-core", "io.insert-koin", "koin-core").version(koinVersion)
 
+            // на время убрано по вот этой причине: https://github.com/icerockdev/moko-resources/issues/476
             // Form validation
-            val formValidationVersion = "1.0.0-alpha1"
-            library("forms", "ru.mobileup", "kmm-form-validation").version(formValidationVersion)
+            // val formValidationVersion = "1.0.0-alpha1"
+            // library("forms", "ru.mobileup", "kmm-form-validation").version(formValidationVersion)
 
             // Logging
             val kermitVersion = "1.2.2"

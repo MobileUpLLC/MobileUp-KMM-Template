@@ -18,8 +18,12 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "strings"
-            isStatic = true
+            baseName = "shared"
+            export(libs.decompose.core)
+            export(libs.essenty.lifecycle)
+            export(libs.essenty.backhandler)
+            export(project(":strings"))
+            export(libs.moko.resources)
         }
     }
 
@@ -28,7 +32,8 @@ kotlin {
             dependencies {
                 api(project(":strings"))
 
-                implementation(libs.forms)
+                // на время убрано по вот этой причине: https://github.com/icerockdev/moko-resources/issues/476
+                // implementation(libs.forms)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.coroutines.core)
                 api(libs.decompose.core)
@@ -37,15 +42,14 @@ kotlin {
                 implementation(libs.bundles.replica.shared)
                 implementation(libs.koin.core)
                 implementation(libs.logger.kermit)
-                implementation(libs.forms)
-                implementation(libs.moko.resources)
             }
         }
 
         val androidMain by getting {
             dependsOn(commonMain) // было добавлено чтобы решить эту проблему: https://stackoverflow.com/questions/72704714/kmm-project-expected-class-has-no-actual-declaration-in-module-for-jvm
             dependencies {
-                implementation(libs.forms)
+                // на время убрано по вот этой причине: https://github.com/icerockdev/moko-resources/issues/476
+                // implementation(libs.forms)
                 implementation(libs.coroutines.android)
                 implementation(libs.ktor.android)
                 implementation(libs.decompose.compose)
