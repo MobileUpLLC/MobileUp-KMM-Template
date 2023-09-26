@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import ru.mobileup.kmm_template.core.utils.LoadableState
 
@@ -46,21 +47,26 @@ fun <T : Any> PullRefreshLceWidget(
 
         val pullRefreshState = rememberPullRefreshState(
             refreshing = pullGestureOccurred && refreshing,
-            onRefresh = onRefresh
+            onRefresh = {
+                pullGestureOccurred = true
+                onRefresh()
+            }
         )
 
         Box(
             modifier = Modifier
                 .pullRefresh(pullRefreshState)
         ) {
-            pullRefreshIndicator(
-                pullRefreshState,
-                pullGestureOccurred && refreshing
-            )
             content(
                 data,
                 refreshing && !pullGestureOccurred
             )
+            Box(modifier = Modifier.align(Alignment.TopCenter)) {
+                pullRefreshIndicator(
+                    pullRefreshState,
+                    pullGestureOccurred && refreshing
+                )
+            }
         }
     }
 }
