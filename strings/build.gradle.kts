@@ -78,30 +78,3 @@ android {
 dependencies {
     coreLibraryDesugaring(libs.android.desugar)
 }
-
-//// взято отсюда: https://github.com/prof18/feed-flow/blob/main/i18n/build.gradle.kts
-//// Various fixes for moko-resources tasks
-//// iOS
-//if (org.gradle.internal.os.OperatingSystem.current().isMacOsX) {
-//    afterEvaluate {
-//        tasks.findByPath(":shared:kspKotlinIosArm64")?.apply {
-//            project.logger.error("kspKotlinIosArm64 found")
-//            dependsOn(tasks.getByPath("generateMRiosArm64Main"))
-//        }
-//        tasks.findByPath(":shared:kspKotlinIosSimulatorArm64")?.apply {
-//            project.logger.error("kspKotlinIosSimulatorArm64 found")
-//            dependsOn(tasks.getByPath("generateMRiosSimulatorArm64Main"))
-//        }
-//        tasks.findByPath(":shared:kspKotlinIosX64")?.apply {
-//            project.logger.error("kspKotlinIosX64 found")
-//            dependsOn(tasks.getByPath("generateMRiosX64Main"))
-//        }
-//    }
-//}
-//// Android
-//tasks.withType(com.android.build.gradle.tasks.MergeResources::class).configureEach {
-//    dependsOn(tasks.getByPath("generateMRandroidMain"))
-//}
-//tasks.withType(com.android.build.gradle.tasks.MapSourceSetPathsTask::class).configureEach {
-//    dependsOn(tasks.getByPath("generateMRandroidMain"))
-//}
