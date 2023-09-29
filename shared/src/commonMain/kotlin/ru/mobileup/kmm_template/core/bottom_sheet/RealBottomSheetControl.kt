@@ -19,7 +19,7 @@ import kotlin.reflect.KClass
  * Если в одном компоненте подразумевается использоваение более одного ботомшита/диалога
  * то каждому из них должен быть присвоен уникальный строковый ключ-идентификатор.
  * Иначе приложение упадет с ошибкой (Another supplier is already registered with the key)
- * Это особенность реализации childOverlay в библиотеку decompose
+ * Это особенность реализации childSlot в библиотеке decompose
  */
 private const val SHEET_CHILD_SLOT_KEY = "sheetChildSlot"
 
@@ -79,13 +79,12 @@ private class RealBottomSheetControl<C : Parcelable, T : Any>(
     )
 
     /**
-     * child overlay это один из типов навигации в decompose, у него может быть только один instance
+     * child slot это один из типов навигации в decompose, у него может быть только один instance
      * Когда надо показать bottom sheet мы добавляем в него компонент боттом шита,
      * когда он закрывается его удаляем. Можно для каждого боттом шита использовать отдельный
      * компонент, можно сделать какой-то общий компонент и передавать его
      *
      * https://arkivanov.github.io/Decompose/navigation/slot/overview/
-     * D либе Decompose переименовали child overlay в child slot
      */
     override val sheetSlot: CStateFlow<ChildSlot<*, T>> =
         componentContext.childSlot(

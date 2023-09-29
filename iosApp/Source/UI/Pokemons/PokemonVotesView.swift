@@ -9,14 +9,14 @@
 import SwiftUI
 
 struct PokemonVotesView: View {
-    @ObservedObject private var overlay: ObservableState<ChildOverlay<AnyObject, PokemonVotesComponent>>
+    @ObservedObject private var childSlot: ObservableState<ChildSlot<AnyObject, PokemonVotesComponent>>
     
     init(control: BottomSheetControl<PokemonVotesComponentConfig, PokemonVotesComponent>) {
-        self.overlay = ObservableState(control.sheetOverlay)
+        self.childSlot = ObservableState(control.sheetSlot)
     }
     
     var body: some View {
-        if let component = overlay.value.overlay?.instance {
+        if let component = childSlot.value.child?.instance {
             InnerPokemonVotesView(component: component)
                 .padding(.top, 32)
                 .padding(.bottom, 16)

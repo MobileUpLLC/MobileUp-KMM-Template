@@ -31,7 +31,7 @@ fun <T : Any> createFakeChildStack(instance: T): CStateFlow<ChildStack<*, T>> {
 }
 
 /**
- * Creates a [ChildSlot] with a single active component. Should be used to create an overlay for UI-preview.
+ * Creates a [ChildSlot] with a single active component. Should be used to create a child slot for UI-preview.
  */
 fun <T : Any> createFakeChildSlot(instance: T): CStateFlow<ChildSlot<*, T>> {
     return CMutableStateFlow(

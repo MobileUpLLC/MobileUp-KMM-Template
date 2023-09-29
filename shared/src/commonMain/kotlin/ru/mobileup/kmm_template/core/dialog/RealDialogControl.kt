@@ -68,13 +68,12 @@ private class RealDialogControl<C : Parcelable, T : Any>(
     )
 
     /**
-     * child overlay это один из типов навигации в decompose, у него может быть только один instance
+     * child slot это один из типов навигации в decompose, у него может быть только один instance
      * Когда надо показать dialog мы добавляем в него компонент диалога, когда он закрывается его
      * удаляем. Можно для каждого диалога использовать отдельный компонент, можно сделать какой-то
      * общий компонент и передавать его
      *
      * https://arkivanov.github.io/Decompose/navigation/slot/overview/
-     * D либе Decompose переименовали child overlay в child slot
      */
     override val dialogSlot: CStateFlow<ChildSlot<*, T>> =
         componentContext.childSlot(

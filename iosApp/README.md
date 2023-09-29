@@ -341,7 +341,7 @@ hostWrapper.controller? ...
 To present the dialog you should SUI `.alert` method and pass all needed data from dialogControl of specific component from shared code.
 
 ```swift
-@ObservedObject private var dialog: ObservableState<ChildOverlay<AnyObject, PokemonVoteDialogComponent>>
+@ObservedObject private var dialog: ObservableState<ChildSlot<AnyObject, PokemonVoteDialogComponent>>
 @State private var isDialogPresented = false
 
 var body: some View {
@@ -349,12 +349,12 @@ var body: some View {
     .alert(
         getAlertTitle(),
         isPresented: $isDialogPresented,
-        actions: { DialogButtons(dialogComponent: dialog.value.overlay?.instance) },
+        actions: { DialogButtons(dialogComponent: dialog.value.child?.instance) },
         message: { Text(getAlertMessage()) }
     )
     .onChange(of: isDialogPresented) { [oldValue = isDialogPresented] newValue in
         if oldValue == true && newValue == false {
-            dialog.value.overlay?.instance?.dismiss()
+            dialog.value.child?.instance?.dismiss()
         }
     }
 }
@@ -364,10 +364,10 @@ var body: some View {
 The variables used to subscribe to Kotlin CFlow updates are: NullableObservableState, ObservableState, UnsafeObservableState and CFlowWrapper. Example usage:
 
 ```swift
-@ObservedObject private var overlay: ObservableState<ChildOverlay<AnyObject, PokemonVotesComponent>>
+@ObservedObject private var slot: ObservableState<ChildSlot<AnyObject, PokemonVotesComponent>>
 
 init(control: BottomSheetControl<PokemonVotesComponentConfig, PokemonVotesComponent>) {
-    self.overlay = ObservableState(control.sheetOverlay)
+    self.slot = ObservableState(control.sheetSlot)
 }
 ``` 
 
