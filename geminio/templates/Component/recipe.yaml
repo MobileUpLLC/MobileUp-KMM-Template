@@ -1,0 +1,58 @@
+requiredParams:
+  name: Component
+  description: Creates component with implementation and composable function
+
+widgets:
+  - stringParameter:
+      id: componentPrefix
+      name: Component Prefix
+      help: Prefix of the component and other classes to create
+      constraints:
+        - nonempty
+        - unique
+        - class
+      default: Blank
+
+  - stringParameter:
+      id: packagePath
+      name: Package path in feature package, for example auth.login.google
+      suggest: ${componentPrefix.camelCaseToUnderlines()}
+      constraints:
+        - nonempty
+      default: blank
+
+  - booleanParameter:
+      id: output
+      name: Generate output?
+      help: If true, the output will be generated
+      default: false
+
+globals:
+  - stringParameter:
+        id: componentName
+        value: ${componentPrefix}Component
+
+  - stringParameter:
+      id: prefix
+      value: ${componentPrefix}
+
+  - stringParameter:
+      id: path
+      value: ${packagePath}
+
+recipe:
+  - instantiateAndOpen:
+      from: root/Component.kt.ftl
+      to: ${currentDirOut}/${componentName}.kt
+
+  - instantiateAndOpen:
+      from: root/RealComponent.kt.ftl
+      to: ${currentDirOut}/Real${componentName}.kt
+
+  - instantiateAndOpen:
+      from: root/FakeComponent.kt.ftl
+      to: ${currentDirOut}/Fake${componentName}.kt
+
+  - instantiateAndOpen:
+      from: root/Ui.kt.ftl
+      to: ${currentDirOut}/${prefix}Ui.kt
