@@ -18,6 +18,7 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "strings"
+            isStatic = true
         }
     }
 

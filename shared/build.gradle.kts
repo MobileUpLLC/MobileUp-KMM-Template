@@ -24,6 +24,7 @@ kotlin {
             export(libs.essenty.backhandler)
             export(project(":strings"))
             export(libs.moko.resources)
+            isStatic = true
         }
     }
 
