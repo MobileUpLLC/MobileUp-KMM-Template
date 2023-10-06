@@ -7,6 +7,8 @@ import com.arkivanov.decompose.router.slot.SlotNavigation
 import com.arkivanov.decompose.router.slot.activate
 import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.router.slot.dismiss
+import com.arkivanov.essenty.lifecycle.doOnStart
+import com.arkivanov.essenty.lifecycle.doOnStop
 import com.arkivanov.essenty.parcelable.Parcelable
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -97,6 +99,20 @@ private class RealBottomSheetControl<C : Parcelable, T : Any>(
                 bottomSheetComponentFactory(configuration, context, this)
             }
         ).toCStateFlow(componentContext.lifecycle)
+
+    private var savedConfig: C? = null
+
+    init {
+        componentContext.lifecycle.doOnStart {
+            savedConfig?.let {
+                show(it)
+            }
+        }
+        componentContext.lifecycle.doOnStop {
+            savedConfig = sheetSlot.value.child?.configuration?.let { it as? C }
+            dismiss()
+        }
+    }
 
     override fun onStateChangedFromUI(state: State) {
         if (sheetSlot.value.child?.instance == null) {
