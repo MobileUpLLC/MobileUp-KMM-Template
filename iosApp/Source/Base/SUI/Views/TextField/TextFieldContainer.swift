@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-// TODO: https://ascnt.atlassian.net/browse/UPUP-616
-/*
 enum TextFieldStyle {
     case inline(item: InlineTextFieldItem)
     case multiline(item: MultilineTextFieldItem)
@@ -91,4 +89,3 @@ struct TextFieldContainer: View {
         }
     }
 }
-*/
