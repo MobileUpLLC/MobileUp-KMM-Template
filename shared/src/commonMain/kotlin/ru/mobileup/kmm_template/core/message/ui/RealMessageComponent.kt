@@ -19,7 +19,7 @@ class RealMessageComponent(
         private const val SHOW_TIME = 4000L
     }
 
-    override var visibleMessage = CNullableMutableStateFlow<Message>(null)
+    override val visibleMessage = CNullableMutableStateFlow<Message>(null)
 
     private var autoDismissJob: Job? = null
 

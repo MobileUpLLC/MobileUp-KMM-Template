@@ -1,30 +1,35 @@
 package ru.mobileup.kmm_template.core.widget
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import dev.icerock.moko.resources.compose.localized
-import ru.mobileup.kmm_template.core.utils.LoadableState
+import ru.mobileup.kmm_template.core.utils.AbstractLoadableState
 
 /**
- * Displays Replica state ([LoadableState]).
+ * Displays Replica state ([AbstractLoadableState]).
  */
 @Composable
 fun <T : Any> LceWidget(
-    state: LoadableState<T>,
+    state: AbstractLoadableState<T>,
     onRetryClick: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable (data: T, refreshing: Boolean) -> Unit
 ) {
-    val (loading, data, error) = state
-    when {
-        data != null -> content(data, loading)
+    val loading = state.loading
+    val data = state.data
+    val error = state.error
 
-        loading -> FullscreenCircularProgress(modifier)
+    Box(modifier) {
+        when {
+            data != null -> content(data, loading)
 
-        error != null -> ErrorPlaceholder(
-            errorMessage = error.localized(),
-            onRetryClick = onRetryClick,
-            modifier = modifier
-        )
+            loading -> FullscreenCircularProgress()
+
+            error != null -> ErrorPlaceholder(
+                errorMessage = error.localized(),
+                onRetryClick = onRetryClick
+            )
+        }
     }
 }

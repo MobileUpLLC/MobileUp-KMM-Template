@@ -1,27 +1,34 @@
 package ru.mobileup.kmm_template.core.theme
 
-import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import ru.mobileup.kmm_template.core.theme.custom.BodyTypography
+import ru.mobileup.kmm_template.core.theme.custom.ButtonTypography
+import ru.mobileup.kmm_template.core.theme.custom.CaptionTypography
+import ru.mobileup.kmm_template.core.theme.custom.CustomTypography
+import ru.mobileup.kmm_template.core.theme.custom.TitleTypography
 
-val Typography = Typography(
-    body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
-    )
-    /* Other default text styles to override
-    button = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.W500,
-        fontSize = 14.sp
+val AppTypography = CustomTypography(
+    title = TitleTypography(
+        regular = TextStyle(
+            fontSize = 24.sp
+        )
     ),
-    caption = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
+    body = BodyTypography(
+        regular = TextStyle(
+            fontSize = 16.sp
+        )
+    ),
+    caption = CaptionTypography(
+        regular = TextStyle(
+            fontSize = 12.sp
+        )
+    ),
+    button = ButtonTypography(
+        bold = TextStyle(
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold
+        )
     )
-    */
 )

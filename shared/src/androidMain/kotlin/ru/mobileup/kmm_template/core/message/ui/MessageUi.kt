@@ -1,11 +1,17 @@
 package ru.mobileup.kmm_template.core.message.ui
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -14,12 +20,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import dev.icerock.moko.resources.compose.localized
 import ru.mobileup.kmm_template.core.message.domain.Message
+import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
+import ru.mobileup.kmm_template.core.utils.navigationBarsWithImePadding
 import ru.mobileup.kmm_template.core.theme.AppTheme
+import kotlin.math.roundToInt
 
 /**
  * Displays a [Message] as a popup at the bottom of screen.
@@ -30,17 +40,20 @@ fun MessageUi(
     modifier: Modifier = Modifier,
     bottomPadding: Dp
 ) {
-    val additionalBottomPadding = with(LocalDensity.current) {
-        LocalMessageOffsets.current.values.maxOrNull()?.toDp() ?: 0.dp
-    }
-
     val visibleMessage by component.visibleMessage.collectAsState()
 
-    Box(modifier = modifier.fillMaxSize()) {
+    val bottomPaddingPx = with(LocalDensity.current) { bottomPadding.toPx().roundToInt() }
+    val additionalBottomPaddingPx = ((LocalMessageOffsets.current.values.maxOrNull() ?: 0))
+
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .navigationBarsWithImePadding()
+    ) {
         visibleMessage?.let {
             MessagePopup(
                 message = it,
-                bottomPadding = bottomPadding + additionalBottomPadding,
+                bottomPaddingPx = bottomPaddingPx + additionalBottomPaddingPx,
                 onAction = component::onActionClick
             )
         }
@@ -51,9 +64,10 @@ fun MessageUi(
 private fun MessagePopup(
     message: Message,
     onAction: () -> Unit,
-    bottomPadding: Dp
+    bottomPaddingPx: Int
 ) {
     Popup(
+        offset = IntOffset(0, -bottomPaddingPx),
         alignment = Alignment.BottomCenter,
         properties = PopupProperties(
             dismissOnBackPress = false,
@@ -62,10 +76,10 @@ private fun MessagePopup(
     ) {
         Card(
             shape = RoundedCornerShape(8.dp),
-            backgroundColor = MaterialTheme.colors.background,
-            elevation = 3.dp,
+            colors = CardDefaults.cardColors(containerColor = CustomTheme.colors.background.toast),
+            elevation = CardDefaults.cardElevation(3.dp),
             modifier = Modifier
-                .padding(bottom = bottomPadding, start = 8.dp, end = 8.dp)
+                .padding(start = 8.dp, end = 8.dp)
                 .wrapContentSize()
         ) {
             Row(
@@ -78,8 +92,8 @@ private fun MessagePopup(
                 Text(
                     modifier = Modifier.weight(1f),
                     text = message.text.localized(),
-                    color = MaterialTheme.colors.onBackground,
-                    style = MaterialTheme.typography.body1
+                    color = CustomTheme.colors.text.invert,
+                    style = CustomTheme.typography.body.regular
                 )
                 message.actionTitle?.let {
                     MessageButton(text = it.localized(), onClick = onAction)
@@ -101,7 +115,7 @@ private fun MessageButton(
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.body2
+            style = CustomTheme.typography.button.bold
         )
     }
 }
