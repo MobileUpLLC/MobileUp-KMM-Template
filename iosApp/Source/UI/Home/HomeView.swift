@@ -9,28 +9,29 @@
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject private var childStack: ObservableState<ChildStack<AnyObject, HomeComponentChild>>
+    @ObservedObject private var childStack: ObservableStateFlow<ChildStack<AnyObject, HomeComponentChild>>
     
     private let component: HomeComponent
     
     init(component: HomeComponent) {
         self.component = component
-        self.childStack = ObservableState(component.childStack)
+        self.childStack = ObservableStateFlow(flow: component.childStack)
+        Task.init { [self] in
+            await self.childStack.activate()
+        }
     }
     
     var body: some View {
         HomeTabBarView(
             tabsStack: childStack,
             tabScreen: { child in
-                switch child {
-                case let tabOne as HomeComponentChild.Tab1:
-                    return TabOneController(component: tabOne.component)
-                case let tabTwo as HomeComponentChild.Tab2:
-                    return TabTwoController(component: tabTwo.component)
-                case let pokemons as HomeComponentChild.Tab3:
-                    return PokemonController(component: pokemons.component)
-                default:
-                    return nil
+                switch onEnum(of: child) {
+                case .tab1(let child):
+                    return TabOneController(component: child.component)
+                case .tab2(let child):
+                    return TabTwoController(component: child.component)
+                case .tab3(let child):
+                    return PokemonController(component: child.component)
                 }
             },
             onTabSelected: { homeTab in

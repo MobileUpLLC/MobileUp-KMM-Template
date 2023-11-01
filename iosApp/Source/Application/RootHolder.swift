@@ -6,6 +6,9 @@
 //  Copyright © 2023 MobileUp. All rights reserved.
 //
 
+import Combine
+import Foundation
+
 final class RootHolder: ObservableObject {
     let lifecycle: LifecycleRegistry
     let rootComponent: RootComponent

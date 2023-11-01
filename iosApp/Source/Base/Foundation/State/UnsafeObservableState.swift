@@ -1,3 +1,5 @@
+import Foundation
+import Combine
 /**
  * Used to observe Flow from SwiftUI.
  * NOTE: It is unsafe. Types and nullability are not checked in compile time.
