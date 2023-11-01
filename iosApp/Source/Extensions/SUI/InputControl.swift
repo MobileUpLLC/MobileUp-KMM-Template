@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-// TODO: https://ascnt.atlassian.net/browse/UPUP-616
-/* https://ascnt.atlassian.net/browse/UPUP-616
 extension Kmm_form_validationKeyboardType {
     func toKeyboardType() -> UIKeyboardType {
         switch self {
@@ -70,4 +68,3 @@ extension Kmm_form_validationKeyboardCapitalization {
         }
     }
 }
-*/

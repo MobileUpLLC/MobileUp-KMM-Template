@@ -33,8 +33,7 @@ kotlin {
             dependencies {
                 api(project(":strings"))
 
-                // на время убрано по вот этой причине: https://github.com/icerockdev/moko-resources/issues/476
-                // implementation(libs.forms)
+                implementation(libs.forms)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.coroutines.core)
                 api(libs.decompose.core)
@@ -49,8 +48,7 @@ kotlin {
         val androidMain by getting {
             dependsOn(commonMain) // было добавлено чтобы решить эту проблему: https://stackoverflow.com/questions/72704714/kmm-project-expected-class-has-no-actual-declaration-in-module-for-jvm
             dependencies {
-                // на время убрано по вот этой причине: https://github.com/icerockdev/moko-resources/issues/476
-                // implementation(libs.forms)
+                implementation(libs.forms)
                 implementation(libs.coroutines.android)
                 implementation(libs.ktor.android)
                 implementation(libs.decompose.compose)

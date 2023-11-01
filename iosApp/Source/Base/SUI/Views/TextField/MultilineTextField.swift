@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-// TODO: https://ascnt.atlassian.net/browse/UPUP-616
-/*
 struct MultilineTextFieldItem {
     let placeholder: String
     let horizontalPadding: CGFloat
@@ -202,4 +200,3 @@ private class InputTextView: UITextView, UITextViewDelegate {
         isScrollEnabled = false
     }
 }
-*/

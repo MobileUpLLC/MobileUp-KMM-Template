@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-// TODO: https://ascnt.atlassian.net/browse/UPUP-616
-/*
 enum TextFieldInfoItem {
     case text(String)
     case icon(Image, Closure.Void?)
@@ -265,4 +263,3 @@ private struct TextFieldItemView: View {
         }
     }
 }
-*/
