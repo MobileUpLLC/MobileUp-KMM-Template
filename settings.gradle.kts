@@ -159,6 +159,10 @@ dependencyResolutionManagement {
                     "hyperion-addons-chucker"
                 )
             )
+
+            // SKIE
+            val skieVersion = "0.5.0"
+            library("skie-annotaions", "co.touchlab.skie", "configuration-annotations").version(skieVersion)
         }
     }
 }

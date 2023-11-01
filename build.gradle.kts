@@ -9,6 +9,7 @@ plugins {
     val mokoResourcesVersion = "0.23.0"
     val moduleGraphVersion = "1.3.3"
     val detektVersion = "1.23.1"
+    val skieVersion = "0.5.0"
 
     kotlin("android") version kotlinVersion apply false
     kotlin("multiplatform") version kotlinVersion apply false
@@ -21,6 +22,7 @@ plugins {
     id("dev.icerock.mobile.multiplatform-resources") version mokoResourcesVersion apply false
     id("ru.mobileup.module-graph") version moduleGraphVersion apply false
     id("io.gitlab.arturbosch.detekt") version detektVersion apply false
+    id("co.touchlab.skie") version skieVersion apply false
 }
 
 tasks.register("clean", Delete::class) {

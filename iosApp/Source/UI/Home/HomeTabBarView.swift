@@ -16,7 +16,7 @@ protocol HomeTabViewController: UIViewController {
 }
 
 struct HomeTabBarView: UIViewControllerRepresentable {
-    @ObservedObject var tabsStack: ObservableState<ChildStack<AnyObject, HomeComponentChild>>
+    @ObservedObject var tabsStack: ObservableStateFlow<ChildStack<AnyObject, HomeComponentChild>>
     
     var tabScreen: (HomeComponentChild) -> HomeTabViewController?
     var onTabSelected: (HomeTab) -> Void
@@ -36,10 +36,10 @@ final class HomeTabBarController: UITabBarController, BottomSheetPresentable {
     private let coordinator: HomeTabBarCoordinator
     private var subscriptions: [AnyCancellable] = []
     
-    @ObservedObject private var tabsStack: ObservableState<ChildStack<AnyObject, HomeComponentChild>>
+    @ObservedObject private var tabsStack: ObservableStateFlow<ChildStack<AnyObject, HomeComponentChild>>
     
     init(
-        tabsStack: ObservableState<ChildStack<AnyObject, HomeComponentChild>>,
+        tabsStack: ObservableStateFlow<ChildStack<AnyObject, HomeComponentChild>>,
         tabScreen: @escaping (HomeComponentChild) -> HomeTabViewController?,
         onTabSelected: @escaping (HomeTab) -> Void
     ) {
@@ -74,15 +74,13 @@ final class HomeTabBarController: UITabBarController, BottomSheetPresentable {
     private func updateControllers() {
         coordinator.syncChanges(stack, viewControllers ?? [])
         
-        switch tabsStack.value.active.instance {
-        case _ as HomeComponentChild.Tab1:
+        switch onEnum(of: tabsStack.value.active.instance) {
+        case .tab1 :
             selectedIndex = .zero
-        case _ as HomeComponentChild.Tab2:
+        case .tab2:
             selectedIndex = .one
-        case _ as HomeComponentChild.Tab3:
+        case .tab3:
             selectedIndex = .two
-        default:
-            selectedIndex = .zero
         }
     }
 }

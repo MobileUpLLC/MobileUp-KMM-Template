@@ -1,3 +1,5 @@
+import Foundation
+import Combine
 /**
  * Used to observe CNullableStateFlow from SwiftUI
  */

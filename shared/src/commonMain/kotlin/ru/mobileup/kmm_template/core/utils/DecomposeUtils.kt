@@ -13,6 +13,7 @@ import com.arkivanov.essenty.statekeeper.StateKeeperOwner
 import com.arkivanov.essenty.statekeeper.consume
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import me.aartikov.replica.decompose.coroutineScope
 import ru.mobileup.kmm_template.core.state.CMutableStateFlow
 import ru.mobileup.kmm_template.core.state.CStateFlow
@@ -23,6 +24,18 @@ import ru.mobileup.kmm_template.core.state.toCStateFlow
  */
 fun <T : Any> createFakeChildStack(instance: T): CStateFlow<ChildStack<*, T>> {
     return CMutableStateFlow(
+        ChildStack(
+            configuration = "<fake>",
+            instance = instance
+        )
+    )
+}
+
+/**
+ * Creates a [ChildStack] with a single active component. Should be used to create a stack for UI-preview.
+ */
+fun <T : Any> createFakeChildStackFlow(instance: T): StateFlow<ChildStack<*, T>> {
+    return MutableStateFlow(
         ChildStack(
             configuration = "<fake>",
             instance = instance
@@ -59,6 +72,23 @@ fun <T : Any> Value<T>.toCStateFlow(lifecycle: Lifecycle): CStateFlow<T> {
     }
 
     return stateFlow.toCStateFlow()
+}
+
+/**
+ * Converts [Value] from Decompose to [StateFlow].
+ */
+fun <T : Any> Value<T>.toStateFlow(lifecycle: Lifecycle): StateFlow<T> {
+    val stateFlow: MutableStateFlow<T> = MutableStateFlow(this.value)
+
+    if (lifecycle.state != Lifecycle.State.DESTROYED) {
+        val observer = { value: T -> stateFlow.value = value }
+        subscribe(observer)
+        lifecycle.doOnDestroy {
+            unsubscribe(observer)
+        }
+    }
+
+    return stateFlow
 }
 
 /**

@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.parcelize")
     id("ru.mobileup.module-graph")
     id("io.gitlab.arturbosch.detekt")
+    id("co.touchlab.skie")
 }
 
 kotlin {
@@ -42,6 +43,7 @@ kotlin {
                 implementation(libs.bundles.replica.shared)
                 implementation(libs.koin.core)
                 implementation(libs.logger.kermit)
+                implementation(libs.skie.annotaions)
             }
         }
 
@@ -120,4 +122,15 @@ moduleGraph {
     featuresPackage.set("ru.mobileup.kmm_template.features")
     featuresDirectory.set(project.file("src/commonMain/kotlin/ru/mobileup/kmm_template/features"))
     outputDirectory.set(project.file("module_graph"))
+}
+
+skie {
+    features {
+        group {
+            co.touchlab.skie.configuration.FlowInterop.Enabled(false)
+            co.touchlab.skie.configuration.SuspendInterop.Enabled(false)
+            co.touchlab.skie.configuration.SealedInterop.Enabled(false)
+            co.touchlab.skie.configuration.EnumInterop.Enabled(false)
+        }
+    }
 }

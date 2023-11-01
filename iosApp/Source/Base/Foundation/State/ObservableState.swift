@@ -1,3 +1,25 @@
+import Foundation
+import Combine
+
+final class ObservableStateFlow<T: AnyObject>: ObservableObject {
+    @Published
+    private(set) var value: T
+    
+    private let flow: SkieSwiftStateFlow<T>
+    
+    init(flow: SkieSwiftStateFlow<T>) {
+        self.flow = flow
+        value = flow.value
+    }
+
+    @MainActor
+    func activate() async {
+        for await value in flow {
+            self.value = value
+        }
+    }
+}
+
 /**
  * Used to observe CStateFlow from SwiftUI
  */
