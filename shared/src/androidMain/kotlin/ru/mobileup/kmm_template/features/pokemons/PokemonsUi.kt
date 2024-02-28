@@ -58,7 +58,8 @@ fun PokemonsUi(
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_24_tab1),
-                contentDescription = null
+                contentDescription = null,
+                tint = CustomTheme.colors.icon.primary
             )
         }
     }

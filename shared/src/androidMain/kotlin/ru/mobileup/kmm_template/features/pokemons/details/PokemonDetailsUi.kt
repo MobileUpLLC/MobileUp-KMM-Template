@@ -58,8 +58,8 @@ fun PokemonDetailsUi(
     val context = LocalContext.current
     val voteButtonColor = when (pokemonVoteState) {
         PokemonVoteState.POSITIVE -> CustomTheme.colors.button.primary
-        PokemonVoteState.NEGATIVE -> CustomTheme.colors.button.secondary
-        PokemonVoteState.NONE -> CustomTheme.colors.button.secondary
+        PokemonVoteState.NEGATIVE -> CustomTheme.colors.button.primary
+        PokemonVoteState.NONE -> CustomTheme.colors.button.primary
     }
 
     Column(modifier = modifier.fillMaxSize()) {

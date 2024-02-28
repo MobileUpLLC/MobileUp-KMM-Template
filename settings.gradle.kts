@@ -4,28 +4,6 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
     }
-
-    val kotlinVersion = "1.8.22"
-    val androidPluginVersion = "8.0.2"
-    val kspVersion = "1.8.22-1.0.11"
-    val ktorfitVersion = "1.0.0"
-    val mokoResourcesVersion = "0.23.0"
-    val moduleGraphVersion = "1.3.3"
-    val detektVersion = "1.22.0"
-
-    plugins {
-        kotlin("android") version kotlinVersion
-        kotlin("multiplatform") version kotlinVersion
-        kotlin("plugin.serialization") version kotlinVersion
-        kotlin("plugin.parcelize") version kotlinVersion
-        id("com.android.application") version androidPluginVersion
-        id("com.android.library") version androidPluginVersion
-        id("com.google.devtools.ksp") version kspVersion
-        id("de.jensklingenberg.ktorfit") version ktorfitVersion
-        id("dev.icerock.mobile.multiplatform-resources") version mokoResourcesVersion
-        id("ru.mobileup.module-graph") version moduleGraphVersion
-        id("io.gitlab.arturbosch.detekt") version detektVersion
-    }
 }
 
 rootProject.name = "MobileUp KMM Template"
@@ -63,7 +41,7 @@ dependencyResolutionManagement {
 
             // Network
             val ktorVersion = "2.3.4"
-            val ktorfitVersion = "1.0.0"
+            val ktorfitVersion = "1.12.0"
             library("ktor-core", "io.ktor", "ktor-client-core").version(ktorVersion)
             library("ktor-auth", "io.ktor", "ktor-client-auth").version(ktorVersion)
             library("ktor-serialization", "io.ktor", "ktor-serialization-kotlinx-json").version(ktorVersion)
@@ -117,7 +95,7 @@ dependencyResolutionManagement {
             library("detekt-formatting", "io.gitlab.arturbosch.detekt", "detekt-formatting").version(detectVersion)
 
             // Resources
-            val mokoResourcesVersion = "0.23.0"
+            val mokoResourcesVersion = "0.24.0-alpha-5"
             library("moko-resources", "dev.icerock.moko", "resources").version(mokoResourcesVersion)
             library("moko-resourcesCompose", "dev.icerock.moko", "resources-compose").version(mokoResourcesVersion)
 
@@ -127,7 +105,7 @@ dependencyResolutionManagement {
 
             // Android UI
             val composeVersion = "1.6.2"
-            version("composeCompiler", "1.4.8")
+            version("composeCompiler", "1.5.10")
             val activityVersion = "1.8.0"
             val coilVersion = "2.6.0"
             val splashscreenVersion = "1.0.0"
