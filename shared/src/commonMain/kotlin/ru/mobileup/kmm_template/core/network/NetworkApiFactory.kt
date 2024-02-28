@@ -17,7 +17,6 @@ class NetworkApiFactory(
     private val loggingEnabled: Boolean,
     private val backendUrl: BackendUrl,
     private val httpClientEngine: HttpClientEngine,
-    private val errorCollector: ErrorCollector?
 ) {
     companion object {
         private const val CONNECT_TIMEOUT_MILLISECONDS = 30000L

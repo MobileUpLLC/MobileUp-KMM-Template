@@ -3,7 +3,7 @@ import SwiftUI
 struct PokemonDetailsView: View {
     @ObservedObject private var pokemonState: ObservableState<LoadableState<DetailedPokemon>>
     @ObservedObject private var voteState: ObservableState<PokemonVoteState>
-    @ObservedObject private var dialog: ObservableState<ChildOverlay<AnyObject, PokemonVoteDialogComponent>>
+    @ObservedObject private var dialog: ObservableState<ChildSlot<AnyObject, PokemonVoteDialogComponent>>
     
     private let component: PokemonDetailsComponent
     
@@ -11,7 +11,7 @@ struct PokemonDetailsView: View {
         self.component = component
         self.pokemonState = ObservableState(component.pokemonState)
         self.voteState = ObservableState(component.pokemonVoteState)
-        self.dialog = ObservableState(component.dialogControl.dialogOverlay)
+        self.dialog = ObservableState(component.dialogControl.dialogSlot)
     }
     
     var body: some View {
@@ -20,7 +20,7 @@ struct PokemonDetailsView: View {
                 PokemonDetailsBodyView(
                     pokemon: pokemon,
                     voteState: voteState.value,
-                    dialogComponent: dialog.value.overlay?.instance,
+                    dialogComponent: dialog.value.child?.instance,
                     onVoteClick: { component.onVoteClick() }
                 )
             }

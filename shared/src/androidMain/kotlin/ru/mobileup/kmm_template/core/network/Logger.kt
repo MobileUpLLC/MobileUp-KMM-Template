@@ -1,6 +1,7 @@
 package ru.mobileup.kmm_template.core.network
 
-import io.ktor.client.plugins.logging.*
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.MessageLengthLimitingLogger
 import co.touchlab.kermit.Logger as KermitLogger
 
 actual fun createKtorLogger(): Logger {

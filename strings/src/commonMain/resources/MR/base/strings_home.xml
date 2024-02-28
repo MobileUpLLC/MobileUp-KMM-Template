@@ -1,0 +1,9 @@
+<resources>
+    <!-- Home -->
+    <string name="home_tab1_label">Tab1</string>
+    <string name="home_tab2_label">Tab2</string>
+    <string name="home_tab3_label">Tab3</string>
+
+    <!-- Tab2 -->
+    <string name="home_tab2_start_flow2_button">Start Flow2</string>
+</resources>
