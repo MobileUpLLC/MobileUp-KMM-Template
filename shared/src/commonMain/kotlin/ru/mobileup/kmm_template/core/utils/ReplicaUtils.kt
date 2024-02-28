@@ -77,7 +77,7 @@ fun <T : Any> Loadable<T>.toLoadableState(): LoadableState<T> {
 fun <T : Any, R : Any> StateFlow<LoadableState<T>>.mapData(
     componentContext: ComponentContext,
     transform: (T) -> R?
-): StateFlow<LoadableState<R>> {
+): CStateFlow<LoadableState<R>> {
     return componentContext.computed(this) { value ->
         value.mapData { transform(it) }
     }
