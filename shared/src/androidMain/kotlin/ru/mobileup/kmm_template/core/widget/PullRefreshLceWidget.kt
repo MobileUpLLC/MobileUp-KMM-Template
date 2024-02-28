@@ -10,11 +10,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import ru.mobileup.kmm_template.core.utils.AbstractLoadableState
 import ru.mobileup.kmm_template.core.pull_refresh.PullRefreshIndicator
 import ru.mobileup.kmm_template.core.pull_refresh.pullRefresh
 import ru.mobileup.kmm_template.core.pull_refresh.rememberPullRefreshState
 import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
+import ru.mobileup.kmm_template.core.utils.AbstractLoadableState
 
 /**
  * Displays Replica state ([AbstractLoadableState]) with pull-to-refresh functionality.

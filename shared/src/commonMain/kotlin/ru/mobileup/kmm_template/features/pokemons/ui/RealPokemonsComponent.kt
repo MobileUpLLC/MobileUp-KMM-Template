@@ -5,11 +5,10 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.push
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import kotlinx.serialization.Serializable
 import ru.mobileup.kmm_template.core.ComponentFactory
-import ru.mobileup.kmm_template.core.bottom_sheet.BottomSheetControl
-import ru.mobileup.kmm_template.core.bottom_sheet.bottomSheetControl
+import ru.mobileup.kmm_template.core.dialog.DialogControl
+import ru.mobileup.kmm_template.core.dialog.dialogControl
 import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.utils.toCStateFlow
 import ru.mobileup.kmm_template.features.pokemons.createPokemonDetailsComponent
@@ -29,6 +28,7 @@ class RealPokemonsComponent(
     override val childStack: CStateFlow<ChildStack<*, PokemonsComponent.Child>> = childStack(
         source = navigation,
         initialConfiguration = ChildConfig.List,
+        serializer = ChildConfig.serializer(),
         handleBackButton = true,
         childFactory = ::createChild
     ).toCStateFlow(lifecycle)
@@ -37,14 +37,12 @@ class RealPokemonsComponent(
      * Создание ботомшита без ключа, т.к. он уникален для данного компонента.
      * В параметре 'config' можно указать payload данные
      */
-    override val bottomSheetControl: BottomSheetControl<PokemonVotesComponent.Config, PokemonVotesComponent> =
-        bottomSheetControl(
-            bottomSheetComponentFactory = { config, context, _ ->
+    override val bottomSheetControl: DialogControl<PokemonVotesComponent.Config, PokemonVotesComponent> =
+        dialogControl(
+            key = "bottomSheetControl",
+            dialogComponentFactory = { config, context, _ ->
                 componentFactory.createPokemonVotesComponent(context)
             },
-            halfExpandingSupported = true,
-            hidingSupported = true,
-            handleBackButton = true
         )
 
     /**
@@ -86,12 +84,13 @@ class RealPokemonsComponent(
         }
     }
 
-    private sealed interface ChildConfig : Parcelable {
+    @Serializable
+    private sealed interface ChildConfig {
 
-        @Parcelize
+        @Serializable
         object List : ChildConfig
 
-        @Parcelize
+        @Serializable
         data class Details(val pokemonId: PokemonId, val pokemonName: String) : ChildConfig
     }
 }

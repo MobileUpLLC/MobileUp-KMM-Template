@@ -7,7 +7,11 @@ import ru.mobileup.kmm_form_validation.control.InputControl
 import ru.mobileup.kmm_form_validation.options.KeyboardOptions
 import ru.mobileup.kmm_form_validation.options.TextTransformation
 import ru.mobileup.kmm_form_validation.options.VisualTransformation
-import ru.mobileup.kmm_form_validation.validation.form.*
+import ru.mobileup.kmm_form_validation.validation.form.FormValidationResult
+import ru.mobileup.kmm_form_validation.validation.form.FormValidator
+import ru.mobileup.kmm_form_validation.validation.form.FormValidatorBuilder
+import ru.mobileup.kmm_form_validation.validation.form.dynamicValidationResult
+import ru.mobileup.kmm_form_validation.validation.form.formValidator
 
 fun ComponentContext.InputControl(
     initialText: String = "",

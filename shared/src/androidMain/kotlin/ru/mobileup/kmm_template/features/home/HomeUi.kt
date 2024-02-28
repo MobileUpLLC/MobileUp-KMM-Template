@@ -3,11 +3,17 @@ package ru.mobileup.kmm_template.features.home
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,6 +21,7 @@ import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import dev.icerock.moko.resources.compose.stringResource
 import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.core.theme.AppTheme
+import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 import ru.mobileup.kmm_template.features.home.tab1.Tab1Ui
 import ru.mobileup.kmm_template.features.home.tab2.Tab2Ui
 import ru.mobileup.kmm_template.features.pokemons.PokemonsUi
@@ -43,16 +50,15 @@ fun HomeUi(
         bottomBar = {
             BottomBar(
                 currentChild = childStack.active.instance,
-                onTabSelected = component::onTabSelected)
+                onTabSelected = component::onTabSelected
+            )
         }
     )
 }
 
 @Composable
 fun BottomBar(currentChild: HomeComponent.Child, onTabSelected: (HomeTab) -> Unit) {
-    BottomNavigation(
-        backgroundColor = MaterialTheme.colors.surface
-    ) {
+    NavigationBar {
         NavigationItem(
             iconRes = ru.mobileup.kmm_template.R.drawable.ic_24_tab1,
             label = stringResource(MR.strings.home_tab1_label),
@@ -83,7 +89,7 @@ fun RowScope.NavigationItem(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    BottomNavigationItem(
+    NavigationBarItem(
         icon = {
             Icon(painterResource(iconRes), contentDescription = null)
         },
@@ -92,8 +98,15 @@ fun RowScope.NavigationItem(
         },
         selected = isSelected,
         onClick = onClick,
-        selectedContentColor = MaterialTheme.colors.primary,
-        unselectedContentColor = MaterialTheme.colors.onSurface
+        colors = NavigationBarItemColors(
+            selectedIconColor = CustomTheme.colors.icon.primary,
+            unselectedIconColor = CustomTheme.colors.icon.secondary,
+            selectedTextColor = CustomTheme.colors.text.primary,
+            unselectedTextColor = CustomTheme.colors.text.secondary,
+            selectedIndicatorColor = Color.Transparent,
+            disabledIconColor = CustomTheme.colors.icon.invert,
+            disabledTextColor = CustomTheme.colors.text.invert
+        )
     )
 }
 

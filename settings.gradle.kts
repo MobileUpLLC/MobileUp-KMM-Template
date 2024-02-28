@@ -147,6 +147,9 @@ dependencyResolutionManagement {
                 )
             )
 
+            val accompanistVersion = "0.32.0"
+            library("accompanist-systemuicontroller", "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
+
             library("coil", "io.coil-kt", "coil-compose").version(coilVersion)
             library("splashscreen", "androidx.core", "core-splashscreen").version(splashscreenVersion)
 

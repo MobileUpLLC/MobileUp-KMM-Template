@@ -29,7 +29,6 @@ fun Flow2Ui(
     }
 }
 
-
 @Preview(showSystemUi = true)
 @Composable
 fun Flow2UiPreview() {

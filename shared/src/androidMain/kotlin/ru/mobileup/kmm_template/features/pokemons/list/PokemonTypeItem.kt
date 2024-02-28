@@ -1,4 +1,4 @@
-package ru.mobileup.template.features.pokemons.presentation.list
+package ru.mobileup.kmm_template.features.pokemons.list
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape

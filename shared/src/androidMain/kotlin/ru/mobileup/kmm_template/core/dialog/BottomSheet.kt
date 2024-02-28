@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 import ru.mobileup.kmm_template.core.utils.navigationBarsWithImePaddingDp
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T : Any> BottomSheet(

@@ -21,6 +21,7 @@ class Real${componentName}(
     override val childStack: CStateFlow<ChildStack<*, ${componentName}.Child>> = childStack(
         source = navigation,
         initialConfiguration = ChildConfig.Default,
+        serializer = ChildConfig.serializer(),
         handleBackButton = true,
         childFactory = ::createChild
     ).toCStateFlow(lifecycle)
@@ -35,7 +36,7 @@ class Real${componentName}(
 
     sealed interface ChildConfig : Parcelable {
 
-        @Parcelize
+        @Serializable
         object Default : ChildConfig
     }
 

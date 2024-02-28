@@ -2,9 +2,13 @@ package ru.mobileup.kmm_template.features.root.ui
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
-import com.arkivanov.decompose.router.stack.*
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.replaceAll
+import kotlinx.serialization.Serializable
 import ru.mobileup.kmm_template.core.ComponentFactory
 import ru.mobileup.kmm_template.core.message.createMessageComponent
 import ru.mobileup.kmm_template.core.state.CStateFlow
@@ -26,6 +30,7 @@ class RealRootComponent(
     override val childStack: CStateFlow<ChildStack<*, RootComponent.Child>> = childStack(
         source = navigation,
         initialConfiguration = ChildConfig.Flow1,
+        serializer = ChildConfig.serializer(),
         handleBackButton = true,
         childFactory = ::createChild
     ).toCStateFlow(lifecycle)
@@ -85,15 +90,16 @@ class RealRootComponent(
         }
     }
 
-    private sealed interface ChildConfig : Parcelable {
+    @Serializable
+    private sealed interface ChildConfig {
 
-        @Parcelize
+        @Serializable
         object Flow1 : ChildConfig
 
-        @Parcelize
+        @Serializable
         object Home : ChildConfig
 
-        @Parcelize
+        @Serializable
         object Flow2 : ChildConfig
     }
 }

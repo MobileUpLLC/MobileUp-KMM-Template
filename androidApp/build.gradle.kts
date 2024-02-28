@@ -32,6 +32,7 @@ android {
             versionNameSuffix = "-debug"
             applicationIdSuffix = ".debug"
             signingConfig = signingConfigs["debug"]
+            buildConfigField("boolean", "DEBUG", "true")
         }
 
         getByName("release") {
@@ -44,17 +45,22 @@ android {
                 )
             )
             signingConfig = signingConfigs["release"]
+            buildConfigField("boolean", "DEBUG", "false")
         }
     }
+
+
 
     setFlavorDimensions(listOf("backend"))
     productFlavors {
         create("dev") {
             dimension = "backend"
+            buildConfigField("String", "FLAVOR", "\"dev\"")
         }
 
         create("prod") {
             dimension = "backend"
+            buildConfigField("String", "FLAVOR", "\"prod\"")
         }
     }
 
@@ -65,18 +71,19 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
-    packagingOptions {
+    packaging {
         resources.excludes += "META-INF/*"
     }
 }

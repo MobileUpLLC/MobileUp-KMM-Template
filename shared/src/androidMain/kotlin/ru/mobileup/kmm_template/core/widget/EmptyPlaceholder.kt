@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 import ru.mobileup.kmm_template.core.theme.AppTheme
+import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 
 @Composable
 fun EmptyPlaceholder(

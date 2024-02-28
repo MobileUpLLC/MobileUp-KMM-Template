@@ -3,10 +3,10 @@ package ru.mobileup.kmm_template.features.flow2.screen2A
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -47,7 +47,6 @@ fun Screen2AUi(
         }
     }
 }
-
 
 @Preview(showSystemUi = true)
 @Composable

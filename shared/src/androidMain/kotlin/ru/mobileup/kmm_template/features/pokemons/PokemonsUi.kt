@@ -1,11 +1,16 @@
 package ru.mobileup.kmm_template.features.pokemons
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,8 +24,9 @@ import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import dev.icerock.moko.resources.compose.stringResource
 import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.R
-import ru.mobileup.kmm_template.core.bottom_sheet.ModalBottomSheet
+import ru.mobileup.kmm_template.core.dialog.BottomSheet
 import ru.mobileup.kmm_template.core.theme.AppTheme
+import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 import ru.mobileup.kmm_template.features.pokemons.details.PokemonDetailsUi
 import ru.mobileup.kmm_template.features.pokemons.list.PokemonListUi
 import ru.mobileup.kmm_template.features.pokemons.ui.FakePokemonsComponent
@@ -47,7 +53,7 @@ fun PokemonsUi(
                 .align(Alignment.BottomEnd)
                 .padding(24.dp)
                 .size(48.dp)
-                .clip(RoundedCornerShape(48.dp)),
+                .clip(CircleShape),
             onClick = component::onPokemonVotesButtonClick
         ) {
             Icon(
@@ -57,8 +63,7 @@ fun PokemonsUi(
         }
     }
 
-
-    ModalBottomSheet(control = component.bottomSheetControl) { pokemonVotesComponent ->
+    BottomSheet(dialogControl = component.bottomSheetControl) { pokemonVotesComponent ->
         PokemonVotesUi(
             component = pokemonVotesComponent,
             modifier = Modifier
@@ -84,9 +89,9 @@ fun PokemonVotesUi(
         }
         votes.votes.forEach {
             val textColor = if (it.isPositive == true) {
-                MaterialTheme.colors.secondary
+                CustomTheme.colors.text.primary
             } else {
-                MaterialTheme.colors.error
+                CustomTheme.colors.text.invert
             }
 
             val voteTextResource = if (it.isPositive == true) {

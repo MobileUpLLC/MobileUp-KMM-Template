@@ -55,6 +55,7 @@ kotlin {
                 implementation(libs.bundles.compose)
                 implementation(libs.coil)
                 implementation(libs.activity)
+                implementation(libs.accompanist.systemuicontroller)
             }
         }
 
@@ -99,7 +100,7 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
-    packagingOptions {
+    packaging {
         resources.excludes += "META-INF/*"
     }
 
