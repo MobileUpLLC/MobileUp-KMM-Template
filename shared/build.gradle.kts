@@ -25,6 +25,7 @@ kotlin {
             export(libs.essenty.lifecycle)
             export(libs.essenty.backhandler)
             export(libs.moko.resources)
+            export(libs.kotlinx.serialization.protobuf)
         }
     }
 
@@ -42,6 +43,7 @@ kotlin {
                 implementation(libs.logger.kermit)
                 api(libs.moko.resources)
                 implementation(libs.forms)
+                api(libs.kotlinx.serialization.protobuf)
             }
         }
 

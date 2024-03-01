@@ -9,9 +9,9 @@
 import SwiftUI
 
 final class PokemonVotesController: HostingController<PokemonVotesView> {
-    private let control: BottomSheetControl<PokemonVotesComponentConfig, PokemonVotesComponent>
+    private let control: DialogControl<PokemonVotesComponentConfig, PokemonVotesComponent>
     
-    init(control: BottomSheetControl<PokemonVotesComponentConfig, PokemonVotesComponent>) {
+    init(control: DialogControl<PokemonVotesComponentConfig, PokemonVotesComponent>) {
         self.control = control
         
         super.init(rootView: PokemonVotesView(control: control))

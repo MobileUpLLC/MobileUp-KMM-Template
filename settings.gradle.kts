@@ -38,6 +38,8 @@ dependencyResolutionManagement {
             library("essenty-backhandler", "com.arkivanov.essenty", "back-handler").version(
                 essentyVersion
             )
+            val serializationVersion = "1.6.3"
+            library("kotlinx-serialization-protobuf", "org.jetbrains.kotlinx:kotlinx-serialization-protobuf:$serializationVersion")
 
             // Network
             val ktorVersion = "2.3.4"

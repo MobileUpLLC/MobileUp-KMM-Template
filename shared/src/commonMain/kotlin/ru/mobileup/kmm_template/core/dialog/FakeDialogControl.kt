@@ -15,7 +15,7 @@ fun <T : Any> fakeDialogControl(component: T): DialogControl<*, T> {
     return FakeDialogControl("<fake>", component)
 }
 
-private class FakeDialogControl<C : Any, T : Any>(config: C, component: T) : DialogControl<C, T> {
+private class FakeDialogControl<C : Any, T : Any>(config: C, component: T) : DialogControl<C, T>() {
 
     override val dialogSlot: CStateFlow<ChildSlot<*, T>> = createFakeChildSlot(config, component)
 

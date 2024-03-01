@@ -42,7 +42,7 @@ private class RealDialogControl<C : Any, T : Any>(
     private val dialogComponentFactory: (C, ComponentContext, DialogControl<C, T>) -> T,
     dismissableByUser: (C, T) -> StateFlow<Boolean>,
     serializer: KSerializer<C>?
-) : DialogControl<C, T> {
+) : DialogControl<C, T>() {
 
     private val dialogNavigation = SlotNavigation<C>()
 

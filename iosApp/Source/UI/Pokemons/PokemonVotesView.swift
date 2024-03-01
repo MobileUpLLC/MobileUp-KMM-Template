@@ -11,8 +11,8 @@ import SwiftUI
 struct PokemonVotesView: View {
     @ObservedObject private var childSlot: ObservableState<ChildSlot<AnyObject, PokemonVotesComponent>>
     
-    init(control: BottomSheetControl<PokemonVotesComponentConfig, PokemonVotesComponent>) {
-        self.childSlot = ObservableState(control.sheetSlot)
+    init(control: DialogControl<PokemonVotesComponentConfig, PokemonVotesComponent>) {
+        self.childSlot = ObservableState(control.dialogSlot)
     }
     
     var body: some View {

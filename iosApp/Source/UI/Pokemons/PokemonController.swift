@@ -10,18 +10,23 @@ import SwiftUI
 import Combine
 
 final class PokemonController: NavigatableHostingController<PokemonView>, HomeTabViewController {
-    override var canBottomSheetBeDismissed: Bool { component.bottomSheetControl.hidingSupported  }
+    
+    @ObservedObject private var dismissableByUser: ObservableState<KotlinBoolean>
+    
+    override var canBottomSheetBeDismissed: Bool { CFBooleanGetValue(dismissableByUser.value) }
     
     var homeTab: HomeTab { .tab3 }
     
-    @ObservedObject private var bottomSheetState: ObservableState<BottomSheetControlState>
+    @ObservedObject private var dialogSlot: ObservableState<ChildSlot<AnyObject, PokemonVotesComponent>>
     
     private var component: PokemonsComponent
     private var subscriptions: [AnyCancellable] = []
     
     init(component: PokemonsComponent) {
         self.component = component
-        self.bottomSheetState = ObservableState(component.bottomSheetControl.sheetState)
+        self.dialogSlot = ObservableState(component.bottomSheetControl.dialogSlot) as! ObservableState<ChildSlot<AnyObject, PokemonVotesComponent>>
+        
+        self.dismissableByUser = ObservableState(component.bottomSheetControl.dismissableByUser)
         
         super.init(rootView: PokemonView(component: component))
         
@@ -31,8 +36,8 @@ final class PokemonController: NavigatableHostingController<PokemonView>, HomeTa
             tag: .two
         )
         
-        bottomSheetState.objectWillChange.sink { [weak self] in
-            let value = self?.bottomSheetState.value ?? .hidden
+        dialogSlot.objectWillChange.sink { [weak self] in
+            let value = self?.dialogSlot.value.child?.instance
             
             DispatchQueue.main.async {
                 self?.updateBottomSheetState(oldValue: value)
@@ -58,7 +63,7 @@ final class PokemonController: NavigatableHostingController<PokemonView>, HomeTa
         self.component = homeChildComponent.component
         controller.rootView = PokemonView(component: homeChildComponent.component).embedded(in: controller)
         
-        bottomSheetState.recreate(homeChildComponent.component.bottomSheetControl.sheetState)
+        dialogSlot.recreate(homeChildComponent.component.bottomSheetControl.dialogSlot)
     }
     
     private func setupButton() {
@@ -79,22 +84,20 @@ final class PokemonController: NavigatableHostingController<PokemonView>, HomeTa
         view.layoutSubview(button, with: .insets(bottom: 100, right: 24))
     }
     
-    private func updateBottomSheetState(oldValue: BottomSheetControlState) {
-        switch bottomSheetState.value {
-        case .expanded, .halfexpanded:
-            if [.expanded, .halfexpanded].contains(oldValue) {
-                break
-            }
-            
-            presentBottomSheet()
-        case .hidden:
-            if oldValue == .hidden {
+    private func updateBottomSheetState(oldValue: PokemonVotesComponent?) {
+        switch dialogSlot.value.child?.instance {
+        case nil:
+            if oldValue == nil {
                 break
             }
             
             dismiss(animated: true)
         default:
-            break
+            if oldValue != nil {
+                break
+            }
+            
+            presentBottomSheet()
         }
     }
     
