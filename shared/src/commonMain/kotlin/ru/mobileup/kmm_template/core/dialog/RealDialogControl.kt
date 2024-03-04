@@ -1,95 +1,85 @@
 package ru.mobileup.kmm_template.core.dialog
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.overlay.*
-import com.arkivanov.essenty.parcelable.Parcelable
+import com.arkivanov.decompose.router.slot.ChildSlot
+import com.arkivanov.decompose.router.slot.SlotNavigation
+import com.arkivanov.decompose.router.slot.activate
+import com.arkivanov.decompose.router.slot.childSlot
+import com.arkivanov.decompose.router.slot.dismiss
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.serialization.KSerializer
+import ru.flawery.core.state.CFlow
 import ru.mobileup.kmm_template.core.state.CStateFlow
+import ru.mobileup.kmm_template.core.state.toCStateFlow
+import ru.mobileup.kmm_template.core.utils.componentScope
 import ru.mobileup.kmm_template.core.utils.toCStateFlow
-import kotlin.reflect.KClass
 
-/**
- * Если в одном компоненте подразумевается использоваение более одного ботомшита/диалога
- * то каждому из них должен быть присвоен уникальный строковый ключ-идентификатор.
- * Иначе приложение упадет с ошибкой (Another supplier is already registered with the key)
- * Это особенность реализации childOverlay в библиотеку decompose
- */
-private const val DIALOG_CHILD_OVERLAY_KEY = "dialogChildOverlay"
-
-inline fun <reified C : Parcelable, T : Any> ComponentContext.dialogControl(
-    noinline dialogComponentFactory: (C, ComponentContext, DialogControl<C, T>) -> T,
-    key: String? = null,
-    handleBackButton: Boolean = false,
-    canDismissed: Boolean = true
+fun <C : Any, T : Any> ComponentContext.dialogControl(
+    key: String,
+    dialogComponentFactory: (C, ComponentContext, DialogControl<C, T>) -> T,
+    dismissableByUser: (C, T) -> StateFlow<Boolean> = { _, _ -> MutableStateFlow(true) },
+    serializer: KSerializer<C>? = null,
 ): DialogControl<C, T> {
-    return dialogControl(
-        dialogComponentFactory,
-        key,
-        handleBackButton,
-        C::class,
-        canDismissed
+    return RealDialogControl(
+        componentContext = this,
+        dialogComponentFactory = dialogComponentFactory,
+        key = key,
+        dismissableByUser = dismissableByUser,
+        serializer = serializer
     )
 }
 
-fun <C : Parcelable, T : Any> ComponentContext.dialogControl(
-    dialogComponentFactory: (C, ComponentContext, DialogControl<C, T>) -> T,
-    key: String? = null,
-    handleBackButton: Boolean = false,
-    clazz: KClass<C>,
-    canDismissed: Boolean = true
-): DialogControl<C, T> = RealDialogControl(
-    this,
-    dialogComponentFactory,
-    key ?: DIALOG_CHILD_OVERLAY_KEY,
-    handleBackButton,
-    clazz,
-    canDismissed
-)
-
-private class RealDialogControl<C : Parcelable, T : Any>(
+private class RealDialogControl<C : Any, T : Any>(
     componentContext: ComponentContext,
-    private val dialogComponentFactory: (C, ComponentContext, DialogControl<C, T>) -> T,
     key: String,
-    handleBackButton: Boolean,
-    clazz: KClass<C>,
-    override val canDismissed: Boolean
+    private val dialogComponentFactory: (C, ComponentContext, DialogControl<C, T>) -> T,
+    dismissableByUser: (C, T) -> StateFlow<Boolean>,
+    serializer: KSerializer<C>?
 ) : DialogControl<C, T>() {
 
-    private val dialogNavigation = OverlayNavigation<C>()
+    private val dialogNavigation = SlotNavigation<C>()
 
-    override val dismissEvent = MutableSharedFlow<Unit>(
+    override val dialogSlot: CStateFlow<ChildSlot<*, T>> =
+        componentContext.childSlot<C, T>(
+            source = dialogNavigation,
+            handleBackButton = false,
+            serializer = serializer,
+            key = key,
+            childFactory = { config: C, context: ComponentContext ->
+                dialogComponentFactory(config, context, this)
+            }
+        ).toCStateFlow(componentContext.lifecycle)
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override val dismissableByUser: CStateFlow<Boolean> = dialogSlot
+        .flatMapLatest { slot ->
+            slot.child?.let { dismissableByUser(it.configuration as C, it.instance) }
+                ?: MutableStateFlow(false)
+        }
+        .stateIn(componentContext.componentScope, SharingStarted.Eagerly, initialValue = false)
+        .toCStateFlow()
+
+    private val _dismissedEvent = MutableSharedFlow<Unit>(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
-    /**
-     * child overlay это один из типов навигации в decompose, у него может быть только один instance
-     * Когда надо показать dialog мы добавляем в него компонент диалога, когда он закрывается его
-     * удаляем. Можно для каждого диалога использовать отдельный компонент, можно сделать какой-то
-     * общий компонент и передавать его
-     *
-     * https://arkivanov.github.io/Decompose/navigation/slot/overview/
-     * D либе Decompose переименовали child overlay в child slot
-     */
-    override val dialogOverlay: CStateFlow<ChildOverlay<*, T>> =
-        componentContext.childOverlay(
-            source = dialogNavigation,
-            handleBackButton = handleBackButton,
-            key = key,
-            configurationClass = clazz,
-            childFactory = { configuration, context ->
-                dialogComponentFactory(configuration, context, this)
-            }
-        ).toCStateFlow(componentContext.lifecycle)
-
+    override val dismissedEvent = CFlow(_dismissedEvent)
 
     override fun show(config: C) {
         dialogNavigation.activate(config)
     }
 
     override fun dismiss() {
+        if (dialogSlot.value.child == null) return
         dialogNavigation.dismiss()
-        dismissEvent.tryEmit(Unit)
+        _dismissedEvent.tryEmit(Unit)
     }
 }

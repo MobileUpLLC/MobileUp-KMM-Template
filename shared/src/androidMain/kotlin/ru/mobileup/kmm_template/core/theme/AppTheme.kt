@@ -1,37 +1,28 @@
 package ru.mobileup.kmm_template.core.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-
-private val LightColorPalette = lightColors(
-    primary = IndigoA700,
-    primaryVariant = IndigoA700,
-    secondary = Teal200
-)
-
-private val DarkColorPalette = darkColors(
-    primary = Indigo400,
-    primaryVariant = Indigo400,
-    secondary = TealA400
-)
+import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
+import ru.mobileup.kmm_template.core.theme.custom.toMaterialColors
+import ru.mobileup.kmm_template.core.theme.custom.toMaterialTypography
 
 @Composable
 fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
+    val colorScheme = if (darkTheme) DarkAppColors else LightAppColors
+    val typography = AppTypography
 
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        content = content
-    )
+    CustomTheme(
+        colors = colorScheme,
+        typography = typography
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme.toMaterialColors(),
+            typography = typography.toMaterialTypography(),
+            content = content
+        )
+    }
 }

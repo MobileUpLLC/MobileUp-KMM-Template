@@ -1,17 +1,13 @@
 package ru.mobileup.kmm_template.core.dialog
 
-import com.arkivanov.decompose.router.overlay.ChildOverlay
-import com.arkivanov.essenty.parcelable.Parcelable
-import kotlinx.coroutines.flow.Flow
+import com.arkivanov.decompose.router.slot.ChildSlot
+import ru.flawery.core.state.CFlow
 import ru.mobileup.kmm_template.core.state.CStateFlow
 
-/**
- * Class to configure and control dialog's behaviours
- */
-abstract class DialogControl<C : Parcelable, T : Any> {
-    abstract val dialogOverlay: CStateFlow<ChildOverlay<*, T>>
-    abstract val dismissEvent: Flow<Unit>
-    abstract val canDismissed: Boolean
+abstract class DialogControl<C : Any, T : Any> {
+    abstract val dialogSlot: CStateFlow<ChildSlot<*, T>>
+    abstract val dismissableByUser: CStateFlow<Boolean>
+    abstract val dismissedEvent: CFlow<Unit>
 
     abstract fun show(config: C)
     abstract fun dismiss()

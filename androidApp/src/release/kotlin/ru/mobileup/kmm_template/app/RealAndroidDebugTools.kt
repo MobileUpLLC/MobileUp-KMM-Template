@@ -13,8 +13,4 @@ class RealAndroidDebugTools(context: Context) : AndroidDebugTools {
     override fun launch(replicaClient: ReplicaClient) {
         // do nothing
     }
-
-    override fun collectNetworkError(exception: Exception) {
-        // do nothing
-    }
 }

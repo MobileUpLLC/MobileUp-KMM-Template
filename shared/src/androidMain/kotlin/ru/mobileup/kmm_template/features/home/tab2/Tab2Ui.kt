@@ -4,9 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -18,6 +17,7 @@ import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.compose.stringResource
 import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.core.theme.AppTheme
+import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 
 @Composable
 fun Tab2Ui(
@@ -34,7 +34,7 @@ fun Tab2Ui(
 
         Text(
             text = text.localized(),
-            style = MaterialTheme.typography.h6
+            style = CustomTheme.typography.title.regular
         )
 
         Button(
@@ -45,7 +45,6 @@ fun Tab2Ui(
         }
     }
 }
-
 
 @Preview(showSystemUi = true)
 @Composable

@@ -1,19 +1,27 @@
 package ru.mobileup.kmm_template.core.dialog
 
-import com.arkivanov.decompose.router.overlay.ChildOverlay
-import com.arkivanov.essenty.parcelable.Parcelable
+import com.arkivanov.decompose.router.slot.ChildSlot
+import kotlinx.coroutines.flow.MutableSharedFlow
+import ru.flawery.core.state.CFlow
 import ru.mobileup.kmm_template.core.state.CMutableStateFlow
 import ru.mobileup.kmm_template.core.state.CStateFlow
-import ru.mobileup.kmm_template.core.utils.createFakeChildOverlay
+import ru.mobileup.kmm_template.core.utils.createFakeChildSlot
 
-class FakeDialogControl<C : Parcelable, T : Any>(dialogComponent: T) :
-    DialogControl<C, T>() {
-    override val dialogOverlay: CStateFlow<ChildOverlay<*, T>> =
-        createFakeChildOverlay(dialogComponent)
+fun <C : Any, T : Any> fakeDialogControl(config: C, component: T): DialogControl<C, T> {
+    return FakeDialogControl(config, component)
+}
 
-    override val dismissEvent: CStateFlow<Unit> = CMutableStateFlow(Unit)
+fun <T : Any> fakeDialogControl(component: T): DialogControl<*, T> {
+    return FakeDialogControl("<fake>", component)
+}
 
-    override val canDismissed: Boolean = true
+private class FakeDialogControl<C : Any, T : Any>(config: C, component: T) : DialogControl<C, T>() {
+
+    override val dialogSlot: CStateFlow<ChildSlot<*, T>> = createFakeChildSlot(config, component)
+
+    override val dismissedEvent: CFlow<Unit> = CFlow(MutableSharedFlow())
+
+    override val dismissableByUser: CStateFlow<Boolean> = CMutableStateFlow(true)
 
     override fun show(config: C) = Unit
 

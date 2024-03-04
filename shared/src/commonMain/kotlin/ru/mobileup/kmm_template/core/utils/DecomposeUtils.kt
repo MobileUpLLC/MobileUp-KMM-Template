@@ -2,42 +2,41 @@ package ru.mobileup.kmm_template.core.utils
 
 import com.arkivanov.decompose.Child
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.overlay.ChildOverlay
+import com.arkivanov.decompose.router.slot.ChildSlot
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import com.arkivanov.essenty.lifecycle.Lifecycle
 import com.arkivanov.essenty.lifecycle.doOnDestroy
-import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.statekeeper.StateKeeperOwner
-import com.arkivanov.essenty.statekeeper.consume
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.serialization.KSerializer
 import me.aartikov.replica.decompose.coroutineScope
 import ru.mobileup.kmm_template.core.state.CMutableStateFlow
 import ru.mobileup.kmm_template.core.state.CStateFlow
-import ru.mobileup.kmm_template.core.state.toCStateFlow
 
 /**
- * Creates a [ChildStack] with a single active component. Should be used to create a stack for UI-preview.
+ * Creates a [ChildStack] with a single active component. Should be used to create a stack for Jetpack Compose preview.
  */
-fun <T : Any> createFakeChildStack(instance: T): CStateFlow<ChildStack<*, T>> {
-    return CMutableStateFlow(
-        ChildStack(
-            configuration = "<fake>",
-            instance = instance
-        )
+fun <T : Any> createFakeChildStack(instance: T): ChildStack<*, T> {
+    return ChildStack(
+        configuration = "<fake>",
+        instance = instance
     )
 }
 
+fun <T : Any> createFakeChildStackStateFlow(instance: T): CStateFlow<ChildStack<*, T>> {
+    return CMutableStateFlow(createFakeChildStack(instance))
+}
+
 /**
- * Creates a [ChildOverlay] with a single active component. Should be used to create an overlay for UI-preview.
+ * Creates a [ChildSlot] with given [configuration] and [instance]. Should be used to create a slot for Jetpack Compose preview.
  */
-fun <T : Any> createFakeChildOverlay(instance: T): CStateFlow<ChildOverlay<*, T>> {
+fun <C : Any, T : Any> createFakeChildSlot(configuration: C, instance: T): CStateFlow<ChildSlot<C, T>> {
     return CMutableStateFlow(
-        ChildOverlay(
+        ChildSlot(
             Child.Created(
-                configuration = "<fake>",
+                configuration = configuration,
                 instance = instance
             )
         )
@@ -45,24 +44,24 @@ fun <T : Any> createFakeChildOverlay(instance: T): CStateFlow<ChildOverlay<*, T>
 }
 
 /**
- * Converts [Value] from Decompose to [CStateFlow].
+ * Converts [Value] from Decompose to [State] from Jetpack Compose.
  */
 fun <T : Any> Value<T>.toCStateFlow(lifecycle: Lifecycle): CStateFlow<T> {
-    val stateFlow: MutableStateFlow<T> = MutableStateFlow(this.value)
+    val state: CMutableStateFlow<T> = CMutableStateFlow(this.value)
 
     if (lifecycle.state != Lifecycle.State.DESTROYED) {
-        val observer = { value: T -> stateFlow.value = value }
-        subscribe(observer)
+        val observer = { value: T -> state.value = value }
+        val cancellation = observe(observer)
         lifecycle.doOnDestroy {
-            unsubscribe(observer)
+            cancellation.cancel()
         }
     }
 
-    return stateFlow.toCStateFlow()
+    return state
 }
 
 /**
- * Returns a coroutine scope tied to Decompose lifecycle. A scope is canceled when a component is destroyed.
+ * Creates a coroutine scope tied to Decompose lifecycle. A scope is canceled when a component is destroyed.
  */
 val ComponentContext.componentScope: CoroutineScope
     get() {
@@ -85,11 +84,12 @@ private class CoroutineScopeWrapper(val scope: CoroutineScope) : InstanceKeeper.
 /**
  * A helper function to save and restore component state.
  */
-inline fun <reified T : Parcelable> StateKeeperOwner.persistent(
+inline fun <T : Any> StateKeeperOwner.persistent(
     key: String = "PersistentState",
+    serializer: KSerializer<T>,
     noinline save: () -> T,
     restore: (T) -> Unit
 ) {
-    stateKeeper.consume<T>(key)?.run(restore)
-    stateKeeper.register(key, save)
+    stateKeeper.consume(key, serializer)?.run(restore)
+    stateKeeper.register(key, serializer, save)
 }

@@ -5,8 +5,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.push
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import kotlinx.serialization.Serializable
 import ru.mobileup.kmm_template.core.ComponentFactory
 import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.utils.toCStateFlow
@@ -28,6 +27,7 @@ class RealFlow2Component(
     override val childStack: CStateFlow<ChildStack<*, Flow2Component.Child>> = childStack(
         source = navigation,
         initialConfiguration = ChildConfig.Screen2A,
+        serializer = ChildConfig.serializer(),
         handleBackButton = true,
         childFactory = ::createChild
     ).toCStateFlow(lifecycle)
@@ -73,15 +73,16 @@ class RealFlow2Component(
         }
     }
 
-    private sealed interface ChildConfig : Parcelable {
+    @Serializable
+    private sealed interface ChildConfig {
 
-        @Parcelize
+        @Serializable
         object Screen2A : ChildConfig
 
-        @Parcelize
+        @Serializable
         object Screen2B : ChildConfig
 
-        @Parcelize
+        @Serializable
         object Screen2C : ChildConfig
     }
 }

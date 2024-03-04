@@ -1,10 +1,9 @@
 package ru.mobileup.kmm_template.features.pokemons.domain
 
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
-data class PokemonId(val value: String) : Parcelable
+@Serializable
+data class PokemonId(val value: String)
 
 data class Pokemon(
     val id: PokemonId,

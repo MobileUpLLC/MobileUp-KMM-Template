@@ -48,7 +48,10 @@ class RealPokemonDetailsComponent(
     override val pokemonState = pokemonReplica.observe(this, errorHandler)
 
     override val dialogControl: DialogControl<PokemonVoteDialogComponent.Config, PokemonVoteDialogComponent> =
-        dialogControl(::createPokemonVoteDialogComponent)
+        dialogControl(
+            key = "dialogControl",
+            dialogComponentFactory = ::createPokemonVoteDialogComponent
+        )
 
     override fun onVoteClick() {
         pokemonState.value.data?.let { detailedPokemon ->

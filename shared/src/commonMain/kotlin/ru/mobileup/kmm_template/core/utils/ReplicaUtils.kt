@@ -6,23 +6,35 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import me.aartikov.replica.decompose.observe
-import me.aartikov.replica.keyed.KeyedReplica
 import me.aartikov.replica.single.Loadable
 import me.aartikov.replica.single.Replica
 import me.aartikov.replica.single.currentState
 import ru.mobileup.kmm_template.core.error_handling.ErrorHandler
 import ru.mobileup.kmm_template.core.error_handling.errorMessage
+import ru.mobileup.kmm_template.core.state.CMutableStateFlow
 import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.state.computed
 
 /**
- * An analogue of [Loadable] but with localized error message. Required for Swift interop.
+ * Common interface for [LoadableState] and [PagedState]
+ */
+interface AbstractLoadableState<out T : Any> {
+
+    val loading: Boolean
+
+    val data: T?
+
+    val error: StringDesc?
+}
+
+/**
+ * An analogue of [Loadable] but with localized error message.
  */
 data class LoadableState<T : Any>(
-    val loading: Boolean = false,
-    val data: T? = null,
-    val error: StringDesc? = null
-)
+    override val loading: Boolean = false,
+    override val data: T? = null,
+    override val error: StringDesc? = null
+) : AbstractLoadableState<T>
 
 /**
  * Observes [Replica] and handles errors by [ErrorHandler].
@@ -31,7 +43,6 @@ fun <T : Any> Replica<T>.observe(
     componentContext: ComponentContext,
     errorHandler: ErrorHandler
 ): CStateFlow<LoadableState<T>> {
-
     val observer = observe(componentContext.lifecycle)
 
     observer
@@ -44,40 +55,28 @@ fun <T : Any> Replica<T>.observe(
         }
         .launchIn(componentContext.componentScope)
 
-    return componentContext.computed(observer.stateFlow) {
-        LoadableState(it.loading, it.data, it.error?.exception?.errorMessage)
-    }
-}
-
-/**
- * Observes [KeyedReplica] and handles errors by [ErrorHandler].
- */
-fun <T : Any, K : Any> KeyedReplica<K, T>.observe(
-    componentContext: ComponentContext,
-    errorHandler: ErrorHandler,
-    key: StateFlow<K?>
-): CStateFlow<LoadableState<T>> {
-
-    val observer = observe(componentContext.lifecycle, key)
-
+    val stateFlow = CMutableStateFlow(observer.stateFlow.value.toLoadableState())
     observer
-        .loadingErrorFlow
-        .onEach { error ->
-            errorHandler.handleError(
-                error.exception,
-                showError = observer.currentState.data != null // show error only if fullscreen error is not shown
-            )
+        .stateFlow
+        .onEach {
+            stateFlow.value = it.toLoadableState()
         }
         .launchIn(componentContext.componentScope)
 
-    return componentContext.computed(observer.stateFlow) {
-        LoadableState(it.loading, it.data, it.error?.exception?.errorMessage)
-    }
+    return stateFlow
 }
 
-fun <T : Any, R : Any> CStateFlow<LoadableState<T>>.mapData(
+fun <T : Any> Loadable<T>.toLoadableState(): LoadableState<T> {
+    return LoadableState(
+        loading = loading,
+        data = data,
+        error = error?.exception?.errorMessage
+    )
+}
+
+fun <T : Any, R : Any> StateFlow<LoadableState<T>>.mapData(
     componentContext: ComponentContext,
-    transform: (T) -> R
+    transform: (T) -> R?
 ): CStateFlow<LoadableState<R>> {
     return componentContext.computed(this) { value ->
         value.mapData { transform(it) }
@@ -85,7 +84,7 @@ fun <T : Any, R : Any> CStateFlow<LoadableState<T>>.mapData(
 }
 
 fun <T : Any, R : Any> LoadableState<T>.mapData(
-    transform: (T) -> R
+    transform: (T) -> R?
 ): LoadableState<R> {
     return LoadableState(loading, data?.let { transform(it) }, error)
 }

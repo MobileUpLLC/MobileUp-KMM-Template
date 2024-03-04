@@ -11,7 +11,8 @@ plugins {
 }
 
 kotlin {
-    android()
+    applyDefaultHierarchyTemplate()
+    androidTarget()
 
     listOf(
         iosX64(),
@@ -24,6 +25,7 @@ kotlin {
             export(libs.essenty.lifecycle)
             export(libs.essenty.backhandler)
             export(libs.moko.resources)
+            export(libs.kotlinx.serialization.protobuf)
         }
     }
 
@@ -41,6 +43,7 @@ kotlin {
                 implementation(libs.logger.kermit)
                 api(libs.moko.resources)
                 implementation(libs.forms)
+                api(libs.kotlinx.serialization.protobuf)
             }
         }
 
@@ -53,21 +56,13 @@ kotlin {
                 implementation(libs.replica.androidNetwork)
                 implementation(libs.moko.resourcesCompose)
                 implementation(libs.bundles.compose)
-                implementation(libs.bundles.accompanist)
                 implementation(libs.coil)
                 implementation(libs.activity)
+                implementation(libs.accompanist.systemuicontroller)
             }
         }
 
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-
+        val iosMain by getting {
             dependencies {
                 implementation(libs.ktor.ios)
             }
@@ -83,13 +78,12 @@ android {
     compileSdk = targetSdkVersion
     defaultConfig {
         minSdk = minSdkVersion
-        targetSdk = targetSdkVersion
     }
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
@@ -100,15 +94,8 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
-    packagingOptions {
+    packaging {
         resources.excludes += "META-INF/*"
-    }
-
-    sourceSets.getByName("main") {
-        res.srcDirs(
-            // Workaround for Moko resources. See: https://github.com/icerockdev/moko-resources/issues/353#issuecomment-1179713713
-            File(buildDir, "generated/moko/androidMain/res")
-        )
     }
 }
 
@@ -122,7 +109,7 @@ dependencies {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "ru.mobileup.kmm_template"
+    resourcesPackage.set("ru.mobileup.kmm_template")
 }
 
 // Usage: ./gradlew generateModuleGraph detectGraphCycles

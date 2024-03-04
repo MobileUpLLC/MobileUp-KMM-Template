@@ -1,6 +1,5 @@
 package ru.mobileup.kmm_template.features.root
 
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -12,6 +11,7 @@ import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.mobileup.kmm_template.core.message.ui.MessageUi
 import ru.mobileup.kmm_template.core.theme.AppTheme
+import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 import ru.mobileup.kmm_template.features.flow1.Flow1Ui
 import ru.mobileup.kmm_template.features.flow2.Flow2Ui
 import ru.mobileup.kmm_template.features.home.HomeUi
@@ -46,12 +46,12 @@ fun RootUi(
 private fun SystemBarColors() {
     val systemUiController = rememberSystemUiController()
 
-    val statusBarColor = MaterialTheme.colors.surface
+    val statusBarColor = CustomTheme.colors.background.screen
     LaunchedEffect(statusBarColor) {
         systemUiController.setStatusBarColor(statusBarColor)
     }
 
-    val navigationBarColor = MaterialTheme.colors.surface
+    val navigationBarColor = CustomTheme.colors.background.screen
     LaunchedEffect(navigationBarColor) {
         systemUiController.setNavigationBarColor(navigationBarColor)
     }

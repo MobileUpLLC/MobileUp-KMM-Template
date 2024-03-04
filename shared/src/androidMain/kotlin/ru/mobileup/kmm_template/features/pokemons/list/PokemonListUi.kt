@@ -2,14 +2,19 @@ package ru.mobileup.kmm_template.features.pokemons.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,9 +24,10 @@ import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.compose.stringResource
 import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.core.theme.AppTheme
+import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 import ru.mobileup.kmm_template.core.widget.EmptyPlaceholder
+import ru.mobileup.kmm_template.core.widget.PullRefreshLceWidget
 import ru.mobileup.kmm_template.core.widget.RefreshingProgress
-import ru.mobileup.kmm_template.core.widget.SwipeRefreshLceWidget
 import ru.mobileup.kmm_template.features.pokemons.domain.Pokemon
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonId
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonType
@@ -45,7 +51,7 @@ fun PokemonListUi(
             onTypeClick = component::onTypeClick
         )
 
-        SwipeRefreshLceWidget(
+        PullRefreshLceWidget(
             state = pokemonsState,
             onRefresh = component::onRefresh,
             onRetryClick = component::onRetryClick
@@ -74,14 +80,14 @@ private fun PokemonTypesRow(
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = MaterialTheme.colors.background,
-        elevation = 4.dp
+        color = CustomTheme.colors.background.screen,
+        shadowElevation = 4.dp
     ) {
         Column {
             Text(
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp),
                 text = stringResource(MR.strings.pokemons_select_type),
-                style = MaterialTheme.typography.h6
+                style = CustomTheme.typography.title.regular
             )
             Row(
                 modifier = Modifier
@@ -114,7 +120,7 @@ private fun PokemonListContent(
     ) {
         items(
             items = pokemons,
-            key = { it.id }
+            key = { it.id.value }
         ) { pokemon ->
             PokemonItem(
                 pokemon = pokemon,

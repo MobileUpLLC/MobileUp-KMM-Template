@@ -1,8 +1,8 @@
 package ru.mobileup.kmm_template.features.pokemons.ui.list
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import kotlinx.serialization.Serializable
+import me.aartikov.replica.algebra.normal.withKey
 import me.aartikov.replica.keyed.KeyedReplica
 import me.aartikov.replica.keyed.keepPreviousData
 import ru.mobileup.kmm_template.core.error_handling.ErrorHandler
@@ -36,12 +36,14 @@ class RealPokemonListComponent(
 
     override val pokemonsState = pokemonsByTypeReplica
         .keepPreviousData()
-        .observe(this, errorHandler, selectedTypeId)
+        .withKey(selectedTypeId)
+        .observe(this, errorHandler)
 
     init {
         persistent(
             save = { PersistentState(selectedTypeId.value) },
-            restore = { state -> selectedTypeId.value = state.selectedTypeId }
+            restore = { state -> selectedTypeId.value = state.selectedTypeId },
+            serializer = PersistentState.serializer()
         )
     }
 
@@ -62,8 +64,8 @@ class RealPokemonListComponent(
         pokemonsByTypeReplica.refresh(selectedTypeId.value)
     }
 
-    @Parcelize
+    @Serializable
     private data class PersistentState(
         val selectedTypeId: PokemonTypeId
-    ) : Parcelable
+    )
 }
