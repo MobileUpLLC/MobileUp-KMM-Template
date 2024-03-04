@@ -10,11 +10,21 @@ import ru.mobileup.kmm_template.MR
  */
 val Exception.errorMessage: StringDesc
     get() = when (this) {
-        is ServerException -> message?.let { StringDesc.Raw(it) }
-            ?: StringDesc.Resource(MR.strings.error_invalid_response)
-        is DeserializationException -> StringDesc.Resource(MR.strings.error_invalid_response)
-        is NoServerResponseException -> StringDesc.Resource(MR.strings.error_no_server_response)
-        is NoInternetException -> StringDesc.Resource(MR.strings.error_no_internet_connection)
+
         is ExternalAppNotFoundException -> StringDesc.Resource(MR.strings.error_matching_application_not_found)
+
+        is ServerUnavailableException -> StringDesc.Resource(MR.strings.error_server_unavailable)
+
+        is NoInternetException -> StringDesc.Resource(MR.strings.error_no_internet_connection)
+
+        is UnauthorizedException -> StringDesc.Resource(MR.strings.error_unauthorized)
+
+        is SSLHandshakeException -> StringDesc.Resource(MR.strings.error_ssl_handshake)
+
+        is ServerException -> message?.let { StringDesc.Raw(it) }
+            ?: StringDesc.Resource(MR.strings.error_server)
+
+        is DeserializationException -> StringDesc.Resource(MR.strings.error_deserialization)
+
         else -> StringDesc.Resource(MR.strings.error_unexpected)
     }
