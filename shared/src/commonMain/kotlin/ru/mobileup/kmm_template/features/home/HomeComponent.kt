@@ -4,7 +4,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.features.home.tab1.Tab1Component
 import ru.mobileup.kmm_template.features.home.tab2.Tab2Component
-import ru.mobileup.kmm_template.features.pokemons.ui.PokemonsComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.PokemonsComponent
 
 interface HomeComponent {
 

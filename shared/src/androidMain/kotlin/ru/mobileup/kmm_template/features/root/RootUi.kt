@@ -15,8 +15,8 @@ import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 import ru.mobileup.kmm_template.features.flow1.Flow1Ui
 import ru.mobileup.kmm_template.features.flow2.Flow2Ui
 import ru.mobileup.kmm_template.features.home.HomeUi
-import ru.mobileup.kmm_template.features.root.ui.FakeRootComponent
-import ru.mobileup.kmm_template.features.root.ui.RootComponent
+import ru.mobileup.kmm_template.features.root.presentation.FakeRootComponent
+import ru.mobileup.kmm_template.features.root.presentation.RootComponent
 
 @Composable
 fun RootUi(

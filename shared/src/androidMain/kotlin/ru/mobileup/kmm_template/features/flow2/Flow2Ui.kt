@@ -10,8 +10,8 @@ import ru.mobileup.kmm_template.core.theme.AppTheme
 import ru.mobileup.kmm_template.features.flow2.screen2A.Screen2AUi
 import ru.mobileup.kmm_template.features.flow2.screen2B.Screen2BUi
 import ru.mobileup.kmm_template.features.flow2.screen2C.Screen2CUi
-import ru.mobileup.kmm_template.features.flow2.ui.FakeFlow2Component
-import ru.mobileup.kmm_template.features.flow2.ui.Flow2Component
+import ru.mobileup.kmm_template.features.flow2.presentation.FakeFlow2Component
+import ru.mobileup.kmm_template.features.flow2.presentation.Flow2Component
 
 @Composable
 fun Flow2Ui(

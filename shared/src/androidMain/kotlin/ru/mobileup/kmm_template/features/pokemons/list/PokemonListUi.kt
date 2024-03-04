@@ -32,8 +32,8 @@ import ru.mobileup.kmm_template.features.pokemons.domain.Pokemon
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonId
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonType
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonTypeId
-import ru.mobileup.kmm_template.features.pokemons.ui.list.FakePokemonListComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.list.PokemonListComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.list.FakePokemonListComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.list.PokemonListComponent
 
 @Composable
 fun PokemonListUi(

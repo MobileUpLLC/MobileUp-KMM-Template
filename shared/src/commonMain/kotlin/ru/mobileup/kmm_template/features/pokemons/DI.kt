@@ -16,17 +16,17 @@ import ru.mobileup.kmm_template.features.pokemons.domain.PokemonId
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.GetAllVotesForPokemonInteractor
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.GetVoteForPokemonInteractor
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.SetVoteForPokemonInteractor
-import ru.mobileup.kmm_template.features.pokemons.ui.PokemonsComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.RealPokemonsComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.details.PokemonDetailsComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.details.RealPokemonDetailsComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.details.vote.PokemonVoteDialogComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.details.vote.RealPokemonVoteDialogComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.details.vote.model.PokemonVoteDialogData
-import ru.mobileup.kmm_template.features.pokemons.ui.list.PokemonListComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.list.RealPokemonListComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.pokemon_votes.PokemonVotesComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.pokemon_votes.RealPokemonVotesComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.PokemonsComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.RealPokemonsComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.details.PokemonDetailsComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.details.RealPokemonDetailsComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.details.vote.PokemonVoteDialogComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.details.vote.RealPokemonVoteDialogComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.details.vote.model.PokemonVoteDialogData
+import ru.mobileup.kmm_template.features.pokemons.presentation.list.PokemonListComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.list.RealPokemonListComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.pokemon_votes.PokemonVotesComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.pokemon_votes.RealPokemonVotesComponent
 
 val pokemonsModule = module {
     single { get<NetworkApiFactory>().unauthorizedKtorfit.create<PokemonApi>() }
