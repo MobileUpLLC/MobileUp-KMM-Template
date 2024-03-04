@@ -13,8 +13,8 @@ import kotlinx.serialization.SerializationException
 import ru.mobileup.kmm_template.core.error_handling.ApplicationException
 import ru.mobileup.kmm_template.core.error_handling.DeserializationException
 import ru.mobileup.kmm_template.core.error_handling.NoInternetException
-import ru.mobileup.kmm_template.core.error_handling.NoServerResponseException
 import ru.mobileup.kmm_template.core.error_handling.ServerException
+import ru.mobileup.kmm_template.core.error_handling.ServerUnavailableException
 import ru.mobileup.kmm_template.core.error_handling.UnauthorizedException
 import ru.mobileup.kmm_template.core.error_handling.UnknownException
 
@@ -32,13 +32,13 @@ private suspend fun convertToApplicationException(throwable: Throwable) = when (
     is ApplicationException -> throwable
     is ClientRequestException -> when (throwable.response.status) {
         HttpStatusCode.GatewayTimeout, HttpStatusCode.ServiceUnavailable -> {
-            NoServerResponseException(throwable)
+            ServerUnavailableException(throwable)
         }
         HttpStatusCode.Unauthorized -> UnauthorizedException(throwable)
         else -> mapBadRequestException(throwable)
     }
     is ContentConvertException -> DeserializationException(throwable)
-    is SocketTimeoutException -> NoServerResponseException(throwable)
+    is SocketTimeoutException -> ServerUnavailableException(throwable)
     is IOException -> (throwable.cause as? ApplicationException) ?: NoInternetException(throwable)
     else -> UnknownException(throwable, throwable.message ?: "Unknown")
 }
