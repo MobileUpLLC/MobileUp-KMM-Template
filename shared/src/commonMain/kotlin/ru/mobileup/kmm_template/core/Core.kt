@@ -8,7 +8,7 @@ import ru.mobileup.kmm_template.core.configuration.BuildType
 import ru.mobileup.kmm_template.core.configuration.Configuration
 import ru.mobileup.kmm_template.features.allFeatureModules
 import ru.mobileup.kmm_template.features.root.createRootComponent
-import ru.mobileup.kmm_template.features.root.ui.RootComponent
+import ru.mobileup.kmm_template.features.root.presentation.RootComponent
 
 class Core(configuration: Configuration) {
 

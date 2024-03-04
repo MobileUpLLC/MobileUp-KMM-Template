@@ -26,6 +26,8 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import dev.icerock.moko.resources.compose.localized
 import ru.mobileup.kmm_template.core.message.domain.Message
+import ru.mobileup.kmm_template.core.message.presentation.FakeMessageComponent
+import ru.mobileup.kmm_template.core.message.presentation.MessageComponent
 import ru.mobileup.kmm_template.core.theme.AppTheme
 import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 import ru.mobileup.kmm_template.core.utils.navigationBarsWithImePadding

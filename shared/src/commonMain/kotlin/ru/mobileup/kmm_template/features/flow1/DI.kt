@@ -3,14 +3,14 @@ package ru.mobileup.kmm_template.features.flow1
 import com.arkivanov.decompose.ComponentContext
 import org.koin.core.component.get
 import ru.mobileup.kmm_template.core.ComponentFactory
-import ru.mobileup.kmm_template.features.flow1.ui.Flow1Component
-import ru.mobileup.kmm_template.features.flow1.ui.RealFlow1Component
-import ru.mobileup.kmm_template.features.flow1.ui.screen1A.RealScreen1AComponent
-import ru.mobileup.kmm_template.features.flow1.ui.screen1A.Screen1AComponent
-import ru.mobileup.kmm_template.features.flow1.ui.screen1B.RealScreen1BComponent
-import ru.mobileup.kmm_template.features.flow1.ui.screen1B.Screen1BComponent
-import ru.mobileup.kmm_template.features.flow1.ui.screen1C.RealScreen1CComponent
-import ru.mobileup.kmm_template.features.flow1.ui.screen1C.Screen1CComponent
+import ru.mobileup.kmm_template.features.flow1.presentation.Flow1Component
+import ru.mobileup.kmm_template.features.flow1.presentation.RealFlow1Component
+import ru.mobileup.kmm_template.features.flow1.presentation.screen1A.RealScreen1AComponent
+import ru.mobileup.kmm_template.features.flow1.presentation.screen1A.Screen1AComponent
+import ru.mobileup.kmm_template.features.flow1.presentation.screen1B.RealScreen1BComponent
+import ru.mobileup.kmm_template.features.flow1.presentation.screen1B.Screen1BComponent
+import ru.mobileup.kmm_template.features.flow1.presentation.screen1C.RealScreen1CComponent
+import ru.mobileup.kmm_template.features.flow1.presentation.screen1C.Screen1CComponent
 
 fun ComponentFactory.createFlow1Component(
     componentContext: ComponentContext,

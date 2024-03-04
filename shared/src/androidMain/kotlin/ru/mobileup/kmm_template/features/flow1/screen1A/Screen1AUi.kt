@@ -19,8 +19,8 @@ import dev.icerock.moko.resources.compose.stringResource
 import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.core.theme.AppTheme
 import ru.mobileup.kmm_template.core.widget.Toolbar
-import ru.mobileup.kmm_template.features.flow1.ui.screen1A.FakeScreen1AComponent
-import ru.mobileup.kmm_template.features.flow1.ui.screen1A.Screen1AComponent
+import ru.mobileup.kmm_template.features.flow1.presentation.screen1A.FakeScreen1AComponent
+import ru.mobileup.kmm_template.features.flow1.presentation.screen1A.Screen1AComponent
 
 @Composable
 fun Screen1AUi(

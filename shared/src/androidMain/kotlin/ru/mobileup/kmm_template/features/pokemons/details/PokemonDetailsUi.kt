@@ -42,10 +42,10 @@ import ru.mobileup.kmm_template.core.widget.PullRefreshLceWidget
 import ru.mobileup.kmm_template.core.widget.RefreshingProgress
 import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
 import ru.mobileup.kmm_template.features.pokemons.list.PokemonTypeItem
-import ru.mobileup.kmm_template.features.pokemons.ui.details.FakePokemonDetailsComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.details.PokemonDetailsComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.details.vote.PokemonVoteDialogComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.details.vote.model.PokemonVoteState
+import ru.mobileup.kmm_template.features.pokemons.presentation.details.FakePokemonDetailsComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.details.PokemonDetailsComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.details.vote.PokemonVoteDialogComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.details.vote.model.PokemonVoteState
 
 @Composable
 fun PokemonDetailsUi(

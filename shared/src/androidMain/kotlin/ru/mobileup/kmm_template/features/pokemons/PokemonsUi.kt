@@ -29,9 +29,9 @@ import ru.mobileup.kmm_template.core.theme.AppTheme
 import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 import ru.mobileup.kmm_template.features.pokemons.details.PokemonDetailsUi
 import ru.mobileup.kmm_template.features.pokemons.list.PokemonListUi
-import ru.mobileup.kmm_template.features.pokemons.ui.FakePokemonsComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.PokemonsComponent
-import ru.mobileup.kmm_template.features.pokemons.ui.pokemon_votes.PokemonVotesComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.FakePokemonsComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.PokemonsComponent
+import ru.mobileup.kmm_template.features.pokemons.presentation.pokemon_votes.PokemonVotesComponent
 
 @Composable
 fun PokemonsUi(
