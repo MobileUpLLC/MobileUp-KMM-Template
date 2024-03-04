@@ -32,7 +32,6 @@ android {
             versionNameSuffix = "-debug"
             applicationIdSuffix = ".debug"
             signingConfig = signingConfigs["debug"]
-            buildConfigField("boolean", "DEBUG", "true")
         }
 
         getByName("release") {
@@ -45,7 +44,6 @@ android {
                 )
             )
             signingConfig = signingConfigs["release"]
-            buildConfigField("boolean", "DEBUG", "false")
         }
     }
 
@@ -55,12 +53,10 @@ android {
     productFlavors {
         create("dev") {
             dimension = "backend"
-            buildConfigField("String", "FLAVOR", "\"dev\"")
         }
 
         create("prod") {
             dimension = "backend"
-            buildConfigField("String", "FLAVOR", "\"prod\"")
         }
     }
 
