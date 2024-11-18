@@ -1,5 +1,5 @@
 android {
-    lintOptions {
+    lint {
         abortOnError true
         warningsAsErrors false
         checkDependencies false

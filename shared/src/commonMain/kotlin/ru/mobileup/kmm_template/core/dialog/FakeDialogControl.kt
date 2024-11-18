@@ -21,6 +21,8 @@ private class FakeDialogControl<C : Any, T : Any>(config: C, component: T) : Dia
 
     override val dismissedEvent: CFlow<Unit> = CFlow(MutableSharedFlow())
 
+    override val shownEvent: CFlow<Unit> = CFlow(MutableSharedFlow())
+
     override val dismissableByUser: CStateFlow<Boolean> = CMutableStateFlow(true)
 
     override fun show(config: C) = Unit

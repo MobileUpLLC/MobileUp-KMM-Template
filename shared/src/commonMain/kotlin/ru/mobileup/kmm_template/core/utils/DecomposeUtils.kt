@@ -51,7 +51,7 @@ fun <T : Any> Value<T>.toCStateFlow(lifecycle: Lifecycle): CStateFlow<T> {
 
     if (lifecycle.state != Lifecycle.State.DESTROYED) {
         val observer = { value: T -> state.value = value }
-        val cancellation = observe(observer)
+        val cancellation = subscribe(observer)
         lifecycle.doOnDestroy {
             cancellation.cancel()
         }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -66,7 +67,7 @@ fun PokemonDetailsUi(
         IconButton(
             onClick = { dispatchOnBackPressed(context) }
         ) {
-            Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
         }
 
         PullRefreshLceWidget(

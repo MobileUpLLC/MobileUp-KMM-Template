@@ -20,7 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.Children
 import dev.icerock.moko.resources.compose.stringResource
 import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.R
@@ -59,7 +59,7 @@ fun PokemonsUi(
             Icon(
                 painter = painterResource(id = R.drawable.ic_24_tab1),
                 contentDescription = null,
-                tint = CustomTheme.colors.icon.primary
+                tint = CustomTheme.colors.icon.invert
             )
         }
     }

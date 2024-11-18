@@ -1,13 +1,16 @@
+import io.gitlab.arturbosch.detekt.Detekt
+
 plugins {
-    kotlin("multiplatform")
-    kotlin("plugin.serialization")
-    id("com.android.library")
-    id("com.google.devtools.ksp")
-    id("de.jensklingenberg.ktorfit")
-    kotlin("plugin.parcelize")
-    id("dev.icerock.mobile.multiplatform-resources")
-    id("ru.mobileup.module-graph")
-    id("io.gitlab.arturbosch.detekt")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.plugin.serialization)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.ktorfit)
+    alias(libs.plugins.kotlin.plugin.parcelize)
+    alias(libs.plugins.mokoResources)
+    alias(libs.plugins.moduleGraph)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.kotlin.plugin.compose)
 }
 
 kotlin {
@@ -25,7 +28,6 @@ kotlin {
             export(libs.essenty.lifecycle)
             export(libs.essenty.backhandler)
             export(libs.moko.resources)
-            export(libs.kotlinx.serialization.protobuf)
         }
     }
 
@@ -43,7 +45,6 @@ kotlin {
                 implementation(libs.logger.kermit)
                 api(libs.moko.resources)
                 implementation(libs.forms)
-                api(libs.kotlinx.serialization.protobuf)
             }
         }
 
@@ -59,6 +60,7 @@ kotlin {
                 implementation(libs.coil)
                 implementation(libs.activity)
                 implementation(libs.accompanist.systemuicontroller)
+                implementation(libs.security)
             }
         }
 
@@ -71,8 +73,8 @@ kotlin {
 }
 
 android {
-    val minSdkVersion: Int by rootProject.extra
-    val targetSdkVersion: Int by rootProject.extra
+    val minSdkVersion = libs.versions.minSdkVersion.get().toInt()
+    val targetSdkVersion = libs.versions.targetSdkVersion.get().toInt()
 
     namespace = "ru.mobileup.kmm_template"
     compileSdk = targetSdkVersion
@@ -82,16 +84,8 @@ android {
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     packaging {
@@ -101,11 +95,6 @@ android {
 
 dependencies {
     coreLibraryDesugaring(libs.android.desugar)
-    add("kspCommonMainMetadata", libs.ktorfit.ksp)
-    add("kspAndroid", libs.ktorfit.ksp)
-    add("kspIosX64", libs.ktorfit.ksp)
-    add("kspIosArm64", libs.ktorfit.ksp)
-    add("kspIosSimulatorArm64", libs.ktorfit.ksp)
 }
 
 multiplatformResources {

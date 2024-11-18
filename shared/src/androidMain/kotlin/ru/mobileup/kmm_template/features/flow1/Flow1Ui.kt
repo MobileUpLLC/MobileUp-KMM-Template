@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.Children
 import ru.mobileup.kmm_template.core.theme.AppTheme
 import ru.mobileup.kmm_template.features.flow1.screen1A.Screen1AUi
 import ru.mobileup.kmm_template.features.flow1.screen1B.Screen1BUi

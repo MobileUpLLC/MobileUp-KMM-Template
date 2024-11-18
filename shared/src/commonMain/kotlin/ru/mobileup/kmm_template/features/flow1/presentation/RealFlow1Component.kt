@@ -5,6 +5,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.pushNew
 import kotlinx.serialization.Serializable
 import ru.mobileup.kmm_template.core.ComponentFactory
 import ru.mobileup.kmm_template.core.state.CStateFlow
@@ -52,7 +53,7 @@ class RealFlow1Component(
     private fun onScreen1AOutput(output: Screen1AComponent.Output) {
         when (output) {
             is Screen1AComponent.Output.Next -> {
-                navigation.push(ChildConfig.Screen1B)
+                navigation.pushNew(ChildConfig.Screen1B)
             }
         }
     }
@@ -60,7 +61,7 @@ class RealFlow1Component(
     private fun onScreen1BOutput(output: Screen1BComponent.Output) {
         when (output) {
             is Screen1BComponent.Output.Next -> {
-                navigation.push(ChildConfig.Screen1C)
+                navigation.pushNew(ChildConfig.Screen1C)
             }
         }
     }

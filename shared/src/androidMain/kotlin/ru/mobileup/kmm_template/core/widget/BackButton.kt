@@ -1,6 +1,7 @@
 package ru.mobileup.kmm_template.core.widget
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -13,7 +14,7 @@ import ru.mobileup.kmm_template.core.utils.dispatchOnBackPressed
 @Composable
 fun BackButton(
     modifier: Modifier = Modifier,
-    imageVector: ImageVector = Icons.Filled.ArrowBack,
+    imageVector: ImageVector = Icons.AutoMirrored.Filled.ArrowBack,
     onClick: (() -> Unit)? = null
 ) {
     val context = LocalContext.current

@@ -8,7 +8,7 @@ import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.ContentConvertException
-import io.ktor.utils.io.errors.IOException
+import kotlinx.io.IOException
 import kotlinx.serialization.SerializationException
 import ru.mobileup.kmm_template.core.error_handling.ApplicationException
 import ru.mobileup.kmm_template.core.error_handling.DeserializationException

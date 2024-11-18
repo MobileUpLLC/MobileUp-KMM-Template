@@ -5,12 +5,12 @@ detekt {
     disableDefaultRuleSets = true
     reports {
         xml {
-            destination = file('build/reports/detekt-results.xml')
+            outputLocation = file('build/reports/detekt-results.xml')
         }
         html {
-            destination = file('build/reports/detekt-results.html')
+            outputLocation = file('build/reports/detekt-results.html')
         }
-        txt.enabled = false
+        txt.required = false
     }
 }
 
