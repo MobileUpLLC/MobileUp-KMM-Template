@@ -1,8 +1,0 @@
-android {
-    lint {
-        abortOnError true
-        warningsAsErrors false
-        checkDependencies false
-        lintConfig rootProject.file("code_quality/lint/lint-config.xml")
-    }
-}

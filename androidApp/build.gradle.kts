@@ -2,15 +2,16 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.detekt)
-    alias(libs.plugins.kotlin.plugin.compose)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
-    val minSdkVersion = libs.versions.minSdkVersion.get().toInt()
-    val targetSdkVersion = libs.versions.targetSdkVersion.get().toInt()
+    val minSdkVersion = libs.versions.minSdk.get().toInt()
+    val targetSdkVersion = libs.versions.targetSdk.get().toInt()
+    val compileSdkVersion = libs.versions.compileSdk.get().toInt()
 
     namespace = "ru.mobileup.kmm_template.app"
-    compileSdk = targetSdkVersion
+    compileSdk = compileSdkVersion
 
     defaultConfig {
         applicationId = "ru.mobileup.kmm_template"
@@ -62,7 +63,6 @@ android {
     }
 
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
@@ -82,9 +82,8 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.android.desugar)
-
     implementation(project(":shared"))
+    implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
     implementation(libs.splashscreen)
     implementation(libs.replica.core)
