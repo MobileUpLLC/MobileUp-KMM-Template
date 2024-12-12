@@ -7,6 +7,7 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
 import kotlinx.serialization.Serializable
 import ru.mobileup.kmm_template.core.ComponentFactory
@@ -77,7 +78,7 @@ class RealRootComponent(
             }
 
             HomeComponent.Output.Flow2Requested -> {
-                navigation.push(ChildConfig.Flow2)
+                navigation.pushNew(ChildConfig.Flow2)
             }
         }
     }

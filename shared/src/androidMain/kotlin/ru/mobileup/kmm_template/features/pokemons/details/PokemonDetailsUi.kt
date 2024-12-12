@@ -12,7 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -30,8 +30,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import dev.icerock.moko.resources.compose.stringResource
 import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.core.dialog.Dialog
@@ -40,6 +41,9 @@ import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 import ru.mobileup.kmm_template.core.utils.dispatchOnBackPressed
 import ru.mobileup.kmm_template.core.widget.PullRefreshLceWidget
 import ru.mobileup.kmm_template.core.widget.RefreshingProgress
+import ru.mobileup.kmm_template.core.widget.button.AppButton
+import ru.mobileup.kmm_template.core.widget.button.AppButtonDefaults
+import ru.mobileup.kmm_template.core.widget.button.ButtonType
 import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
 import ru.mobileup.kmm_template.features.pokemons.list.PokemonTypeItem
 import ru.mobileup.kmm_template.features.pokemons.presentation.details.FakePokemonDetailsComponent
@@ -66,7 +70,7 @@ fun PokemonDetailsUi(
         IconButton(
             onClick = { dispatchOnBackPressed(context) }
         ) {
-            Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
         }
 
         PullRefreshLceWidget(
@@ -194,13 +198,17 @@ private fun PokemonDetailsDialog(
                 .padding(horizontal = 8.dp, vertical = 4.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Button(onClick = component::votePositive) {
-                Text(text = stringResource(MR.strings.pokemons_dialog_vote_positive))
-            }
+            AppButton(
+                text = stringResource(MR.strings.pokemons_dialog_vote_positive),
+                onClick = component::votePositive,
+                buttonType = ButtonType.Primary
+            )
 
-            Button(onClick = component::voteNegative) {
-                Text(text = stringResource(MR.strings.pokemons_dialog_vote_negative))
-            }
+            AppButton(
+                text = stringResource(MR.strings.pokemons_dialog_vote_negative),
+                onClick = component::voteNegative,
+                buttonType = ButtonType.Primary
+            )
         }
     }
 }

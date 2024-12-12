@@ -1,13 +1,15 @@
+import io.gitlab.arturbosch.detekt.Detekt
+
 plugins {
-    kotlin("multiplatform")
-    kotlin("plugin.serialization")
-    id("com.android.library")
-    id("com.google.devtools.ksp")
-    id("de.jensklingenberg.ktorfit")
-    kotlin("plugin.parcelize")
-    id("dev.icerock.mobile.multiplatform-resources")
-    id("ru.mobileup.module-graph")
-    id("io.gitlab.arturbosch.detekt")
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.ktorfit)
+    alias(libs.plugins.moko.resources)
+    alias(libs.plugins.module.graph)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -25,39 +27,37 @@ kotlin {
             export(libs.essenty.lifecycle)
             export(libs.essenty.backhandler)
             export(libs.moko.resources)
-            export(libs.kotlinx.serialization.protobuf)
         }
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.forms)
+                implementation(libs.form.validation)
                 implementation(libs.kotlinx.datetime)
                 implementation(libs.coroutines.core)
                 api(libs.decompose.core)
                 implementation(libs.bundles.ktor.shared)
                 implementation(libs.ktorfit.lib)
                 implementation(libs.bundles.replica.shared)
-                implementation(libs.koin.core)
+                implementation(libs.koin)
                 implementation(libs.logger.kermit)
                 api(libs.moko.resources)
-                implementation(libs.forms)
-                api(libs.kotlinx.serialization.protobuf)
+                implementation(libs.form.validation)
             }
         }
 
         val androidMain by getting {
             dependencies {
-                implementation(libs.forms)
+                implementation(libs.form.validation)
                 implementation(libs.coroutines.android)
                 implementation(libs.ktor.android)
                 implementation(libs.decompose.compose)
-                implementation(libs.replica.androidNetwork)
+                implementation(libs.replica.android.network)
                 implementation(libs.moko.resourcesCompose)
+                implementation(project.dependencies.platform(libs.compose.bom))
                 implementation(libs.bundles.compose)
                 implementation(libs.coil)
-                implementation(libs.activity)
                 implementation(libs.accompanist.systemuicontroller)
             }
         }
@@ -71,41 +71,23 @@ kotlin {
 }
 
 android {
-    val minSdkVersion: Int by rootProject.extra
-    val targetSdkVersion: Int by rootProject.extra
+    val minSdkVersion = libs.versions.minSdk.get().toInt()
+    val compileSdkVersion = libs.versions.compileSdk.get().toInt()
 
     namespace = "ru.mobileup.kmm_template"
-    compileSdk = targetSdkVersion
+    compileSdk = compileSdkVersion
     defaultConfig {
         minSdk = minSdkVersion
     }
 
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     packaging {
         resources.excludes += "META-INF/*"
     }
-}
-
-dependencies {
-    coreLibraryDesugaring(libs.android.desugar)
-    add("kspCommonMainMetadata", libs.ktorfit.ksp)
-    add("kspAndroid", libs.ktorfit.ksp)
-    add("kspIosX64", libs.ktorfit.ksp)
-    add("kspIosArm64", libs.ktorfit.ksp)
-    add("kspIosSimulatorArm64", libs.ktorfit.ksp)
 }
 
 multiplatformResources {

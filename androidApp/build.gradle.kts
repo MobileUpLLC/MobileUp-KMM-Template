@@ -1,15 +1,17 @@
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    id("io.gitlab.arturbosch.detekt")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
-    val minSdkVersion: Int by rootProject.extra
-    val targetSdkVersion: Int by rootProject.extra
+    val minSdkVersion = libs.versions.minSdk.get().toInt()
+    val targetSdkVersion = libs.versions.targetSdk.get().toInt()
+    val compileSdkVersion = libs.versions.compileSdk.get().toInt()
 
     namespace = "ru.mobileup.kmm_template.app"
-    compileSdk = targetSdkVersion
+    compileSdk = compileSdkVersion
 
     defaultConfig {
         applicationId = "ru.mobileup.kmm_template"
@@ -61,22 +63,16 @@ android {
     }
 
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
 
     buildFeatures {
-        compose = true
         buildConfig = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
     packaging {
@@ -86,9 +82,8 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.android.desugar)
-
     implementation(project(":shared"))
+    implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
     implementation(libs.splashscreen)
     implementation(libs.replica.core)

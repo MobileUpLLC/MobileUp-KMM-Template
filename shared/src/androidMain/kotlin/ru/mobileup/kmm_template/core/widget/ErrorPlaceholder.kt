@@ -17,6 +17,8 @@ import dev.icerock.moko.resources.compose.stringResource
 import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.core.theme.AppTheme
 import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
+import ru.mobileup.kmm_template.core.widget.button.AppButton
+import ru.mobileup.kmm_template.core.widget.button.ButtonType
 
 @Composable
 fun ErrorPlaceholder(
@@ -37,13 +39,11 @@ fun ErrorPlaceholder(
             modifier = Modifier.fillMaxWidth(),
             style = CustomTheme.typography.body.regular
         )
-        TextButton(
-            onClick = onRetryClick
-        ) {
-            Text(
-                text = stringResource(MR.strings.common_retry).uppercase()
-            )
-        }
+        AppButton(
+            text = stringResource(MR.strings.common_retry).uppercase(),
+            onClick = onRetryClick,
+            buttonType = ButtonType.Primary
+        )
     }
 }
 

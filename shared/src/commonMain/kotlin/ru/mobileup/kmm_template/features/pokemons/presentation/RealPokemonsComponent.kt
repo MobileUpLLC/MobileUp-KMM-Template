@@ -5,6 +5,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.pushNew
 import kotlinx.serialization.Serializable
 import ru.mobileup.kmm_template.core.ComponentFactory
 import ru.mobileup.kmm_template.core.dialog.DialogControl
@@ -79,7 +80,7 @@ class RealPokemonsComponent(
     private fun onPokemonListOutput(output: PokemonListComponent.Output) {
         when (output) {
             is PokemonListComponent.Output.PokemonDetailsRequested -> {
-                navigation.push(ChildConfig.Details(output.pokemon.id, output.pokemon.name))
+                navigation.pushNew(ChildConfig.Details(output.pokemon.id, output.pokemon.name))
             }
         }
     }

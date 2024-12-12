@@ -12,6 +12,7 @@ import ru.mobileup.kmm_template.features.pokemons.data.PokemonRepository
 import ru.mobileup.kmm_template.features.pokemons.data.PokemonRepositoryImpl
 import ru.mobileup.kmm_template.features.pokemons.data.PokemonVotesStorage
 import ru.mobileup.kmm_template.features.pokemons.data.PokemonVotesStorageImpl
+import ru.mobileup.kmm_template.features.pokemons.data.createPokemonApi
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonId
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.GetAllVotesForPokemonInteractor
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.GetVoteForPokemonInteractor
@@ -29,7 +30,7 @@ import ru.mobileup.kmm_template.features.pokemons.presentation.pokemon_votes.Pok
 import ru.mobileup.kmm_template.features.pokemons.presentation.pokemon_votes.RealPokemonVotesComponent
 
 val pokemonsModule = module {
-    single { get<NetworkApiFactory>().unauthorizedKtorfit.create<PokemonApi>() }
+    single { get<NetworkApiFactory>().unauthorizedKtorfit.createPokemonApi() }
     single<PokemonRepository> { PokemonRepositoryImpl(get(), get()) }
     single<PokemonVotesStorage> { PokemonVotesStorageImpl() }
     factory { GetVoteForPokemonInteractor(get()) }

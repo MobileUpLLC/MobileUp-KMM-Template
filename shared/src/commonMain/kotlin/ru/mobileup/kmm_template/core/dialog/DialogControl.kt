@@ -8,7 +8,9 @@ abstract class DialogControl<C : Any, T : Any> {
     abstract val dialogSlot: CStateFlow<ChildSlot<*, T>>
     abstract val dismissableByUser: CStateFlow<Boolean>
     abstract val dismissedEvent: CFlow<Unit>
+    abstract val shownEvent: CFlow<Unit>
 
     abstract fun show(config: C)
     abstract fun dismiss()
+
 }

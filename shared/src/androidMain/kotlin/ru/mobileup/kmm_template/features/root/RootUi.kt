@@ -7,7 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.arkivanov.decompose.extensions.compose.jetpack.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.mobileup.kmm_template.core.message.ui.MessageUi
 import ru.mobileup.kmm_template.core.theme.AppTheme
