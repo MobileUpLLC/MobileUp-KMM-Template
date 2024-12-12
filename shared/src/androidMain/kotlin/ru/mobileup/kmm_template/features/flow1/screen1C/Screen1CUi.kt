@@ -17,6 +17,8 @@ import dev.icerock.moko.resources.compose.stringResource
 import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.core.theme.AppTheme
 import ru.mobileup.kmm_template.core.widget.Toolbar
+import ru.mobileup.kmm_template.core.widget.button.AppButton
+import ru.mobileup.kmm_template.core.widget.button.ButtonType
 import ru.mobileup.kmm_template.features.flow1.presentation.screen1C.FakeScreen1CComponent
 import ru.mobileup.kmm_template.features.flow1.presentation.screen1C.Screen1CComponent
 
@@ -34,12 +36,11 @@ fun Screen1CUi(
 
         Toolbar(title = text.localized())
 
-        Button(
-            modifier = Modifier.padding(top = 48.dp),
-            onClick = component::onFinishClick
-        ) {
-            Text(text = stringResource(MR.strings.common_finish))
-        }
+        AppButton(
+            text = stringResource(MR.strings.common_finish),
+            onClick = component::onFinishClick,
+            buttonType = ButtonType.Primary
+        )
     }
 }
 

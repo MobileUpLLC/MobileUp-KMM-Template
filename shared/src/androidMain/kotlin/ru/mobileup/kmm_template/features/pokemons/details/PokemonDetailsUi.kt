@@ -41,6 +41,9 @@ import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 import ru.mobileup.kmm_template.core.utils.dispatchOnBackPressed
 import ru.mobileup.kmm_template.core.widget.PullRefreshLceWidget
 import ru.mobileup.kmm_template.core.widget.RefreshingProgress
+import ru.mobileup.kmm_template.core.widget.button.AppButton
+import ru.mobileup.kmm_template.core.widget.button.AppButtonDefaults
+import ru.mobileup.kmm_template.core.widget.button.ButtonType
 import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
 import ru.mobileup.kmm_template.features.pokemons.list.PokemonTypeItem
 import ru.mobileup.kmm_template.features.pokemons.presentation.details.FakePokemonDetailsComponent
@@ -195,13 +198,17 @@ private fun PokemonDetailsDialog(
                 .padding(horizontal = 8.dp, vertical = 4.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Button(onClick = component::votePositive) {
-                Text(text = stringResource(MR.strings.pokemons_dialog_vote_positive))
-            }
+            AppButton(
+                text = stringResource(MR.strings.pokemons_dialog_vote_positive),
+                onClick = component::votePositive,
+                buttonType = ButtonType.Primary
+            )
 
-            Button(onClick = component::voteNegative) {
-                Text(text = stringResource(MR.strings.pokemons_dialog_vote_negative))
-            }
+            AppButton(
+                text = stringResource(MR.strings.pokemons_dialog_vote_negative),
+                onClick = component::voteNegative,
+                buttonType = ButtonType.Primary
+            )
         }
     }
 }

@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 import ru.mobileup.kmm_template.core.theme.custom.toMaterialColors
 import ru.mobileup.kmm_template.core.theme.custom.toMaterialTypography
+import ru.mobileup.kmm_template.core.theme.values.DarkAppColors
+import ru.mobileup.kmm_template.core.theme.values.LightAppColors
 
 @Composable
 fun AppTheme(
