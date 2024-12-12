@@ -51,7 +51,7 @@ fun <T : Any> Value<T>.toCStateFlow(lifecycle: Lifecycle): CStateFlow<T> {
 
     if (lifecycle.state != Lifecycle.State.DESTROYED) {
         val observer = { value: T -> state.value = value }
-        val cancellation = observe(observer)
+        val cancellation = subscribe(observer)
         lifecycle.doOnDestroy {
             cancellation.cancel()
         }
@@ -93,3 +93,10 @@ inline fun <T : Any> StateKeeperOwner.persistent(
     stateKeeper.consume(key, serializer)?.run(restore)
     stateKeeper.register(key, serializer, save)
 }
+
+/**
+ * Retrieves the first child of type [C] from the child stack.
+ * It will return `null` if no matching child is found.
+ */
+inline fun <reified C : Any> ChildStack<*, *>.getChild(): C? =
+    items.map { it.instance }.filterIsInstance<C>().lastOrNull()

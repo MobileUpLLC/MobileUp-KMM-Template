@@ -18,6 +18,8 @@ import dev.icerock.moko.resources.compose.stringResource
 import ru.mobileup.kmm_template.MR
 import ru.mobileup.kmm_template.core.theme.AppTheme
 import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
+import ru.mobileup.kmm_template.core.widget.button.AppButton
+import ru.mobileup.kmm_template.core.widget.button.ButtonType
 
 @Composable
 fun Tab2Ui(
@@ -37,12 +39,11 @@ fun Tab2Ui(
             style = CustomTheme.typography.title.regular
         )
 
-        Button(
-            modifier = Modifier.padding(top = 48.dp),
-            onClick = component::onStartFlow2Click
-        ) {
-            Text(text = stringResource(MR.strings.home_tab2_start_flow2_button))
-        }
+        AppButton(
+            text = stringResource(MR.strings.home_tab2_start_flow2_button),
+            onClick = component::onStartFlow2Click,
+            buttonType = ButtonType.Primary
+        )
     }
 }
 

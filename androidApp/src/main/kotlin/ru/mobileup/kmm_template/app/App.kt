@@ -21,7 +21,7 @@ class App : Application(), CoreProvider {
     }
 
     @Suppress("SENSELESS_COMPARISON")
-    fun getConfiguration() = Configuration(
+    private fun getConfiguration() = Configuration(
         platform = Platform(this, RealAndroidDebugTools(applicationContext)),
         buildType = if (BuildConfig.DEBUG) BuildType.Debug else BuildType.Release,
         backend = if (BuildConfig.FLAVOR == "dev") Backend.Development else Backend.Production

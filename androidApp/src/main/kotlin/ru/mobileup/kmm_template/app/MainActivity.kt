@@ -17,7 +17,6 @@ import ru.mobileup.kmm_template.features.root.RootUi
 // Note: rootComponent survives configuration changes due to "android:configChanges" setting in the manifest.
 class MainActivity : ComponentActivity() {
 
-    @OptIn(ExperimentalDecomposeApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
