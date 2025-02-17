@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.moko.resources)
     alias(libs.plugins.module.graph)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -65,6 +66,7 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 implementation(libs.ktor.ios)
+                implementation(compose.runtime)
             }
         }
     }

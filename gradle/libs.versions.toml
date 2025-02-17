@@ -1,30 +1,31 @@
 [versions]
 minSdk = "26"
-compileSdk = "34"
-targetSdk = "34"
+compileSdk = "35"
+targetSdk = "35"
 versionCode = "1"
 versionName = "1.0.0"
 
-kotlin = "2.0.21"
-androidGradlePlugin = "8.5.2"
-ksp = "2.0.21-1.0.28"
-ktorfit = "2.2.0"
-ktorfit-ksp = "2.2.0-1.0.28"
-mokoResources = "0.24.3"
+kotlin = "2.1.10"
+androidGradlePlugin = "8.7.3"
+ksp = "2.1.10-1.0.30"
+ktorfit = "2.3.0"
+ktorfit-ksp = "2.3.0-1.0.30"
+mokoResources = "0.24.5"
 formValidation = "1.0.0"
 moduleGraph = "1.3.3"
 detekt = "1.23.7"
-dateTime = "0.6.1"
-coroutines = "1.9.0"
+dateTime = "0.6.2"
+coroutines = "1.10.1"
 decompose = "3.2.2"
 essenty = "2.2.1"
-ktor = "3.0.1"
+ktor = "3.1.0"
 replica = "1.3.1-alpha1"
-koin = "4.0.0"
-kermit = "2.0.4"
-composeBom = "2024.11.00"
-activity = "1.9.3"
-coil = "3.0.2"
+koin = "4.0.2"
+kermit = "2.0.5"
+composeBom = "2025.02.00"
+compose-plugin = "1.7.0"
+activity = "1.10.0"
+coil = "3.1.0"
 splashscreen = "1.0.1"
 accompanist = "0.36.0"
 chucker = "4.0.0"
@@ -129,7 +130,9 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit" }
