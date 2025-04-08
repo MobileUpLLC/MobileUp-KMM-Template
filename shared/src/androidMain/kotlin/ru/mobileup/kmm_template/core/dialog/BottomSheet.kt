@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.ModalBottomSheetDefaults
 import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -18,11 +17,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
@@ -56,13 +58,17 @@ fun <T : Any> BottomSheet(
     }
 
     LaunchedEffect(Unit) {
-        dialogControl
-            .dialogSlot
-            .onEach {
-                val currentComponent = it.child?.instance
-                delayedComponent = if (currentComponent != null) {
-                    coroutineScope.launch { sheetState.show() }
-                    currentComponent
+        val delayedComponentFlow = snapshotFlow { delayedComponent }
+        val currentComponentFlow = dialogControl.dialogSlot.map { it.child?.instance }
+        combine(
+            currentComponentFlow,
+            delayedComponentFlow
+        ) { current, delayed ->
+            current to delayed
+        }
+            .onEach { (current, delayed) ->
+                delayedComponent = if (current != null) {
+                    current
                 } else {
                     try {
                         sheetState.hide()
@@ -71,6 +77,9 @@ fun <T : Any> BottomSheet(
                     }
                     onHideAnimationFinished?.invoke()
                     null
+                }
+                if (delayed != null && current != null) {
+                    coroutineScope.launch { sheetState.show() }
                 }
             }
             .launchIn(this)
