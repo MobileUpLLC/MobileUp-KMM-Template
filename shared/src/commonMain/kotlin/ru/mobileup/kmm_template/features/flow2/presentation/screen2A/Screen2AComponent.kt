@@ -1,11 +1,12 @@
 package ru.mobileup.kmm_template.features.flow2.presentation.screen2A
 
 import dev.icerock.moko.resources.desc.StringDesc
+import kotlinx.coroutines.flow.StateFlow
 import ru.mobileup.kmm_template.core.state.CStateFlow
 
 interface Screen2AComponent {
 
-    val text: CStateFlow<StringDesc>
+    val text: StateFlow<StringDesc>
 
     fun onNextClick()
 
