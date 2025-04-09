@@ -1,22 +1,29 @@
 /**
- * Used to observe CStateFlow from SwiftUI
+ * Used to observe SkieSwiftStateFlow from SwiftUI
  */
-final class ObservableState<T: AnyObject>: ObservableObject {
+
+import SwiftUI
+
+final class ObservableState<T: Any>: ObservableObject {
     @Published var value: T
     
-    private var cancelable: Cancelable?
+    private let flow: SkieSwiftStateFlow<T>
     
-    init(_ state: CStateFlow<T>) {
-        value = state.value
+    init(_ flow: SkieSwiftStateFlow<T>) {
+        self.flow = flow
+        value = flow.value
         
-        cancelable = FlowWrapper<T>(flow: state)
-            .collect(consumer: { [weak self] value in
-                if let value {
-                    self?.value = value
-                }
-            })
+        Task { await sink() }
     }
     
+    @MainActor
+    func sink() async {
+        for await value in flow {
+            self.value = value
+        }
+    }
+    
+    /*
     func recreate(_ state: CStateFlow<T>) {
         cancelable?.cancel()
         
@@ -27,8 +34,5 @@ final class ObservableState<T: AnyObject>: ObservableObject {
                 }
             })
     }
-    
-    deinit {
-        cancelable?.cancel()
-    }
+     */
 }

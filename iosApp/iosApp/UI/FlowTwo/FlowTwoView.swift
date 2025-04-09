@@ -26,15 +26,13 @@ struct FlowTwoView: View, TreeNavigation {
     
     @ViewBuilder
     func destination(for item: Flow2ComponentChild) -> some View {
-        switch item {
-        case let screen1A as Flow2ComponentChild.Screen2A:
-            ScreenTwoAView(component: screen1A.component)
-        case let screen1B as Flow2ComponentChild.Screen2B:
-            ScreenTwoBView(component: screen1B.component)
-        case let screen1C as Flow2ComponentChild.Screen2C:
-            ScreenTwoCView(component: screen1C.component)
-        default:
-            EmptyView()
+        switch onEnum(of: item) {
+        case .screen2A(let child):
+            ScreenTwoAView(component: child.component)
+        case .screen2B(let child):
+            ScreenTwoBView(component: child.component)
+        case .screen2C(let child):
+            ScreenTwoCView(component: child.component)
         }
     }
 }

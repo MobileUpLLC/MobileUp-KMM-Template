@@ -2,7 +2,7 @@ import SwiftUI
 
 struct PokemonListView: View {
     @ObservedObject private var pokemonsState: ObservableState<LoadableState<NSArray>>
-    @ObservedObject private var types: ObservableState<NSArray>
+    @ObservedObject private var types: ObservableState<[PokemonType]>
     @ObservedObject private var selectedTypeId: ObservableState<PokemonTypeId>
     
     private let component: PokemonListComponent
@@ -17,7 +17,7 @@ struct PokemonListView: View {
     var body: some View {
         PokemonsContentView(
             pokemons: (pokemonsState.value.data as? [Pokemon]) ?? [],
-            types: (types.value as? [PokemonType]) ?? [],
+            types: types.value,
             selectedTypeId: selectedTypeId.value,
             onPokemonClick: { id in component.onPokemonClick(pokemonId: id) },
             onTypeClick: { id in component.onTypeClick(typeId: id) }

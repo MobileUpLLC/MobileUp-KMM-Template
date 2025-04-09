@@ -80,12 +80,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 950914852D9AD39200C189D1 /* Build configuration list for PBXNativeTarget "iosApp" */;
 			buildPhases = (
-				950914732D9AD39100C189D1 /* Sources */,
-				950914742D9AD39100C189D1 /* Frameworks */,
-				950914752D9AD39100C189D1 /* Resources */,
 				955847D82D9AD80B00F317FA /* Build Shared Code */,
 				955847D92D9AD81E00F317FA /* R.swift */,
 				955847DA2D9AD83500F317FA /* ShellScript */,
+				950914732D9AD39100C189D1 /* Sources */,
+				950914742D9AD39100C189D1 /* Frameworks */,
+				950914752D9AD39100C189D1 /* Resources */,
 			);
 			buildRules = (
 			);

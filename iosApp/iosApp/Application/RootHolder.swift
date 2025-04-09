@@ -6,6 +6,8 @@
 //  Copyright © 2023 MobileUp. All rights reserved.
 //
 
+import SwiftUI
+
 final class RootHolder: ObservableObject {
     let rootComponent: RootComponent
     
@@ -18,7 +20,7 @@ final class RootHolder: ObservableObject {
             buildType = .debug
             backend = .development
         case .release:
-            buildType = .release_
+            buildType = .theRelease
             backend = .production
         }
         

@@ -41,13 +41,11 @@ struct PokemonView: View, TreeNavigation {
     
     @ViewBuilder
     func destination(for item: PokemonsComponentChild) -> some View {
-        switch item {
-        case let pokemonsList as PokemonsComponentChild.List:
-            PokemonListView(component: pokemonsList.component)
-        case let pokemonsDetails as PokemonsComponentChild.Details:
-            PokemonDetailsView(component: pokemonsDetails.component)
-        default:
-            EmptyView()
+        switch onEnum(of: item) {
+        case .list(let child):
+            PokemonListView(component: child.component)
+        case .details(let child):
+            PokemonDetailsView(component: child.component)
         }
     }
 }

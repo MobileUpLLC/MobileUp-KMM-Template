@@ -22,18 +22,16 @@ struct HomeView: View {
     
     var body: some View {
         TabView(selection: $selection) {
-            ForEach(HomeTab.entries, id: \.self) { tab in
+            ForEach(HomeTab.allCases, id: \.self) { tab in
                 Group {
                     if let childTab = getChildComponent(for: tab) {
-                        switch childTab {
-                        case let tabOne as HomeComponentChild.Tab1:
+                        switch onEnum(of: childTab) {
+                        case .tab1(let tabOne):
                             TabOneView(component: tabOne.component)
-                        case let tabTwo as HomeComponentChild.Tab2:
+                        case .tab2(let tabTwo):
                             TabTwoView(component: tabTwo.component)
-                        case let pokemons as HomeComponentChild.Tab3:
+                        case .tab3(let pokemons):
                             PokemonView(component: pokemons.component)
-                        default:
-                            Color.clear
                         }
                     } else {
                         Color.clear
@@ -56,8 +54,6 @@ struct HomeView: View {
             return childStack.value.items.first(where: { $0.instance is HomeComponentChild.Tab2 })?.instance
         case .tab3:
             return childStack.value.items.first(where: { $0.instance is HomeComponentChild.Tab3 })?.instance
-        default:
-            return nil
         }
     }
 }
@@ -71,8 +67,6 @@ extension HomeTab {
             return MR.strings().home_tab2_label.desc().localized()
         case .tab3:
             return MR.strings().home_tab3_label.desc().localized()
-        default:
-            return .empty
         }
     }
     
@@ -84,8 +78,6 @@ extension HomeTab {
             return "2.square"
         case .tab3:
             return "3.square"
-        default:
-            return ""
         }
     }
     
@@ -97,4 +89,3 @@ extension HomeTab {
 #Preview {
     HomeView(component: FakeHomeComponent())
 }
-

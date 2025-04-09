@@ -1,5 +1,6 @@
 package ru.mobileup.kmm_template.core.message.presentation
 
+import kotlinx.coroutines.flow.StateFlow
 import ru.mobileup.kmm_template.core.message.domain.Message
 import ru.mobileup.kmm_template.core.state.CNullableStateFlow
 
@@ -9,7 +10,7 @@ import ru.mobileup.kmm_template.core.state.CNullableStateFlow
  */
 interface MessageComponent {
 
-    val visibleMessage: CNullableStateFlow<Message>
+    val visibleMessage: StateFlow<Message?>
 
     fun onActionClick()
 }

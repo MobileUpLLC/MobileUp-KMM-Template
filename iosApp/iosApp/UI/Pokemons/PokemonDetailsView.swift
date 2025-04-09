@@ -78,14 +78,14 @@ private struct PokemonDetailsBodyView: View {
     private func getAlertTitle() -> String {
         let pokemonName = dialogComponent?.dialogData.value.pokemonName ?? .empty
         
-        return MR.strings().pokemons_dialog_title.format(args_: [pokemonName]).localized()
+        return MR.strings().pokemons_dialog_title.format(args: [pokemonName]).localized()
     }
     
     private func getAlertMessage() -> String {
         let pokemonName = dialogComponent?.dialogData.value.pokemonName ?? .empty
         let types = dialogComponent?.dialogData.value.formatPokemonTypes ?? .empty
         
-        return MR.strings().pokemons_dialog_description.format(args_: [pokemonName, types]).localized()
+        return MR.strings().pokemons_dialog_description.format(args: [pokemonName, types]).localized()
     }
 }
 
@@ -112,11 +112,11 @@ private struct PokemonDetailsDescriptionView: View {
             }
             .padding(.top, 8)
             
-            Text(MR.strings().pokemons_height.format(args_: [pokemon.height]).localized())
+            Text(MR.strings().pokemons_height.format(args: [pokemon.height]).localized())
                 .font(.body)
                 .padding(.top, 10)
             
-            Text(MR.strings().pokemons_weight.format(args_: [pokemon.weight]).localized())
+            Text(MR.strings().pokemons_weight.format(args: [pokemon.weight]).localized())
                 .font(.body)
                 .padding(.top, 4)
             
@@ -151,8 +151,6 @@ private struct PokemonDetailsDescriptionView: View {
             return .black
         case .none:
             return .white
-        default:
-            return .white
         }
     }
     
@@ -163,8 +161,6 @@ private struct PokemonDetailsDescriptionView: View {
         case .positive:
             return .green
         case .none:
-            return .blue
-        default:
             return .blue
         }
     }
