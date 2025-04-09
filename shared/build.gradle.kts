@@ -1,3 +1,9 @@
+import co.touchlab.skie.configuration.DefaultArgumentInterop
+import co.touchlab.skie.configuration.EnumInterop
+import co.touchlab.skie.configuration.FlowInterop
+import co.touchlab.skie.configuration.FunctionInterop
+import co.touchlab.skie.configuration.SealedInterop
+import co.touchlab.skie.configuration.SuspendInterop
 import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
@@ -11,6 +17,7 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.skie)
 }
 
 kotlin {
@@ -89,6 +96,20 @@ android {
 
     packaging {
         resources.excludes += "META-INF/*"
+    }
+}
+
+skie {
+    features {
+        group {
+            EnumInterop.Enabled(true)
+            SealedInterop.Enabled(true)
+            DefaultArgumentInterop.Enabled(true)
+            FunctionInterop.FileScopeConversion.Enabled(true)
+            coroutinesInterop.set(true)
+            SuspendInterop.Enabled(true)
+            FlowInterop.Enabled(true)
+        }
     }
 }
 
