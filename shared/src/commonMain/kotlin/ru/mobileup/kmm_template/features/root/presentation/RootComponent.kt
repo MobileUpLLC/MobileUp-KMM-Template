@@ -3,7 +3,6 @@ package ru.mobileup.kmm_template.features.root.presentation
 import com.arkivanov.decompose.router.stack.ChildStack
 import kotlinx.coroutines.flow.StateFlow
 import ru.mobileup.kmm_template.core.message.presentation.MessageComponent
-import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.features.flow1.presentation.Flow1Component
 import ru.mobileup.kmm_template.features.flow2.presentation.Flow2Component
 import ru.mobileup.kmm_template.features.home.HomeComponent

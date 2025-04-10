@@ -4,15 +4,14 @@ import com.arkivanov.decompose.ComponentContext
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import me.aartikov.replica.single.Replica
 import ru.mobileup.kmm_template.core.ComponentFactory
 import ru.mobileup.kmm_template.core.dialog.DialogControl
 import ru.mobileup.kmm_template.core.dialog.dialogControl
 import ru.mobileup.kmm_template.core.error_handling.ErrorHandler
-import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.state.computed
-import ru.mobileup.kmm_template.core.state.toCNullableStateFlow
 import ru.mobileup.kmm_template.core.utils.componentScope
 import ru.mobileup.kmm_template.core.utils.observe
 import ru.mobileup.kmm_template.features.pokemons.createPokemonVoteDialogComponent
@@ -37,9 +36,8 @@ class RealPokemonDetailsComponent(
 
     private val pokemonVote = getVoteForPokemonInteractor.execute(pokemonName)
         .stateIn(componentScope, SharingStarted.Eagerly, null)
-        .toCNullableStateFlow()
 
-    override val pokemonVoteState: CStateFlow<PokemonVoteState> = computed(pokemonVote) {
+    override val pokemonVoteState: StateFlow<PokemonVoteState> = computed(pokemonVote) {
         it.toPokemonVoteState()
     }
 

@@ -2,7 +2,6 @@ package ru.mobileup.kmm_template.features.flow2.presentation
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import kotlinx.coroutines.flow.StateFlow
-import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.features.flow2.presentation.screen2A.Screen2AComponent
 import ru.mobileup.kmm_template.features.flow2.presentation.screen2B.Screen2BComponent
 import ru.mobileup.kmm_template.features.flow2.presentation.screen2C.Screen2CComponent

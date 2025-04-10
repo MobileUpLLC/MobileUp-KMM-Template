@@ -7,11 +7,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import ru.mobileup.kmm_template.core.theme.AppTheme
+import ru.mobileup.kmm_template.features.flow1.presentation.FakeFlow1Component
+import ru.mobileup.kmm_template.features.flow1.presentation.Flow1Component
 import ru.mobileup.kmm_template.features.flow1.screen1A.Screen1AUi
 import ru.mobileup.kmm_template.features.flow1.screen1B.Screen1BUi
 import ru.mobileup.kmm_template.features.flow1.screen1C.Screen1CUi
-import ru.mobileup.kmm_template.features.flow1.presentation.FakeFlow1Component
-import ru.mobileup.kmm_template.features.flow1.presentation.Flow1Component
 
 @Composable
 fun Flow1Ui(

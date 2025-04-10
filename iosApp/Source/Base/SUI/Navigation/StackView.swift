@@ -72,7 +72,7 @@ final class StackNavigationController<T: AnyObject>: UINavigationController, Bot
         .store(in: &subscriptions)
     }
     
-    func update(stack: CStateFlow<ChildStack<AnyObject, T>>) {
+    func update(stack: StateFlow<ChildStack<AnyObject, T>>) {
         stackState.recreate(stack)
         
         // Need it to be sure that order of methods will be

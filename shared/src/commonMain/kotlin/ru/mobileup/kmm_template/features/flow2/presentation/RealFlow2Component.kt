@@ -4,12 +4,11 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.pushNew
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import ru.mobileup.kmm_template.core.ComponentFactory
-import ru.mobileup.kmm_template.core.state.CStateFlow
-import ru.mobileup.kmm_template.core.utils.toCStateFlow
+import ru.mobileup.kmm_template.core.utils.toStateFlow
 import ru.mobileup.kmm_template.features.flow2.createScreen2AComponent
 import ru.mobileup.kmm_template.features.flow2.createScreen2BComponent
 import ru.mobileup.kmm_template.features.flow2.createScreen2CComponent
@@ -25,13 +24,13 @@ class RealFlow2Component(
 
     private val navigation = StackNavigation<ChildConfig>()
 
-    override val childStack: CStateFlow<ChildStack<*, Flow2Component.Child>> = childStack(
+    override val childStack: StateFlow<ChildStack<*, Flow2Component.Child>> = childStack(
         source = navigation,
         initialConfiguration = ChildConfig.Screen2A,
         serializer = ChildConfig.serializer(),
         handleBackButton = true,
         childFactory = ::createChild
-    ).toCStateFlow(lifecycle)
+    ).toStateFlow(lifecycle)
 
     private fun createChild(
         config: ChildConfig,

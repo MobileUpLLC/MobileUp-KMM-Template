@@ -1,7 +1,6 @@
 package ru.mobileup.kmm_template.features.pokemons.presentation.list
 
 import kotlinx.coroutines.flow.StateFlow
-import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.utils.LoadableState
 import ru.mobileup.kmm_template.features.pokemons.domain.Pokemon
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonId

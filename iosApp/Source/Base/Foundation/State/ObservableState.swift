@@ -6,7 +6,7 @@ final class ObservableState<T: AnyObject>: ObservableObject {
     
     private var cancelable: Cancelable?
     
-    init(_ state: CStateFlow<T>) {
+    init(_ state: StateFlow<T>) {
         value = state.value
 
         cancelable = FlowWrapper<T>(flow: state).collect(
@@ -18,7 +18,7 @@ final class ObservableState<T: AnyObject>: ObservableObject {
         )
     }
     
-    func recreate(_ state: CStateFlow<T>) {
+    func recreate(_ state: StateFlow<T>) {
         cancelable?.cancel()
         
         cancelable = FlowWrapper<T>(flow: state).collect(
