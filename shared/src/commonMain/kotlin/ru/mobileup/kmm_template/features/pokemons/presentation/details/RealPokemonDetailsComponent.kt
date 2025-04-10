@@ -1,9 +1,12 @@
 package ru.mobileup.kmm_template.features.pokemons.presentation.details
 
 import com.arkivanov.decompose.ComponentContext
+import dev.icerock.moko.graphics.Color
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import me.aartikov.replica.single.Replica
 import ru.mobileup.kmm_template.core.ComponentFactory
@@ -17,6 +20,7 @@ import ru.mobileup.kmm_template.core.utils.componentScope
 import ru.mobileup.kmm_template.core.utils.observe
 import ru.mobileup.kmm_template.features.pokemons.createPokemonVoteDialogComponent
 import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
+import ru.mobileup.kmm_template.features.pokemons.domain.PokemonType
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.GetVoteForPokemonInteractor
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.PokemonVote
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.SetVoteForPokemonInteractor
@@ -53,6 +57,24 @@ class RealPokemonDetailsComponent(
             dialogComponentFactory = ::createPokemonVoteDialogComponent
         )
 
+    private val pokemonTypeColors = mapOf(
+        "10" to Color(0xFF6C6CFF), // Fire
+        "11" to Color(0x58ABF6FF), // Water
+        "12" to Color(0x8BBE8AFF), // Grass
+        "13" to Color(0xF2CB55FF), // Electric
+        "4"  to Color(0x9F6E97FF)  // Poison
+    )
+
+    init {
+        pokemonState
+            .onEach { println("KMM pokemonState: $it") }
+            .launchIn(componentScope)
+
+        pokemonVoteState
+            .onEach { println("KMM pokemonVoteState: $it") }
+            .launchIn(componentScope)
+    }
+
     override fun onVoteClick() {
         pokemonState.value.data?.let { detailedPokemon ->
             val dialogData = detailedPokemon.toPokemonVoteDialogData()
@@ -67,6 +89,10 @@ class RealPokemonDetailsComponent(
 
     override fun onRefresh() {
         pokemonReplica.refresh()
+    }
+
+    override fun getPokemonColor(type: PokemonType): Color {
+        return pokemonTypeColors[type.id.value] ?: Color(0x575757FF)
     }
 
     private fun createPokemonVoteDialogComponent(
@@ -88,6 +114,7 @@ class RealPokemonDetailsComponent(
                 val pokemonVote = PokemonVote(pokemonName, output.isPositive)
                 setVoteForPokemonInteractor.execute(pokemonVote)
                 dialogControl.dismiss()
+                println("onVoteOutput: $pokemonVote")
             }
         }
     }

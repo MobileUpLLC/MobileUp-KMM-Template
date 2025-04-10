@@ -15,14 +15,34 @@ struct PokemonDetailsView: View {
     }
     
     var body: some View {
-        Group {
-            if let pokemon = pokemonState.value.data {
-                PokemonDetailsBodyView(
-                    pokemon: pokemon,
-                    voteState: voteState.value,
-                    dialogComponent: dialog.value.child?.instance,
-                    onVoteClick: { component.onVoteClick() }
+        UnwrapView(pokemonState.value.data) { pokemon in
+            PokemonDetailsDescriptionView(
+                pokemon: pokemon,
+                voteState: voteState.value,
+                dialogComponent: dialog.value.child?.instance,
+                onVoteClick: { component.onVoteClick() }
+            )
+            .safeAreaInset(edge: .top) {
+                AsyncImageView(
+                    imageLink: pokemon.imageUrl,
+                    placeholderColor: .clear
                 )
+                .aspectRatio(1, contentMode: .fit)
+                .frame(maxWidth: .infinity)
+                .padding(32)
+                .offset(y: 100)
+            }
+            .background(pokemon.types.first?.color ?? .gray)
+            .navigationTitle(pokemon.name)
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    component.onVoteClick()
+                } label: {
+                    getImageVoteButton(voteState.value)
+                }
+                .tint(.primary)
             }
         }
         .loadableWithError(
@@ -30,153 +50,83 @@ struct PokemonDetailsView: View {
             onRefresh: { component.onRefresh() },
             onRetryClick: { component.onRetryClick() }
         )
-    }
-}
-
-private struct PokemonDetailsBodyView: View {
-    let pokemon: DetailedPokemon
-    let voteState: PokemonVoteState
-    let dialogComponent: PokemonVoteDialogComponent?
-    let onVoteClick: Closure.Void
-    
-    @State private var isDialogPresented = false
-    
-    var body: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(alignment: .leading, spacing: 0) {
-                AsyncImageView(
-                    imageLink: pokemon.imageUrl,
-                    placeholderColor: .clear
-                )
-                .aspectRatio(1, contentMode: .fit)
-                .frame(width: UIScreen.main.bounds.width - 32, height: UIScreen.main.bounds.width - 32)
-                
-                PokemonDetailsDescriptionView(
-                    isDialogPresented: $isDialogPresented,
-                    pokemon: pokemon,
-                    voteState: voteState,
-                    dialogComponent: dialogComponent,
-                    onVoteClick: onVoteClick
-                )
-                
-                Spacer()
-            }
-            .onChange(of: isDialogPresented) { [oldValue = isDialogPresented] newValue in
-                if oldValue == true && newValue == false {
-                    dialogComponent?.dismiss()
-                }
-            }
-        }
-        .alert(
+        .alertChild(
             getAlertTitle(),
-            isPresented: $isDialogPresented,
-            actions: { DialogButtons(dialogComponent: dialogComponent) },
+            childSlot: dialog.value,
+            actions: { DialogButtons(dialogComponent: dialog.value.child?.instance) },
             message: { Text(getAlertMessage()) }
         )
     }
     
     private func getAlertTitle() -> String {
-        let pokemonName = dialogComponent?.dialogData.value.pokemonName ?? .empty
+        let pokemonName = dialog.value.child?.instance.dialogData.value.pokemonName ?? .empty
         
         return MR.strings().pokemons_dialog_title.format(args: [pokemonName]).localized()
     }
     
     private func getAlertMessage() -> String {
-        let pokemonName = dialogComponent?.dialogData.value.pokemonName ?? .empty
-        let types = dialogComponent?.dialogData.value.formatPokemonTypes ?? .empty
+        let pokemonName = dialog.value.child?.instance.dialogData.value.pokemonName ?? .empty
+        let types = dialog.value.child?.instance.dialogData.value.formatPokemonTypes ?? .empty
         
         return MR.strings().pokemons_dialog_description.format(args: [pokemonName, types]).localized()
+    }
+    
+    private func getImageVoteButton(_ voteState: PokemonVoteState) -> Image {
+        switch voteState {
+        case .negative:
+            return Image(systemName: "hand.thumbsdown.fill")
+        case .positive:
+            return Image(systemName: "hand.thumbsup.fill")
+        case .none:
+            return Image(systemName: "hand.thumbsup")
+        }
     }
 }
 
 private struct PokemonDetailsDescriptionView: View {
-    @Binding var isDialogPresented: Bool
-    
     let pokemon: DetailedPokemon
     let voteState: PokemonVoteState
     let dialogComponent: PokemonVoteDialogComponent?
     let onVoteClick: Closure.Void
     
     var body: some View {
-        Group {
-            Text(MR.strings().pokemons_types.desc().localized())
-                .font(.body)
-                .padding(.top, 8)
-            
-            HStack(spacing: 10) {
-                ForEach(pokemon.types, id: \.id) { type in
-                    PokemonTypeItem(pokemonType: type)
-                }
-                
-                Spacer()
-            }
-            .padding(.top, 8)
-            
-            Text(MR.strings().pokemons_height.format(args: [pokemon.height]).localized())
-                .font(.body)
-                .padding(.top, 10)
-            
-            Text(MR.strings().pokemons_weight.format(args: [pokemon.weight]).localized())
-                .font(.body)
-                .padding(.top, 4)
+        VStack(spacing: 20) {
+            Spacer()
+                .frame(height: 40)
             
             HStack {
-                Spacer()
-                
-                Button(MR.strings().pokemons_vote.desc().localized()) {
-                    onVoteClick()
-                    
-                    isDialogPresented = true
+                ForEach(pokemon.types, id: \.id) { type in
+                    PokemonTypeItem(pokemonType: type, color: type.color ?? .gray)
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 9)
-                .foregroundColor(getButtonForegroundColor())
-                .background(getButtonBackgroundColor())
-                .cornerRadius(16)
-                .shadow(color: .gray.opacity(0.2), radius: 3, y: 2)
-                .animation(.easeIn, value: voteState)
-                
-                Spacer()
             }
-            .padding(.top, 16)
+            
+            HStack(spacing: 16) {
+                PokemonPropertyView(property: "Weight", icon: Image(systemName: "scalemass"), value: pokemon.weight.formatted() + " kg")
+                PokemonPropertyView(property: "Height", icon: Image(systemName: "arrow.up.and.down.square"), value: pokemon.height.formatted() + " m")
+            }
         }
-        .padding(.horizontal, 16)
-    }
-    
-    private func getButtonForegroundColor() -> Color {
-        switch voteState {
-        case .negative:
-            return .white
-        case .positive:
-            return .black
-        case .none:
-            return .white
-        }
-    }
-    
-    private func getButtonBackgroundColor() -> Color {
-        switch voteState {
-        case .negative:
-            return .red
-        case .positive:
-            return .green
-        case .none:
-            return .blue
-        }
+        .frame(maxWidth: .infinity, alignment: .top)
+        .padding(.bottom, 50)
+        .background(.white)
+        .roundedCorner(20, corners: [.topLeft, .topRight])
     }
 }
 
 private struct PokemonTypeItem: View {
     let pokemonType: PokemonType
+    let color: Color
     
     var body: some View {
         Text(pokemonType.name)
-            .padding()
-            .foregroundColor(.white)
-            .background(.blue)
-            .frame(height: 32)
-            .cornerRadius(16)
-            .shadow(color: .gray.opacity(0.5), radius: 7, y: 3)
+            .font(.headline)
+            .foregroundStyle(color)
+            .padding(.horizontal)
+            .padding(.vertical, 8)
+            .background {
+                Capsule()
+                    .stroke(color, lineWidth: 2)
+            }
+            .padding(1)
     }
 }
 
@@ -196,8 +146,27 @@ private struct DialogButtons: View {
     }
 }
 
-struct PokemonDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
+extension PokemonType {
+    var color: Color? {
+        switch self.id.value {
+        case "10": // Fire
+            return Color(hex: 0xFF6C6C)
+        case "11": // Water
+            return Color(hex: 0x58ABF6)
+        case "12": // Grass
+            return Color(hex: 0x8BBE8A)
+        case "13": // Electric
+            return Color(hex: 0xF2CB55)
+        case  "4": // Poison
+            return Color(hex: 0x9F6E97)
+        default:
+            return nil
+        }
+    }
+}
+
+#Preview {
+    NavigationStack {
         PokemonDetailsView(component: FakePokemonDetailsComponent())
     }
 }

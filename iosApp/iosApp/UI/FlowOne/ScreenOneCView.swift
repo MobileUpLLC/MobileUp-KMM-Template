@@ -19,12 +19,11 @@ struct ScreenOneCView: View {
         Button(MR.strings().common_finish.desc().localized()) {
             component.onFinishClick()
         }
+        .buttonStyle(.borderedProminent)
         .navigationTitle(component.title.value.localized())
     }
 }
 
-struct ScreenOneCView_Previews: PreviewProvider {
-    static var previews: some View {
-        ScreenOneCView(component: FakeScreen1CComponent())
-    }
+#Preview {
+    ScreenOneCView(component: FakeScreen1CComponent())
 }

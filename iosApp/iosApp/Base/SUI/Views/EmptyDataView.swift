@@ -28,8 +28,6 @@ struct EmptyDataView: View {
     }
 }
 
-struct EmptyDataView_Previews: PreviewProvider {
-    static var previews: some View {
-        EmptyDataView(item: EmptyDataViewItem())
-    }
+#Preview {
+    EmptyDataView(item: EmptyDataViewItem())
 }

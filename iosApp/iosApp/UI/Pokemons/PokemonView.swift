@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct PokemonView: View, TreeNavigation {
-    @StateObject var navigationModel = RootNavigationModel()
+    @StateObject var navigationModel = TreeNavigationModel()
     @ObservedObject var childStack: ObservableState<ChildStack<AnyObject, PokemonsComponentChild>>
     @ObservedObject private var dialogSlot: ObservableState<ChildSlot<AnyObject, PokemonVotesComponent>>
     

@@ -23,7 +23,7 @@ class FakePokemonListComponent : PokemonListComponent {
 
     override val pokemonsState = CMutableStateFlow(
         LoadableState(
-            loading = true,
+            loading = false,
             data = listOf(
                 Pokemon(
                     id = PokemonId("1"),

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct FlowOneView: View, TreeNavigation {
-    @EnvironmentObject private var navigationModel: RootNavigationModel
+    @EnvironmentObject private var navigationModel: TreeNavigationModel
     @ObservedObject var childStack: ObservableState<ChildStack<AnyObject, Flow1ComponentChild>>
     
     private let component: Flow1Component
@@ -41,5 +41,5 @@ struct FlowOneView: View, TreeNavigation {
 
 #Preview {
     FlowOneView(component: FakeFlow1Component())
-        .environmentObject(RootNavigationModel())
+        .environmentObject(TreeNavigationModel())
 }

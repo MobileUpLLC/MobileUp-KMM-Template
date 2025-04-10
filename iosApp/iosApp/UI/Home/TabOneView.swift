@@ -16,12 +16,12 @@ struct TabOneView: View {
     }
     
     var body: some View {
-        VStack(spacing: 24) {
-            Text(component.text.value.localized())
-            
+        NavigationStack {
             Button(MR.strings().common_exit.desc().localized()) {
                 component.onExitClick()
             }
+            .buttonStyle(.borderedProminent)
+            .navigationTitle(component.text.value.localized())
         }
     }
 }

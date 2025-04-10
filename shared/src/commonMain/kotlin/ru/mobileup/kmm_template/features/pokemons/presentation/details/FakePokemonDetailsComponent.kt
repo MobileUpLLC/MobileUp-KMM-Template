@@ -1,5 +1,6 @@
 package ru.mobileup.kmm_template.features.pokemons.presentation.details
 
+import dev.icerock.moko.graphics.Color
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import ru.mobileup.kmm_template.core.dialog.DialogControl
@@ -22,11 +23,11 @@ class FakePokemonDetailsComponent : PokemonDetailsComponent {
 
     override val pokemonState = CMutableStateFlow(
         LoadableState(
-            loading = true,
+            loading = false,
             data = DetailedPokemon(
-                id = PokemonId("1"),
+                id = PokemonId("12"),
                 name = "Bulbasaur",
-                imageUrl = "",
+                imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",
                 height = 0.7f,
                 weight = 6.9f,
                 types = listOf(PokemonType.Grass, PokemonType.Poison)
@@ -50,4 +51,6 @@ class FakePokemonDetailsComponent : PokemonDetailsComponent {
     override fun onRetryClick() = Unit
 
     override fun onRefresh() = Unit
+
+    override fun getPokemonColor(type: PokemonType): Color { return Color(0xFF6C6CFF) }
 }

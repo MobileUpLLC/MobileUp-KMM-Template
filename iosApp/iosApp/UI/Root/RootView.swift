@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct RootView: View, TreeNavigation {
-    @StateObject var navigationModel = RootNavigationModel()
+    @StateObject var navigationModel = TreeNavigationModel()
     @ObservedObject var childStack: ObservableState<ChildStack<AnyObject, RootComponentChild>>
     @ObservedObject private var message: ObservableOptionalState<Message>
     
@@ -29,6 +29,7 @@ struct RootView: View, TreeNavigation {
         }
         .toast(message: $message.value, onAction: component.messageComponent.onActionClick)
         .environmentObject(navigationModel)
+        /* // MARK: Кнопки для проверки путей навигации
         .overlay(alignment: .bottomTrailing) {
             HStack {
                 Button {
@@ -49,6 +50,7 @@ struct RootView: View, TreeNavigation {
             }
             .padding(20)
         }
+         */
     }
     
     @ViewBuilder

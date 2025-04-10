@@ -6,7 +6,7 @@ struct PokemonListView: View {
     @ObservedObject private var selectedTypeId: ObservableState<PokemonTypeId>
     
     private let component: PokemonListComponent
-
+    
     init(component: PokemonListComponent) {
         self.component = component
         self.pokemonsState = ObservableState(component.pokemonsState)
@@ -37,6 +37,12 @@ private struct PokemonsContentView: View {
     let onPokemonClick: Closure.Generic<PokemonId>
     let onTypeClick: Closure.Generic<PokemonTypeId>
     
+    private let columns: [GridItem] = [
+        GridItem(.flexible(minimum: 120, maximum: .infinity)),
+        GridItem(.flexible(minimum: 120, maximum: .infinity)),
+        GridItem(.flexible(minimum: 120, maximum: .infinity))
+    ]
+    
     var body: some View {
         ScrollView {
             PokemonTypesView(
@@ -44,82 +50,22 @@ private struct PokemonsContentView: View {
                 selectedTypeId: selectedTypeId,
                 onTypeClick: onTypeClick
             )
-            
-            Spacer()
-            
-            ForEach(pokemons, id: \.id) { pokemon in
-                PokemonCellView(pokemon: pokemon)
-                    .onTapGesture {
-                        onPokemonClick(pokemon.id)
-                    }
-                
-                Divider()
-            }
-            .padding(.horizontal, 16)
-        }
-    }
-}
-
-private struct PokemonTypesView: View {
-    let types: [PokemonType]
-    let selectedTypeId: PokemonTypeId
-    let onTypeClick: Closure.Generic<PokemonTypeId>
-    
-    var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: .eight) {
-                ForEach(types, id: \.id) { type in
-                    PokemonTypeView(
-                        type: type,
-                        isSelected: type.id == selectedTypeId,
-                        onTypeClick: onTypeClick
-                    )
+            LazyVGrid(columns: columns, alignment: .leading) {
+                ForEach(pokemons.sorted(by: { $0.name < $1.name }), id: \.id) { pokemon in
+                    PokemonItemView(pokemon: pokemon)
+                        .onTapGesture {
+                            onPokemonClick(pokemon.id)
+                        }
                 }
             }
-            .padding(.vertical, .eight)
             .padding(.horizontal, 16)
         }
-    }
-}
-
-private struct PokemonTypeView: View {
-    let type: PokemonType
-    let isSelected: Bool
-    let onTypeClick: Closure.Generic<PokemonTypeId>
-    
-    var body: some View {
-        Text(type.name)
-            .foregroundColor(isSelected ? .white : .black)
-            .padding(.horizontal, 16)
-            .padding(.vertical, .nine)
-            .background(isSelected ? .blue : .clear)
-            .cornerRadius(16)
-            .overlay {
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(.blue, lineWidth: .one)
-            }
-            .shadow(color: .gray.opacity(0.2), radius: .three, y: .two)
-            .onTapGesture {
-                if isSelected == false {
-                    onTypeClick(type.id)
-                }
-            }
-    }
-}
-
-private struct PokemonCellView: View {
-    let pokemon: Pokemon
-    
-    var body: some View {
-        HStack(alignment: .center) {
-            Text(pokemon.name)
-            Spacer()
-        }
-        .frame(maxWidth: .infinity, minHeight: 50)
-        .contentShape(Rectangle())
     }
 }
 
 #Preview {
-    PokemonListView(component: FakePokemonListComponent())
+    NavigationStack {
+        PokemonListView(component: FakePokemonListComponent())
+            .navigationTitle("Pokemons")
+    }
 }

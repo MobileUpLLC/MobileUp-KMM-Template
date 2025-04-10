@@ -22,13 +22,12 @@ struct ScreenTwoBView: View {
             Button(MR.strings().common_next.desc().localized()) {
                 component.onNextClick()
             }
+            .buttonStyle(.borderedProminent)
         }
         .navigationTitle(component.text.value.localized())
     }
 }
 
-struct ScreenTwoBView_Previews: PreviewProvider {
-    static var previews: some View {
-        ScreenTwoBView(component: FakeScreen2BComponent())
-    }
+#Preview {
+    ScreenTwoBView(component: FakeScreen2BComponent())
 }

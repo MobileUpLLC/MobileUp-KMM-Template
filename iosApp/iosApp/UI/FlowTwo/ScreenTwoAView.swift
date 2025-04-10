@@ -22,6 +22,7 @@ struct ScreenTwoAView: View {
             Button(MR.strings().common_next.desc().localized()) {
                 component.onNextClick()
             }
+            .buttonStyle(.borderedProminent)
         }
         .navigationTitle(component.text.value.localized())
         .toolbar {

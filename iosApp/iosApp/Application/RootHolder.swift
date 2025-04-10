@@ -30,8 +30,6 @@ final class RootHolder: ObservableObject {
             backend: backend
         )
         
-        AppearanceService.setup()
-        
         let core = Core(configuration: configuration)
         
         let defaultComponentContext = DefaultComponentContext(

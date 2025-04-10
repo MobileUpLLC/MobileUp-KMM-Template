@@ -10,7 +10,6 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject private var childStack: ObservableState<ChildStack<AnyObject, HomeComponentChild>>
-    
     @State private var selection: HomeTab = .tab1
     
     private let component: HomeComponent

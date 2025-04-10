@@ -11,7 +11,7 @@ import SwiftUI
 struct iosAppApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var rootHolder = RootHolder()
-    @StateObject private var toastRouter: ToastRouter = .init()
+    @StateObject private var toastRouter = ToastRouter()
     
     var body: some Scene {
         WindowGroup {

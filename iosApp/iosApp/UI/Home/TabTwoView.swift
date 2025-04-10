@@ -16,12 +16,12 @@ struct TabTwoView: View {
     }
     
     var body: some View {
-        VStack(spacing: 24) {
-            Text(component.text.value.localized())
-            
+        NavigationStack {
             Button(MR.strings().home_tab2_start_flow2_button.desc().localized()) {
                 component.onStartFlow2Click()
             }
+            .buttonStyle(.borderedProminent)
+            .navigationTitle(component.text.value.localized())
         }
     }
 }

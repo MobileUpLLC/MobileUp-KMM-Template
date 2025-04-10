@@ -8,9 +8,9 @@
 import SwiftUI
 
 extension View {
-    func bottomSheet<PopupContent: View, C: AnyObject, T: AnyObject, D: AnyObject, F: AnyObject>(
-        childSlot: ChildSlot<C, T>?,
-        dialogControl: DialogControl<D, F>,
+    func bottomSheet<PopupContent: View, T: AnyObject, M: AnyObject>(
+        childSlot: ChildSlot<AnyObject, T>,
+        dialogControl: DialogControl<M, T>,
         dragToDismiss: Bool = true,
         closeOnTapOutside: Bool = true,
         useKeyboardSafeArea: Bool = true,
@@ -31,9 +31,9 @@ extension View {
     }
 }
 
-struct BottomSheetChild<PopupContent: View, C: AnyObject, T: AnyObject, D: AnyObject, F: AnyObject>: ViewModifier {
-    let childSlot: ChildSlot<C, T>?
-    let dialogControl: DialogControl<D, F>
+struct BottomSheetChild<PopupContent: View, T: AnyObject, M: AnyObject>: ViewModifier {
+    let childSlot: ChildSlot<AnyObject, T>
+    let dialogControl: DialogControl<M, T>
     let dragToDismiss: Bool
     let closeOnTapOutside: Bool
     let useKeyboardSafeArea: Bool
@@ -59,9 +59,11 @@ struct BottomSheetChild<PopupContent: View, C: AnyObject, T: AnyObject, D: AnyOb
                     }
                 }
             }
-            .onChange(of: childSlot?.child) { newValue in
+            .onChange(of: childSlot.child) { newValue in
                 if newValue != nil {
                     isPresented = true
+                } else {
+                    isPresented = false
                 }
             }
     }

@@ -65,8 +65,6 @@ struct FullScreenEmptyView: View {
     }
 }
 
-struct FullScreenEmptyView_Previews: PreviewProvider {
-    static var previews: some View {
-        FullScreenEmptyView(emptyStateDescription: .empty, verticalInsets: .zero)
-    }
+#Preview {
+    FullScreenEmptyView(emptyStateDescription: .empty, verticalInsets: .zero)
 }
