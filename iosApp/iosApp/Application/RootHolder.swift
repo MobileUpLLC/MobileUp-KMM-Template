@@ -8,6 +8,15 @@
 
 import SwiftUI
 
+/**
+ * Класс `RootHolder` используется для хранения и инициализации корневого компонента приложения. Он управляет настройками и контекстом
+ * компонента, который используется в приложении. Этот класс инициализирует все зависимости, включая конфигурацию и жизненный цикл
+ * компонента, и предоставляет доступ к корневому компоненту.
+ *
+ * Основные элементы:
+ * - Инициализация конфигурации и жизненного цикла приложения в зависимости от окружения (debug/release).
+ * - Создание экземпляра `RootComponent` на основе конфигурации.
+ */
 final class RootHolder: ObservableObject {
     let rootComponent: RootComponent
     
@@ -32,6 +41,7 @@ final class RootHolder: ObservableObject {
         
         let core = Core(configuration: configuration)
         
+        /// Создание контекста компонента с жизненным циклом, обработчиком состояния и обработчиком возврата.
         let defaultComponentContext = DefaultComponentContext(
             lifecycle: ApplicationLifecycle(),
             stateKeeper: nil,
@@ -39,6 +49,7 @@ final class RootHolder: ObservableObject {
             backHandler: BackDispatcherService.shared.backDispatcher
         )
         
+        /// Инициализация корневого компонента с использованием созданного контекста.
         rootComponent = core.createRootComponent(componentContext: defaultComponentContext)
     }
 }

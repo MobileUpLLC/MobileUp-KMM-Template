@@ -8,3 +8,7 @@
 - Установить плагин "Kotlin Multiplatform" из Android Studio -> Settings -> Plugins
 - Перезапустить Android Studio
 - Запустить Xcode по файлу проекта шаблона
+
+## FAQ
+- Flow - это издатель (асинхронный поток) который не хранит последнее значение как PassthroughSubject.
+- StateFlow - это издатель (асинхронный поток) данных как CurrentValueSubject в Combine.
