@@ -1,10 +1,10 @@
 package ru.mobileup.kmm_template.core.dialog
 
 import com.arkivanov.decompose.router.slot.ChildSlot
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import ru.flawery.core.state.CFlow
-import ru.mobileup.kmm_template.core.state.CMutableStateFlow
-import ru.mobileup.kmm_template.core.state.CStateFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import ru.mobileup.kmm_template.core.utils.createFakeChildSlot
 
 fun <C : Any, T : Any> fakeDialogControl(config: C, component: T): DialogControl<C, T> {
@@ -17,13 +17,13 @@ fun <T : Any> fakeDialogControl(component: T): DialogControl<*, T> {
 
 private class FakeDialogControl<C : Any, T : Any>(config: C, component: T) : DialogControl<C, T>() {
 
-    override val dialogSlot: CStateFlow<ChildSlot<*, T>> = createFakeChildSlot(config, component)
+    override val dialogSlot: StateFlow<ChildSlot<*, T>> = createFakeChildSlot(config, component)
 
-    override val dismissedEvent: CFlow<Unit> = CFlow(MutableSharedFlow())
+    override val dismissedEvent: Flow<Unit> = MutableSharedFlow()
 
-    override val shownEvent: CFlow<Unit> = CFlow(MutableSharedFlow())
+    override val shownEvent: Flow<Unit> = MutableSharedFlow()
 
-    override val dismissableByUser: CStateFlow<Boolean> = CMutableStateFlow(true)
+    override val dismissableByUser: StateFlow<Boolean> = MutableStateFlow(true)
 
     override fun show(config: C) = Unit
 

@@ -13,12 +13,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -36,7 +38,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,14 +51,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.emptyFlow
 import ru.mobileup.kmm_form_validation.control.InputControl
-import ru.mobileup.kmm_form_validation.options.KeyboardOptions as KmmKeyboardOptions
 import ru.mobileup.kmm_form_validation.toCompose
 import ru.mobileup.kmm_template.core.theme.AppTheme
 import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.text.TextStyle
+import ru.mobileup.kmm_form_validation.options.KeyboardOptions as KmmKeyboardOptions
 import ru.mobileup.kmm_form_validation.options.VisualTransformation as KmmVisualTransformation
 
 @Suppress("ModifierNotUsedAtRoot")

@@ -4,7 +4,6 @@ import dev.icerock.moko.graphics.Color
 import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.flow.StateFlow
 import ru.mobileup.kmm_template.core.dialog.DialogControl
-import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.utils.LoadableState
 import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonType

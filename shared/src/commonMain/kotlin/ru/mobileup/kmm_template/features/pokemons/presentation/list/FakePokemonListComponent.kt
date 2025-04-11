@@ -1,6 +1,6 @@
 package ru.mobileup.kmm_template.features.pokemons.presentation.list
 
-import ru.mobileup.kmm_template.core.state.CMutableStateFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import ru.mobileup.kmm_template.core.utils.LoadableState
 import ru.mobileup.kmm_template.features.pokemons.domain.Pokemon
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonId
@@ -9,7 +9,7 @@ import ru.mobileup.kmm_template.features.pokemons.domain.PokemonTypeId
 
 class FakePokemonListComponent : PokemonListComponent {
 
-    override val types = CMutableStateFlow(
+    override val types = MutableStateFlow(
         listOf(
             PokemonType.Fire,
             PokemonType.Water,
@@ -19,9 +19,9 @@ class FakePokemonListComponent : PokemonListComponent {
         )
     )
 
-    override val selectedTypeId = CMutableStateFlow(types.value[0].id)
+    override val selectedTypeId = MutableStateFlow(types.value[0].id)
 
-    override val pokemonsState = CMutableStateFlow(
+    override val pokemonsState = MutableStateFlow(
         LoadableState(
             loading = false,
             data = listOf(

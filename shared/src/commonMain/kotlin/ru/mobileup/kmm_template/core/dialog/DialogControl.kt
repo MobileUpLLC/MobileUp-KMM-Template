@@ -3,8 +3,6 @@ package ru.mobileup.kmm_template.core.dialog
 import com.arkivanov.decompose.router.slot.ChildSlot
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
-import ru.flawery.core.state.CFlow
-import ru.mobileup.kmm_template.core.state.CStateFlow
 
 abstract class DialogControl<C : Any, T : Any> {
     abstract val dialogSlot: StateFlow<ChildSlot<*, T>>

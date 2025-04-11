@@ -7,12 +7,12 @@ import kotlinx.coroutines.flow.dropWhile
 import kotlinx.coroutines.launch
 import ru.mobileup.kmm_template.core.utils.componentScope
 
-fun <T, R : Any> ComponentContext.computed(
+fun <T, R> ComponentContext.computed(
     flow: StateFlow<T>,
     transform: (T) -> R
-): CStateFlow<R> {
+): StateFlow<R> {
     val initialValue = flow.value
-    val resultFlow = CMutableStateFlow(transform(initialValue))
+    val resultFlow = MutableStateFlow(transform(initialValue))
     componentScope.launch {
         flow.dropWhile {
             it == initialValue
@@ -25,11 +25,11 @@ fun <T, R : Any> ComponentContext.computed(
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T1, T2, R : Any> ComponentContext.computed(
+fun <T1, T2, R> ComponentContext.computed(
     flow1: StateFlow<T1>,
     flow2: StateFlow<T2>,
     transform: (T1, T2) -> R
-): CStateFlow<R> {
+): StateFlow<R> {
     return computedImpls(flow1, flow2) { args: List<*> ->
         transform(
             args[0] as T1,
@@ -39,12 +39,12 @@ fun <T1, T2, R : Any> ComponentContext.computed(
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T1, T2, T3, R : Any> ComponentContext.computed(
+fun <T1, T2, T3, R> ComponentContext.computed(
     flow1: StateFlow<T1>,
     flow2: StateFlow<T2>,
     flow3: StateFlow<T3>,
     transform: (T1, T2, T3) -> R
-): CStateFlow<R> {
+): StateFlow<R> {
     return computedImpls(flow1, flow2, flow3) { args: List<*> ->
         transform(
             args[0] as T1,
@@ -55,13 +55,13 @@ fun <T1, T2, T3, R : Any> ComponentContext.computed(
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T1, T2, T3, T4, R : Any> ComponentContext.computed(
+fun <T1, T2, T3, T4, R> ComponentContext.computed(
     flow1: StateFlow<T1>,
     flow2: StateFlow<T2>,
     flow3: StateFlow<T3>,
     flow4: StateFlow<T4>,
     transform: (T1, T2, T3, T4) -> R
-): CStateFlow<R> {
+): StateFlow<R> {
     return computedImpls(flow1, flow2, flow3, flow4) { args: List<*> ->
         transform(
             args[0] as T1,
@@ -73,14 +73,14 @@ fun <T1, T2, T3, T4, R : Any> ComponentContext.computed(
 }
 
 @Suppress("UNCHECKED_CAST")
-fun <T1, T2, T3, T4, T5, R : Any> ComponentContext.computed(
+fun <T1, T2, T3, T4, T5, R> ComponentContext.computed(
     flow1: StateFlow<T1>,
     flow2: StateFlow<T2>,
     flow3: StateFlow<T3>,
     flow4: StateFlow<T4>,
     flow5: StateFlow<T5>,
     transform: (T1, T2, T3, T4, T5) -> R
-): CStateFlow<R> {
+): StateFlow<R> {
     return computedImpls(flow1, flow2, flow3, flow4, flow5) { args: List<*> ->
         transform(
             args[0] as T1,
@@ -92,13 +92,13 @@ fun <T1, T2, T3, T4, T5, R : Any> ComponentContext.computed(
     }
 }
 
-private inline fun <T, R : Any> ComponentContext.computedImpls(
+private inline fun <T, R> ComponentContext.computedImpls(
     vararg flows: StateFlow<T>,
     crossinline transform: (List<T>) -> R
-): CStateFlow<R> {
+): StateFlow<R> {
     val initialValues = flows.map { it.value }
     val elementsFlow = MutableStateFlow(initialValues)
-    val resultFlow = CMutableStateFlow(transform(initialValues))
+    val resultFlow = MutableStateFlow(transform(initialValues))
 
     flows.forEachIndexed { index, flow ->
         componentScope.launch {

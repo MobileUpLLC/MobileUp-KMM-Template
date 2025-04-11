@@ -3,10 +3,10 @@ package ru.mobileup.kmm_template.features.pokemons.presentation.details
 import dev.icerock.moko.graphics.Color
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import ru.mobileup.kmm_template.core.dialog.DialogControl
 import ru.mobileup.kmm_template.core.dialog.fakeDialogControl
-import ru.mobileup.kmm_template.core.state.CMutableStateFlow
-import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.utils.LoadableState
 import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
 import ru.mobileup.kmm_template.features.pokemons.domain.PokemonId
@@ -17,11 +17,11 @@ import ru.mobileup.kmm_template.features.pokemons.presentation.details.vote.mode
 import ru.mobileup.kmm_template.features.pokemons.presentation.details.vote.model.PokemonVoteState
 
 class FakePokemonDetailsComponent : PokemonDetailsComponent {
-    override val pokemonVoteState: CStateFlow<PokemonVoteState> = CMutableStateFlow(PokemonVoteState.NONE)
+    override val pokemonVoteState: StateFlow<PokemonVoteState> = MutableStateFlow(PokemonVoteState.NONE)
 
     override val title: StringDesc = StringDesc.Raw("Bulbasaur")
 
-    override val pokemonState = CMutableStateFlow(
+    override val pokemonState = MutableStateFlow(
         LoadableState(
             loading = false,
             data = DetailedPokemon(

@@ -1,6 +1,7 @@
 package ru.mobileup.kmm_template.core.utils
 
 import com.arkivanov.decompose.ComponentContext
+import kotlinx.coroutines.flow.StateFlow
 import ru.mobileup.kmm_form_validation.control.CheckControl
 import ru.mobileup.kmm_form_validation.control.InputControl
 import ru.mobileup.kmm_form_validation.options.KeyboardOptions
@@ -11,8 +12,6 @@ import ru.mobileup.kmm_form_validation.validation.form.FormValidator
 import ru.mobileup.kmm_form_validation.validation.form.FormValidatorBuilder
 import ru.mobileup.kmm_form_validation.validation.form.dynamicValidationResult
 import ru.mobileup.kmm_form_validation.validation.form.formValidator
-import ru.mobileup.kmm_template.core.state.CStateFlow
-import ru.mobileup.kmm_template.core.state.toCStateFlow
 
 fun ComponentContext.InputControl(
     initialText: String = "",
@@ -37,5 +36,5 @@ fun ComponentContext.CheckControl(initialChecked: Boolean = false): CheckControl
 fun ComponentContext.formValidator(buildBlock: FormValidatorBuilder.() -> Unit): FormValidator =
     componentScope.formValidator(buildBlock)
 
-fun ComponentContext.dynamicValidationResult(formValidator: FormValidator): CStateFlow<FormValidationResult> =
-    componentScope.dynamicValidationResult(formValidator).toCStateFlow()
+fun ComponentContext.dynamicValidationResult(formValidator: FormValidator): StateFlow<FormValidationResult> =
+    componentScope.dynamicValidationResult(formValidator)

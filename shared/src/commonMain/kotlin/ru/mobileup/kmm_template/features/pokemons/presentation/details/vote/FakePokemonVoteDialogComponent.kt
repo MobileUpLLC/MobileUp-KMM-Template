@@ -1,12 +1,12 @@
 package ru.mobileup.kmm_template.features.pokemons.presentation.details.vote
 
-import ru.mobileup.kmm_template.core.state.CMutableStateFlow
-import ru.mobileup.kmm_template.core.state.CStateFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import ru.mobileup.kmm_template.features.pokemons.presentation.details.vote.model.PokemonVoteDialogData
 
 class FakePokemonVoteDialogComponent : PokemonVoteDialogComponent {
-    override val dialogData: CStateFlow<PokemonVoteDialogData> =
-        CMutableStateFlow(PokemonVoteDialogData("", emptyList()))
+    override val dialogData: StateFlow<PokemonVoteDialogData> =
+        MutableStateFlow(PokemonVoteDialogData("", emptyList()))
 
     override fun votePositive() = Unit
 
