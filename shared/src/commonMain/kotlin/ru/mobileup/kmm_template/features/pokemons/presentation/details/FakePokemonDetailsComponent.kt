@@ -51,6 +51,4 @@ class FakePokemonDetailsComponent : PokemonDetailsComponent {
     override fun onRetryClick() = Unit
 
     override fun onRefresh() = Unit
-
-    override fun getPokemonColor(type: PokemonType): Color { return Color(0xFF6C6CFF) }
 }

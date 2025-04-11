@@ -25,6 +25,4 @@ interface PokemonDetailsComponent {
     fun onRetryClick()
 
     fun onRefresh()
-
-    fun getPokemonColor(type: PokemonType): Color
 }

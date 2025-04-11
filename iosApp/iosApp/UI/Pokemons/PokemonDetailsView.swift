@@ -32,7 +32,7 @@ struct PokemonDetailsView: View {
                 .padding(32)
                 .offset(y: 100)
             }
-            .background(pokemon.types.first?.color ?? .gray)
+            .background(pokemon.types.first?.color.color ?? .gray)
             .navigationTitle(pokemon.name)
         }
         .toolbar {
@@ -96,7 +96,7 @@ private struct PokemonDetailsDescriptionView: View {
             
             HStack {
                 ForEach(pokemon.types, id: \.id) { type in
-                    PokemonTypeItem(pokemonType: type, color: type.color ?? .gray)
+                    PokemonTypeItem(pokemonType: type, color: type.color.color)
                 }
             }
             
@@ -142,25 +142,6 @@ private struct DialogButtons: View {
             Button(MR.strings().pokemons_dialog_vote_negative.desc().localized(), role: .none) {
                 dialogComponent?.voteNegative()
             }
-        }
-    }
-}
-
-extension PokemonType {
-    var color: Color? {
-        switch self.id.value {
-        case "10": // Fire
-            return Color(hex: 0xFF6C6C)
-        case "11": // Water
-            return Color(hex: 0x58ABF6)
-        case "12": // Grass
-            return Color(hex: 0x8BBE8A)
-        case "13": // Electric
-            return Color(hex: 0xF2CB55)
-        case  "4": // Poison
-            return Color(hex: 0x9F6E97)
-        default:
-            return nil
         }
     }
 }

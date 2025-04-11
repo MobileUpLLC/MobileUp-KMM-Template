@@ -55,14 +55,6 @@ class RealPokemonDetailsComponent(
             dialogComponentFactory = ::createPokemonVoteDialogComponent
         )
 
-    private val pokemonTypeColors = mapOf(
-        "10" to Color(0xFF6C6CFF), // Fire
-        "11" to Color(0x58ABF6FF), // Water
-        "12" to Color(0x8BBE8AFF), // Grass
-        "13" to Color(0xF2CB55FF), // Electric
-        "4"  to Color(0x9F6E97FF)  // Poison
-    )
-
     init {
         pokemonState
             .onEach { println("KMM pokemonState: $it") }
@@ -87,10 +79,6 @@ class RealPokemonDetailsComponent(
 
     override fun onRefresh() {
         pokemonReplica.refresh()
-    }
-
-    override fun getPokemonColor(type: PokemonType): Color {
-        return pokemonTypeColors[type.id.value] ?: Color(0x575757FF)
     }
 
     private fun createPokemonVoteDialogComponent(

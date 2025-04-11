@@ -37,14 +37,14 @@ private struct PokemonTypeView: View {
     var body: some View {
         Text(type.name)
             .fontWeight(.bold)
-            .foregroundColor(isSelected ? .white : type.color)
+            .foregroundColor(isSelected ? .white : type.color.color)
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
-            .background(isSelected ? type.color : .clear)
+            .background(isSelected ? type.color.color : .clear)
             .cornerRadius(16)
             .overlay {
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(type.color ?? .gray, lineWidth: 2)
+                    .stroke(type.color.color, lineWidth: 2)
             }
             .onTapGesture {
                 if isSelected == false {
