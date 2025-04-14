@@ -10,20 +10,18 @@ import SwiftUI
 
 struct FlowOneView: View, TreeNavigation {
     @EnvironmentObject private var navigationModel: TreeNavigationModel
-    @ObservedObject var childStack: ObservableState<ChildStack<AnyObject, Flow1ComponentChild>>
+    @StateObject @KotlinStateFlow var childStack: ChildStack<AnyObject, Flow1ComponentChild>
     
     private let component: Flow1Component
     
-    private let onBack: Closure.Void = { BackDispatcherService.shared.backDispatcher.back() }
-    
     init(component: Flow1Component) {
         self.component = component
-        self.childStack = ObservableState(component.childStack)
+        self._childStack = .init(component.childStack)
     }
     
     var body: some View {
         rootView
-            .treeNavigation(childStack: childStack, navigationModel: navigationModel, destination: destination(for:))
+            .treeNavigation(childStack: _childStack.wrappedValue, navigationModel: navigationModel, destination: destination(for:))
     }
     
     @ViewBuilder

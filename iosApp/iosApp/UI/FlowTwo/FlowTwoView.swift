@@ -10,18 +10,18 @@ import SwiftUI
 
 struct FlowTwoView: View, TreeNavigation {
     @EnvironmentObject var navigationModel: TreeNavigationModel
-    @ObservedObject var childStack: ObservableState<ChildStack<AnyObject, Flow2ComponentChild>>
+    @StateObject @KotlinStateFlow var childStack: ChildStack<AnyObject, Flow2ComponentChild>
     
     private let component: Flow2Component
     
     init(component: Flow2Component) {
         self.component = component
-        self.childStack = ObservableState(component.childStack)
+        self._childStack = .init(component.childStack)
     }
     
     var body: some View {
         rootView
-            .treeNavigation(childStack: childStack, navigationModel: navigationModel, destination: destination(for:))
+            .treeNavigation(childStack: _childStack.wrappedValue, navigationModel: navigationModel, destination: destination(for:))
     }
     
     @ViewBuilder

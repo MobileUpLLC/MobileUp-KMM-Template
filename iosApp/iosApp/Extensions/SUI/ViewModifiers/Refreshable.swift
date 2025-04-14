@@ -10,7 +10,7 @@ import SwiftUI
 
 extension View {
     func refreshable<T>(
-        loadingState: ObservableState<LoadableState<T>>,
+        loadingState: KotlinStateFlow<LoadableState<T>>,
         onRefresh: @escaping Closure.Void,
         didRefresh: @escaping Closure.Void
     ) -> some View {
@@ -20,17 +20,17 @@ extension View {
     }
     
     private func refresh<T>(
-        loadingState: ObservableState<LoadableState<T>>,
+        loadingState: KotlinStateFlow<LoadableState<T>>,
         onRefresh: @escaping Closure.Void,
         didRefresh: @escaping Closure.Void
     ) async {
         onRefresh()
         
-        while loadingState.value.loading == false {
+        while loadingState.wrappedValue.loading == false {
             await Task.yield()
         }
         
-        while loadingState.value.loading {
+        while loadingState.wrappedValue.loading {
             await Task.yield()
         }
         

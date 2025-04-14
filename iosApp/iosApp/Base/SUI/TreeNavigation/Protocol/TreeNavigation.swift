@@ -32,7 +32,7 @@ protocol TreeNavigation {
     associatedtype Content: View
     
     /// Стек дочерних компонентов, хранящий текущие элементы навигации.
-    var childStack: ObservableState<ChildStack<AnyObject, Destination>> { get set }
+    var childStack: ChildStack<AnyObject, Destination> { get }
     
     /**
      * Метод для создания представления для конкретного дочернего компонента.
@@ -49,7 +49,7 @@ protocol TreeNavigation {
 extension TreeNavigation {
     /// Исходное представление в массиве навигации или нулевой элемент массива
     @ViewBuilder var rootView: some View {
-        if let value = childStack.value.items.compactMap({ $0.instance }).first {
+        if let value = childStack.items.compactMap({ $0.instance }).first {
             destination(for: value)
         } else {
             EmptyView()

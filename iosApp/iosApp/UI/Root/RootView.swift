@@ -2,15 +2,15 @@ import SwiftUI
 
 struct RootView: View, TreeNavigation {
     @StateObject var navigationModel = TreeNavigationModel()
-    @ObservedObject var childStack: ObservableState<ChildStack<AnyObject, RootComponentChild>>
-    @ObservedObject private var message: ObservableOptionalState<Message>
+    @StateObject @KotlinStateFlow var childStack: ChildStack<AnyObject, RootComponentChild>
+    @StateObject @KotlinOptionalStateFlow private var message: Message?
     
     private let component: RootComponent
     
     init(component: RootComponent) {
         self.component = component
-        self.childStack = ObservableState(component.childStack)
-        self.message = ObservableOptionalState(component.messageComponent.visibleMessage)
+        self._childStack = .init(component.childStack)
+        self._message = .init(component.messageComponent.visibleMessage)
     }
     
     var body: some View {
@@ -22,12 +22,12 @@ struct RootView: View, TreeNavigation {
             
             NavigationStack(path: $navigationModel.navigationPath) {
                 rootView
-                    .treeNavigation(childStack: childStack, navigationModel: navigationModel, destination: destination(for:))
+                    .treeNavigation(childStack: _childStack.wrappedValue, navigationModel: navigationModel, destination: destination(for:))
             }
-            .setRootTreeNavigation(childStack: childStack, navigationModel: navigationModel)
+            .setRootTreeNavigation(childStack: _childStack.wrappedValue, navigationModel: navigationModel)
             .zIndex(0)
         }
-        .toast(message: $message.value, onAction: component.messageComponent.onActionClick)
+        .toast(message: $message.wrappedValue, onAction: component.messageComponent.onActionClick)
         .environmentObject(navigationModel)
         /* // MARK: Кнопки для проверки путей навигации
         .overlay(alignment: .bottomTrailing) {

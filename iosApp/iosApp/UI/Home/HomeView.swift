@@ -9,14 +9,14 @@
 import SwiftUI
 
 struct HomeView: View {
-    @ObservedObject private var childStack: ObservableState<ChildStack<AnyObject, HomeComponentChild>>
+    @ObservedObject @KotlinStateFlow private var childStack: ChildStack<AnyObject, HomeComponentChild>
     @State private var selection: HomeTab = .tab1
     
     private let component: HomeComponent
     
     init(component: HomeComponent) {
         self.component = component
-        self.childStack = ObservableState(component.childStack)
+        self._childStack = .init(component.childStack)
     }
     
     var body: some View {
@@ -48,11 +48,11 @@ struct HomeView: View {
     private func getChildComponent(for tab: HomeTab) -> HomeComponentChild? {
         switch tab {
         case .tab1:
-            return childStack.value.items.first(where: { $0.instance is HomeComponentChild.Tab1 })?.instance
+            return childStack.items.first(where: { $0.instance is HomeComponentChild.Tab1 })?.instance
         case .tab2:
-            return childStack.value.items.first(where: { $0.instance is HomeComponentChild.Tab2 })?.instance
+            return childStack.items.first(where: { $0.instance is HomeComponentChild.Tab2 })?.instance
         case .tab3:
-            return childStack.value.items.first(where: { $0.instance is HomeComponentChild.Tab3 })?.instance
+            return childStack.items.first(where: { $0.instance is HomeComponentChild.Tab3 })?.instance
         }
     }
 }

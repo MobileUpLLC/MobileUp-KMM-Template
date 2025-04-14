@@ -1,29 +1,29 @@
 import SwiftUI
 
 struct PokemonListView: View {
-    @ObservedObject private var pokemonsState: ObservableState<LoadableState<NSArray>>
-    @ObservedObject private var types: ObservableState<[PokemonType]>
-    @ObservedObject private var selectedTypeId: ObservableState<PokemonTypeId>
+    @StateObject @KotlinStateFlow private var pokemonsState: LoadableState<NSArray>
+    @StateObject @KotlinStateFlow private var types: [PokemonType]
+    @StateObject @KotlinStateFlow private var selectedTypeId: PokemonTypeId
     
     private let component: PokemonListComponent
     
     init(component: PokemonListComponent) {
         self.component = component
-        self.pokemonsState = ObservableState(component.pokemonsState)
-        self.types = ObservableState(component.types)
-        self.selectedTypeId = ObservableState(component.selectedTypeId)
+        self._pokemonsState = .init(component.pokemonsState)
+        self._types = .init(component.types)
+        self._selectedTypeId = .init(component.selectedTypeId)
     }
     
     var body: some View {
         PokemonsContentView(
-            pokemons: (pokemonsState.value.data as? [Pokemon]) ?? [],
-            types: types.value,
-            selectedTypeId: selectedTypeId.value,
+            pokemons: (pokemonsState.data as? [Pokemon]) ?? [],
+            types: types,
+            selectedTypeId: selectedTypeId,
             onPokemonClick: { id in component.onPokemonClick(pokemonId: id) },
             onTypeClick: { id in component.onTypeClick(typeId: id) }
         )
         .loadableWithError(
-            loadableState: pokemonsState,
+            loadableState: _pokemonsState.wrappedValue,
             onRefresh: { component.onRefresh() },
             onRetryClick: { component.onRetryClick() }
         )

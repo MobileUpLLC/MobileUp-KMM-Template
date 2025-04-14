@@ -10,8 +10,8 @@ import SwiftUI
 
 struct PokemonView: View, TreeNavigation {
     @StateObject var navigationModel = TreeNavigationModel()
-    @ObservedObject var childStack: ObservableState<ChildStack<AnyObject, PokemonsComponentChild>>
-    @ObservedObject private var dialogSlot: ObservableState<ChildSlot<AnyObject, PokemonVotesComponent>>
+    @StateObject @KotlinStateFlow var childStack: ChildStack<AnyObject, PokemonsComponentChild>
+    @StateObject @KotlinStateFlow private var dialogSlot: ChildSlot<AnyObject, PokemonVotesComponent>
     
     private let component: PokemonsComponent
     
@@ -19,22 +19,22 @@ struct PokemonView: View, TreeNavigation {
     
     init(component: PokemonsComponent) {
         self.component = component
-        childStack = ObservableState(component.childStack)
-        dialogSlot = ObservableState(component.bottomSheetControl.dialogSlot)
+        _childStack = .init(component.childStack)
+        _dialogSlot = .init(component.bottomSheetControl.dialogSlot)
     }
     
     var body: some View {
         NavigationStack(path: $navigationModel.navigationPath) {
             rootView
-                .treeNavigation(childStack: childStack, navigationModel: navigationModel, destination: destination(for:))
+                .treeNavigation(childStack: _childStack.wrappedValue, navigationModel: navigationModel, destination: destination(for:))
                 .navigationTitle(MR.strings().pokemons_title.desc().localized())
         }
-        .setRootTreeNavigation(childStack: childStack, navigationModel: navigationModel)
+        .setRootTreeNavigation(childStack: _childStack.wrappedValue, navigationModel: navigationModel)
         .overlay(alignment: .bottomTrailing) {
             VotesButtonView(onAction: component.onPokemonVotesButtonClick)
                 .padding()
         }
-        .bottomSheet(childSlot: dialogSlot.value, dialogControl: component.bottomSheetControl) {
+        .bottomSheet(childSlot: dialogSlot, dialogControl: component.bottomSheetControl) {
             PokemonVotesView(control: component.bottomSheetControl)
         }
     }

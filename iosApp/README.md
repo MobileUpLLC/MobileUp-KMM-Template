@@ -49,6 +49,36 @@
 - Kotlin/Native: Для iOS используется Kotlin/Native, который позволяет компилировать Kotlin-код в нативные библиотеки, которые можно использовать в iOS-приложении.
 - Обмен данными: Для обмена данными между платформами (например, для передачи состояния навигации) в shared часто используются механизмы, такие как StateFlow (SkieSwiftStateFlow/SkieSwiftOptionalStateFlow) для асинхронного взаимодействия.
 
+## Наблюдатели KotlinStateFlow / KotlinOptionalStateFlow
+SwiftUI-обёртки над StateFlow из Kotlin Multiplatform (через Skie), позволяющие удобно наблюдать за потоками состояний прямо в SwiftUI-компонентах.
+
+> Используйте @KotlinStateFlow для потоков с неопциональными значениями, и @KotlinOptionalStateFlow — если значения могут быть nil.
+
+**Возможности**
+- Автоматически обновляют SwiftUI UI при изменении значений в Kotlin StateFlow
+- Выполняют подписку на главном потоке
+- Совместимы с @StateObject и @ObservedObject
+
+**Как использовать**
+```swift
+struct HelloView: View {
+    private let component: HelloComponent
+
+    @StateObject @KotlinStateFlow private var text: String
+
+    init(component: HelloComponent) {
+        self.component = component
+        self._text = .init(component.text)
+    }
+
+    var body: some View {
+        Text(text)
+            .font(.title)
+            .padding()
+    }
+}
+```
+
 ## Пример использования
 
 ### Точка входа

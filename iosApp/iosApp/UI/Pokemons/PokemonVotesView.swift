@@ -9,14 +9,14 @@
 import SwiftUI
 
 struct PokemonVotesView: View {
-    @ObservedObject private var childSlot: ObservableState<ChildSlot<AnyObject, PokemonVotesComponent>>
+    @StateObject @KotlinStateFlow private var childSlot: ChildSlot<AnyObject, PokemonVotesComponent>
     
     init(control: DialogControl<PokemonVotesComponentConfig, PokemonVotesComponent>) {
-        self.childSlot = ObservableState(control.dialogSlot)
+        self._childSlot = .init(control.dialogSlot)
     }
     
     var body: some View {
-        if let component = childSlot.value.child?.instance {
+        if let component = childSlot.child?.instance {
             InnerPokemonVotesView(component: component)
                 .roundedCorner(16, corners: [.topLeft, .topRight])
         }
@@ -24,20 +24,20 @@ struct PokemonVotesView: View {
 }
 
 private struct InnerPokemonVotesView: View {
-    @ObservedObject private var votes: ObservableState<PokemonVotes>
+    @StateObject @KotlinStateFlow private var votes: PokemonVotes
     
     init(component: PokemonVotesComponent) {
-        self.votes = ObservableState(component.pokemonVotes)
+        self._votes = .init(component.pokemonVotes)
     }
     
     var body: some View {
-        if votes.value.votes.isEmpty {
+        if votes.votes.isEmpty {
             EmptyDataView(
                 item: EmptyDataViewItem(title:  MR.strings().pokemons_votes_empty_description.desc().localized())
             )
         } else {
             VStack(spacing: .zero) {
-                ForEach(votes.value.votes, id: \.self) { vote in
+                ForEach(votes.votes, id: \.self) { vote in
                     HStack(spacing: .zero) {
                         Text(vote.pokemonName)
                         Spacer()

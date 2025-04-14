@@ -1,25 +1,25 @@
 import SwiftUI
 
 struct PokemonDetailsView: View {
-    @ObservedObject private var pokemonState: ObservableState<LoadableState<DetailedPokemon>>
-    @ObservedObject private var voteState: ObservableState<PokemonVoteState>
-    @ObservedObject private var dialog: ObservableState<ChildSlot<AnyObject, PokemonVoteDialogComponent>>
+    @StateObject @KotlinStateFlow private var pokemonState: LoadableState<DetailedPokemon>
+    @StateObject @KotlinStateFlow private var voteState: PokemonVoteState
+    @StateObject @KotlinStateFlow private var dialog: ChildSlot<AnyObject, PokemonVoteDialogComponent>
     
     private let component: PokemonDetailsComponent
     
     init(component: PokemonDetailsComponent) {
         self.component = component
-        self.pokemonState = ObservableState(component.pokemonState)
-        self.voteState = ObservableState(component.pokemonVoteState)
-        self.dialog = ObservableState(component.dialogControl.dialogSlot)
+        self._pokemonState = .init(component.pokemonState)
+        self._voteState = .init(component.pokemonVoteState)
+        self._dialog = .init(component.dialogControl.dialogSlot)
     }
     
     var body: some View {
-        UnwrapView(pokemonState.value.data) { pokemon in
+        UnwrapView(pokemonState.data) { pokemon in
             PokemonDetailsDescriptionView(
                 pokemon: pokemon,
-                voteState: voteState.value,
-                dialogComponent: dialog.value.child?.instance,
+                voteState: voteState,
+                dialogComponent: dialog.child?.instance,
                 onVoteClick: { component.onVoteClick() }
             )
             .safeAreaInset(edge: .top) {
@@ -33,40 +33,40 @@ struct PokemonDetailsView: View {
                 .offset(y: 100)
             }
             .background(pokemon.types.first?.color.color ?? .gray)
-            .navigationTitle(pokemon.name)
         }
+        .navigationTitle(pokemonState.data?.name ?? " ")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     component.onVoteClick()
                 } label: {
-                    getImageVoteButton(voteState.value)
+                    getImageVoteButton(voteState)
                 }
                 .tint(.primary)
             }
         }
         .loadableWithError(
-            loadableState: pokemonState,
+            loadableState: _pokemonState.wrappedValue,
             onRefresh: { component.onRefresh() },
             onRetryClick: { component.onRetryClick() }
         )
         .alertChild(
             getAlertTitle(),
-            childSlot: dialog.value,
-            actions: { DialogButtons(dialogComponent: dialog.value.child?.instance) },
+            childSlot: dialog,
+            actions: { DialogButtons(dialogComponent: dialog.child?.instance) },
             message: { Text(getAlertMessage()) }
         )
     }
     
     private func getAlertTitle() -> String {
-        let pokemonName = dialog.value.child?.instance.dialogData.value.pokemonName ?? .empty
+        let pokemonName = dialog.child?.instance.dialogData.value.pokemonName ?? .empty
         
         return MR.strings().pokemons_dialog_title.format(args: [pokemonName]).localized()
     }
     
     private func getAlertMessage() -> String {
-        let pokemonName = dialog.value.child?.instance.dialogData.value.pokemonName ?? .empty
-        let types = dialog.value.child?.instance.dialogData.value.formatPokemonTypes ?? .empty
+        let pokemonName = dialog.child?.instance.dialogData.value.pokemonName ?? .empty
+        let types = dialog.child?.instance.dialogData.value.formatPokemonTypes ?? .empty
         
         return MR.strings().pokemons_dialog_description.format(args: [pokemonName, types]).localized()
     }

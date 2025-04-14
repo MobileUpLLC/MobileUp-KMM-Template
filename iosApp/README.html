@@ -1121,6 +1121,33 @@ body .markdown-body
 <li>Kotlin/Native: Для iOS используется Kotlin/Native, который позволяет компилировать Kotlin-код в нативные библиотеки, которые можно использовать в iOS-приложении.</li>
 <li>Обмен данными: Для обмена данными между платформами (например, для передачи состояния навигации) в shared часто используются механизмы, такие как StateFlow (SkieSwiftStateFlow/SkieSwiftOptionalStateFlow) для асинхронного взаимодействия.</li>
 </ul>
+<h2 id="kotlinstateflow-kotlinoptionalstateflow">Издатели KotlinStateFlow / KotlinOptionalStateFlow<a class="headerlink" href="#kotlinstateflow-kotlinoptionalstateflow" title="Permanent link"></a></h2>
+<p>SwiftUI-обёртки над StateFlow из Kotlin Multiplatform (через Skie), позволяющие удобно наблюдать за потоками состояний прямо в SwiftUI-компонентах.</p>
+<blockquote>
+<p>Используйте <a class="magiclink magiclink-github magiclink-mention" href="https://github.com/KotlinStateFlow" title="GitHub User: KotlinStateFlow">@KotlinStateFlow</a> для потоков с неопциональными значениями, и <a class="magiclink magiclink-github magiclink-mention" href="https://github.com/KotlinOptionalStateFlow" title="GitHub User: KotlinOptionalStateFlow">@KotlinOptionalStateFlow</a> — если значения могут быть nil.</p>
+</blockquote>
+<p><strong>Возможности</strong>
+- Автоматически обновляют SwiftUI UI при изменении значений в Kotlin StateFlow
+- Выполняют подписку на главном потоке
+- Совместимы с <a class="magiclink magiclink-github magiclink-mention" href="https://github.com/StateObject" title="GitHub User: StateObject">@StateObject</a> и <a class="magiclink magiclink-github magiclink-mention" href="https://github.com/ObservedObject" title="GitHub User: ObservedObject">@ObservedObject</a></p>
+<p><strong>Как использовать</strong>
+<div class="highlight"><pre><span class="kd">struct</span> <span class="nc">HelloView</span><span class="p">:</span> <span class="n">View</span> <span class="p">{</span>
+    <span class="kd">private</span> <span class="kd">let</span> <span class="nv">component</span><span class="p">:</span> <span class="n">HelloComponent</span>
+
+    <span class="p">@</span><span class="n">StateObject</span> <span class="p">@</span><span class="n">KotlinStateFlow</span> <span class="kd">private</span> <span class="kd">var</span> <span class="nv">text</span><span class="p">:</span> <span class="nb">String</span>
+
+    <span class="kd">init</span><span class="p">(</span><span class="n">component</span><span class="p">:</span> <span class="n">HelloComponent</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kc">self</span><span class="p">.</span><span class="n">component</span> <span class="p">=</span> <span class="n">component</span>
+        <span class="kc">self</span><span class="p">.</span><span class="n">_text</span> <span class="p">=</span> <span class="p">.</span><span class="kd">init</span><span class="p">(</span><span class="n">component</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nv">body</span><span class="p">:</span> <span class="n">some</span> <span class="n">View</span> <span class="p">{</span>
+        <span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">font</span><span class="p">(.</span><span class="n">title</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">padding</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div></p>
 <h2 id="_5">Пример использования<a class="headerlink" href="#_5" title="Permanent link"></a></h2>
 <h3 id="_6">Точка входа<a class="headerlink" href="#_6" title="Permanent link"></a></h3>
 <div class="highlight"><pre><span class="p">@</span><span class="n">main</span>

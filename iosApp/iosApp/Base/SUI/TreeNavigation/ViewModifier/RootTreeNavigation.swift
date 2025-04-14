@@ -21,17 +21,25 @@ import SwiftUI
  */
 struct RootTreeNavigation<C: AnyObject, Destination: Hashable & AnyObject>: ViewModifier {
     /// Стек дочерних компонентов для текущего контекста.
-    @ObservedObject var childStack: ObservableState<ChildStack<C, Destination>>
+    @ObservedObject @KotlinStateFlow var childStack: ChildStack<C, Destination>
     
     /// Модель навигации, управляющая состоянием навигации.
     let navigationModel: any ObservableNavigation
+    
+    init(
+        childStack: KotlinStateFlow<ChildStack<C, Destination>>,
+        navigationModel: any ObservableNavigation
+    ) {
+        self._childStack = .init(wrappedValue: childStack)
+        self.navigationModel = navigationModel
+    }
     
     func body(content: Content) -> some View {
         content
             .onAppear {
                 if
                     navigationModel.flatPath.isEmpty,
-                    let root = childStack.value.items.compactMap({ $0.instance }).first
+                    let root = childStack.items.compactMap({ $0.instance }).first
                 {
                     navigationModel.syncPath(state: .root(root), type: type(of: root))
                 }
@@ -53,7 +61,7 @@ extension View {
      * - Returns: Модифицированное представление, которое теперь имеет функциональность навигации.
      */
     func setRootTreeNavigation<C: AnyObject, Destination: Hashable & AnyObject>(
-        childStack: ObservableState<ChildStack<C, Destination>>,
+        childStack: KotlinStateFlow<ChildStack<C, Destination>>,
         navigationModel: any ObservableNavigation
     ) -> some View {
         self.modifier(

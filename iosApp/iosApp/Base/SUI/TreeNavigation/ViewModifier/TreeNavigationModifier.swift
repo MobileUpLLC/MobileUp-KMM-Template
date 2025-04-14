@@ -26,7 +26,7 @@ import SwiftUI
  */
 struct TreeNavigationModifier<C: AnyObject, Destination: Hashable & AnyObject, DestinationView: View>: ViewModifier {
     /// Стек дочерних компонентов для текущего контекста.
-    @ObservedObject var childStack: ObservableState<ChildStack<C, Destination>>
+    @ObservedObject var childStack: KotlinStateFlow<ChildStack<C, Destination>>
     
     /// Модель навигации, управляющая состоянием навигации.
     var navigationModel: any ObservableNavigation
@@ -34,17 +34,27 @@ struct TreeNavigationModifier<C: AnyObject, Destination: Hashable & AnyObject, D
     /// Замыкание для построения представления для целевой компоненты.
     let destinationBuilder: (Destination) -> DestinationView
     
+    init(
+        childStack: KotlinStateFlow<ChildStack<C, Destination>>,
+        navigationModel: any ObservableNavigation,
+        destinationBuilder: @escaping (Destination) -> DestinationView
+    ) {
+        self._childStack = .init(wrappedValue: childStack)
+        self.navigationModel = navigationModel
+        self.destinationBuilder = destinationBuilder
+    }
+    
     func body(content: Content) -> some View {
         content
             .navigationDestination(for: Destination.self) { destinationBuilder($0) }
             // MARK: Важно использовать именно `onReceive(_:perform:)` вместо `onChange(of:perform:)`
-            .onReceive(childStack.$value) { newStack in
+            .onReceive(_childStack.wrappedValue.$wrappedValue) { newStack in
                 var fromPath = navigationModel.flatPath.compactMap { $0 as? Destination }
                 let toPath = newStack.items.map(\.instance)
-                
+
                 // Если корневой элемент отсутствует в путях, добавляем его в начало пути
                 if
-                    let rootItem = childStack.value.items.map(\.instance).first,
+                    let rootItem = childStack.wrappedValue.items.map(\.instance).first,
                     fromPath.first != rootItem,
                     toPath.last != rootItem
                 {
@@ -120,7 +130,7 @@ extension View {
      * - Returns: Модифицированное представление, которое теперь имеет функциональность навигации.
      */
     func treeNavigation<C: AnyObject, Destination: Hashable & AnyObject, DestinationView: View>(
-        childStack: ObservableState<ChildStack<C, Destination>>,
+        childStack: KotlinStateFlow<ChildStack<C, Destination>>,
         navigationModel: any ObservableNavigation,
         destination: @escaping (Destination) -> DestinationView
     ) -> some View {

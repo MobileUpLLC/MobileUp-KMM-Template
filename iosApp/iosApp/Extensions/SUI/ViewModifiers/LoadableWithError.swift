@@ -10,7 +10,7 @@ import SwiftUI
 
 extension View {
     func loadableWithError<T: AnyObject>(
-        loadableState: ObservableState<LoadableState<T>>,
+        loadableState: KotlinStateFlow<LoadableState<T>>,
         emptyStateDescription: String? = nil,
         maxLoadingHeight: CGFloat = .infinity,
         verticalInsets: CGFloat = .zero,
@@ -33,7 +33,7 @@ extension View {
 }
 
 private struct RefreshableLoadableWithErrorModifier<T: AnyObject>: ViewModifier {
-    @ObservedObject var loadableState: ObservableState<LoadableState<T>>
+    @ObservedObject var loadableState: KotlinStateFlow<LoadableState<T>>
     let emptyStateDescription: String?
     let maxLoadingHeight: CGFloat
     let verticalInsets: CGFloat
@@ -45,7 +45,7 @@ private struct RefreshableLoadableWithErrorModifier<T: AnyObject>: ViewModifier 
     
     func body(content: Content) -> some View {
         ZStack {
-            if let error = loadableState.value.error {
+            if let error = loadableState.wrappedValue.error {
                 FullScreenErrorView(
                     error: error.localized(),
                     isWithBackSwipe: isWithBackSwipe,
@@ -53,8 +53,8 @@ private struct RefreshableLoadableWithErrorModifier<T: AnyObject>: ViewModifier 
                 )
             } else if
                 let emptyStateDescription,
-                loadableState.value.loading == false,
-                let data = loadableState.value.data as? NSArray,
+                loadableState.wrappedValue.loading == false,
+                let data = loadableState.wrappedValue.data as? NSArray,
                 data.count == .zero
             {
                 FullScreenEmptyView(
@@ -67,14 +67,14 @@ private struct RefreshableLoadableWithErrorModifier<T: AnyObject>: ViewModifier 
                 content
             }
             
-            if loadableState.value.loading && isRefreshing == false {
+            if loadableState.wrappedValue.loading && isRefreshing == false {
                 FullScreenLoadingView(isWithBackSwipe: isWithBackSwipe)
                     .frame(maxHeight: maxLoadingHeight)
                     .zIndex(1)
             }
         }
-        .animation(.easeIn, value: loadableState.value.loading)
-        .animation(.easeIn, value: loadableState.value.error != nil)
+        .animation(.easeIn, value: loadableState.wrappedValue.loading)
+        .animation(.easeIn, value: loadableState.wrappedValue.error != nil)
         .transition(.opacity)
         .if(onRefresh != nil) { view in
             view

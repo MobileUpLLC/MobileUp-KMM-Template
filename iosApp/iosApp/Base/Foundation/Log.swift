@@ -4,6 +4,7 @@ import Pulse
 
 extension Log {
     static let navigation = Log(subsystem: subsystem, category: "Navigation")
+    static let observableState = Log(subsystem: subsystem, category: "ObservableState")
     
     private static let subsystem = Bundle.main.bundleIdentifier ?? .empty
 }
