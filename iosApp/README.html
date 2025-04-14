@@ -1087,8 +1087,8 @@ body .markdown-body
 <li><strong>TreeNavigation</strong>: Протокол и расширения для реализации навигации с использованием стека компонентов.</li>
 <li><strong>RootHolder</strong>: Контейнер для корневого компонента приложения, управляет конфигурацией и зависимостями.</li>
 <li><strong>BackDispatcherService</strong>: Сервис для обработки навигации &ldquo;назад&rdquo; с использованием KMM.</li>
-<li><strong>BottomSheetChild</strong>: Модификатор для поднятия окон через свойство в компоненте состояния из KMM.</li>
-<li><strong>AlertChild</strong>: Модификатор для отображения модальных окон через свойство в компоненте состояния из KMM.</li>
+<li><strong>BottomSheetChild</strong>: Модификатор для поднятия окон через свойство в компоненте из KMM.</li>
+<li><strong>AlertChild</strong>: Модификатор для отображения модальных окон через свойство в компоненте из KMM.</li>
 <li><strong>RootTreeNavigation</strong>: Модификатор для инициализации и работы с корневым компонентом и навигацией через <code>TreeNavigation</code>.</li>
 </ol>
 <h2 id="_3">Установка<a class="headerlink" href="#_3" title="Permanent link"></a></h2>
@@ -1113,15 +1113,33 @@ body .markdown-body
 <li><strong>ObservableState</strong> и <strong>ObservableOptionalState</strong>: Используется, когда необходимо получать обновления из KMM-кода и автоматически обновлять SwiftUI-интерфейс. <code>ObservableState</code> наблюдает за Kotlin Multiplatform <code>StateFlow</code> и предоставляет его данные в SwiftUI через свойство <code>@Published</code>.</li>
 </ul>
 <h2 id="shared">shared<a class="headerlink" href="#shared" title="Permanent link"></a></h2>
+<p>Shared модуль в KMM — это основа всей идеи мультиплатформенной разработки: это место, где пишется единый код, который потом можно использовать на обеих платформах — Android и iOS.</p>
 <p>В Kotlin Multiplatform Mobile (KMM) используется концепция shared для совместного кода, который может быть использован как на Android, так и на iOS. Этот код хранится в shared модуле, который содержит общую логику приложения (например, бизнес-логику, доступ к данным, сетевые запросы и другие функции), которые могут быть использованы в обоих мобильных приложениях.</p>
-<p>Описание модуля shared:</p>
+<p><strong>Что лежит внутри shared?</strong></p>
+<p>В этом модуле обычно сосредоточен платформенно-независимый код:</p>
 <ul>
-<li>Что лежит в shared: Все общие компоненты, такие как бизнес-логика, модели данных, сетевые запросы и т. д.</li>
-<li>Как это работает: Код из модуля shared компилируется и используется как для Android-приложения, так и для iOS-приложения. Для взаимодействия с нативными компонентами (например, UI, платформенно-зависимыми фичами) используются специальным образом настроенные интерфейсы и соответствующие зависимости.</li>
-<li>Kotlin/Native: Для iOS используется Kotlin/Native, который позволяет компилировать Kotlin-код в нативные библиотеки, которые можно использовать в iOS-приложении.</li>
-<li>Обмен данными: Для обмена данными между платформами (например, для передачи состояния навигации) в shared часто используются механизмы, такие как StateFlow (SkieSwiftStateFlow/SkieSwiftOptionalStateFlow) для асинхронного взаимодействия.</li>
+<li>Бизнес-логика</li>
+<li>Модели данных</li>
+<li>Работа с сетью</li>
+<li>Доступ к данным</li>
+<li>Асинхронность и реактивность: StateFlow (SkieSwiftStateFlow/SkieSwiftOptionalStateFlow)</li>
+<li>Интерфейсы для платформенной реализации: если что-то нельзя сделать в общем коде, описывается интерфейс с реализациями под Android/iOS</li>
 </ul>
-<h2 id="kotlinstateflow-kotlinoptionalstateflow">Издатели KotlinStateFlow / KotlinOptionalStateFlow<a class="headerlink" href="#kotlinstateflow-kotlinoptionalstateflow" title="Permanent link"></a></h2>
+<p><strong>Как это работает?</strong></p>
+<p>На iOS:</p>
+<ul>
+<li>Через Kotlin/Native shared-код компилируется в .framework (import shared), которую можно использовать в Xcode</li>
+<li>Kotlin-классы и функции становятся доступными в Swift с помощью мостов (Objective-C объекты в shared)</li>
+<li>Skie библиотека, которая генерирует объекты в Swift код (например перечисления)</li>
+</ul>
+<p><strong>Обмен данными: как делиться состоянием?</strong></p>
+<p>Для реактивного взаимодействия между слоями часто используются:</p>
+<ul>
+<li>StateFlow — для управления состоянием и подписки на его изменения.</li>
+<li>Обёртки для Swift (SkieSwiftStateFlow, SkieSwiftOptionalStateFlow) — упрощают работу с Kotlin-стримами на стороне iOS.</li>
+<li>Kotlinx.coroutines — для асинхронной логики.</li>
+</ul>
+<h2 id="kotlinstateflow-kotlinoptionalstateflow">Наблюдатели KotlinStateFlow / KotlinOptionalStateFlow<a class="headerlink" href="#kotlinstateflow-kotlinoptionalstateflow" title="Permanent link"></a></h2>
 <p>SwiftUI-обёртки над StateFlow из Kotlin Multiplatform (через Skie), позволяющие удобно наблюдать за потоками состояний прямо в SwiftUI-компонентах.</p>
 <blockquote>
 <p>Используйте <a class="magiclink magiclink-github magiclink-mention" href="https://github.com/KotlinStateFlow" title="GitHub User: KotlinStateFlow">@KotlinStateFlow</a> для потоков с неопциональными значениями, и <a class="magiclink magiclink-github magiclink-mention" href="https://github.com/KotlinOptionalStateFlow" title="GitHub User: KotlinOptionalStateFlow">@KotlinOptionalStateFlow</a> — если значения могут быть nil.</p>
