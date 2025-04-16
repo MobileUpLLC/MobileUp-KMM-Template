@@ -1,4 +1,5 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -90,6 +91,12 @@ android {
     packaging {
         resources.excludes += "META-INF/*"
     }
+}
+
+composeCompiler {
+    stabilityConfigurationFiles.add(
+        rootProject.layout.projectDirectory.file("stability_config.conf")
+    )
 }
 
 multiplatformResources {
