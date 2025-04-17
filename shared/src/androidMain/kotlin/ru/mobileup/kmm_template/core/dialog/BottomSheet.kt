@@ -1,9 +1,6 @@
 package ru.mobileup.kmm_template.core.dialog
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -29,7 +26,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
-import ru.mobileup.kmm_template.core.utils.navigationBarsWithImePaddingDp
 import kotlin.coroutines.cancellation.CancellationException
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +34,7 @@ fun <T : Any> BottomSheet(
     dialogControl: DialogControl<*, T>,
     modifier: Modifier = Modifier,
     skipPartiallyExpanded: Boolean = true,
-    onHideAnimationFinished: (() -> Unit)? = null,
+    onHideAnimationFinish: (() -> Unit)? = null,
     shape: Shape = RectangleShape,
     content: @Composable ColumnScope.(T) -> Unit,
 ) {
@@ -76,7 +72,7 @@ fun <T : Any> BottomSheet(
                     } catch (e: CancellationException) {
                         // do nothing
                     }
-                    onHideAnimationFinished?.invoke()
+                    onHideAnimationFinish?.invoke()
                     null
                 }
                 if (delayed != null && current != null) {

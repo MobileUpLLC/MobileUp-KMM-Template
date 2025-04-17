@@ -7,11 +7,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import ru.mobileup.kmm_template.core.theme.AppTheme
+import ru.mobileup.kmm_template.features.flow2.presentation.FakeFlow2Component
+import ru.mobileup.kmm_template.features.flow2.presentation.Flow2Component
 import ru.mobileup.kmm_template.features.flow2.screen2A.Screen2AUi
 import ru.mobileup.kmm_template.features.flow2.screen2B.Screen2BUi
 import ru.mobileup.kmm_template.features.flow2.screen2C.Screen2CUi
-import ru.mobileup.kmm_template.features.flow2.presentation.FakeFlow2Component
-import ru.mobileup.kmm_template.features.flow2.presentation.Flow2Component
 
 @Composable
 fun Flow2Ui(
@@ -31,7 +31,7 @@ fun Flow2Ui(
 
 @Preview(showSystemUi = true)
 @Composable
-fun Flow2UiPreview() {
+private fun Flow2UiPreview() {
     AppTheme {
         Flow2Ui(FakeFlow2Component())
     }

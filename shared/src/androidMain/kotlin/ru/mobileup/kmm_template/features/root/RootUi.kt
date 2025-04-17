@@ -1,17 +1,14 @@
 package ru.mobileup.kmm_template.features.root
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.stack.Children
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.mobileup.kmm_template.core.message.ui.MessageUi
 import ru.mobileup.kmm_template.core.theme.AppTheme
-import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
 import ru.mobileup.kmm_template.core.utils.ConfigureSystemBars
 import ru.mobileup.kmm_template.core.utils.LocalSystemBarsSettings
 import ru.mobileup.kmm_template.core.utils.accumulate
@@ -39,7 +36,6 @@ fun RootUi(
 
     MessageUi(
         component = component.messageComponent,
-        modifier = modifier,
         bottomPadding = 16.dp
     )
 
@@ -48,7 +44,7 @@ fun RootUi(
 
 @Preview(showSystemUi = true)
 @Composable
-fun RootUiPreview() {
+private fun RootUiPreview() {
     AppTheme {
         RootUi(FakeRootComponent())
     }

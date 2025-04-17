@@ -18,8 +18,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.serializer
 import ru.flawery.core.state.CFlow
 import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.state.toCStateFlow

@@ -1,6 +1,3 @@
-import io.gitlab.arturbosch.detekt.Detekt
-import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
-
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
@@ -9,7 +6,6 @@ plugins {
     alias(libs.plugins.ktorfit)
     alias(libs.plugins.moko.resources)
     alias(libs.plugins.module.graph)
-    alias(libs.plugins.detekt)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.compose.compiler)
 }

@@ -42,7 +42,6 @@ import ru.mobileup.kmm_template.core.utils.dispatchOnBackPressed
 import ru.mobileup.kmm_template.core.widget.PullRefreshLceWidget
 import ru.mobileup.kmm_template.core.widget.RefreshingProgress
 import ru.mobileup.kmm_template.core.widget.button.AppButton
-import ru.mobileup.kmm_template.core.widget.button.AppButtonDefaults
 import ru.mobileup.kmm_template.core.widget.button.ButtonType
 import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
 import ru.mobileup.kmm_template.features.pokemons.list.PokemonTypeItem
@@ -215,7 +214,7 @@ private fun PokemonDetailsDialog(
 
 @Preview(showSystemUi = true)
 @Composable
-fun PokemonDetailsUiPreview() {
+private fun PokemonDetailsUiPreview() {
     AppTheme {
         PokemonDetailsUi(FakePokemonDetailsComponent())
     }

@@ -50,34 +50,34 @@ fun HomeUi(
         bottomBar = {
             BottomBar(
                 currentChild = childStack.active.instance,
-                onTabSelected = component::onTabSelected
+                onTabSelect = component::onTabSelected
             )
         }
     )
 }
 
 @Composable
-fun BottomBar(currentChild: HomeComponent.Child, onTabSelected: (HomeTab) -> Unit) {
+fun BottomBar(currentChild: HomeComponent.Child, onTabSelect: (HomeTab) -> Unit) {
     NavigationBar {
         NavigationItem(
             iconRes = ru.mobileup.kmm_template.R.drawable.ic_24_tab1,
             label = stringResource(MR.strings.home_tab1_label),
             isSelected = currentChild is HomeComponent.Child.Tab1,
-            onClick = { onTabSelected(HomeTab.Tab1) }
+            onClick = { onTabSelect(HomeTab.Tab1) }
         )
 
         NavigationItem(
             iconRes = ru.mobileup.kmm_template.R.drawable.ic_24_tab2,
             label = stringResource(MR.strings.home_tab2_label),
             isSelected = currentChild is HomeComponent.Child.Tab2,
-            onClick = { onTabSelected(HomeTab.Tab2) }
+            onClick = { onTabSelect(HomeTab.Tab2) }
         )
 
         NavigationItem(
             iconRes = ru.mobileup.kmm_template.R.drawable.ic_24_tab3,
             label = stringResource(MR.strings.home_tab3_label),
             isSelected = currentChild is HomeComponent.Child.Tab3,
-            onClick = { onTabSelected(HomeTab.Tab3) }
+            onClick = { onTabSelect(HomeTab.Tab3) }
         )
     }
 }
@@ -87,9 +87,11 @@ fun RowScope.NavigationItem(
     @DrawableRes iconRes: Int,
     label: String,
     isSelected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     NavigationBarItem(
+        modifier = modifier,
         icon = {
             Icon(painterResource(iconRes), contentDescription = null)
         },
@@ -112,7 +114,7 @@ fun RowScope.NavigationItem(
 
 @Preview(showSystemUi = true)
 @Composable
-fun HomeUiPreview() {
+private fun HomeUiPreview() {
     AppTheme {
         HomeUi(FakeHomeComponent())
     }

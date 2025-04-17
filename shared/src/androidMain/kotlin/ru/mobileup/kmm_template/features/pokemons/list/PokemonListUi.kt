@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -152,7 +151,7 @@ private fun PokemonItem(
 
 @Preview(showSystemUi = true)
 @Composable
-fun PokemonListUiPreview() {
+private fun PokemonListUiPreview() {
     AppTheme {
         PokemonListUi(FakePokemonListComponent())
     }
