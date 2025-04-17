@@ -63,8 +63,8 @@ import ru.mobileup.kmm_form_validation.options.VisualTransformation as KmmVisual
 fun AppTextField(
     text: String,
     onTextChange: (String) -> Unit,
-    onFocusChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    onFocusChange: (Boolean) -> Unit = {},
     isEnabled: Boolean = true,
     supportingText: String? = null,
     errorText: String? = null,
@@ -126,7 +126,7 @@ fun AppTextField(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .animateContentSize()
             .bringIntoViewRequester(bringIntoViewRequester)
     ) {
@@ -140,7 +140,7 @@ fun AppTextField(
         }
 
         TextField(
-            modifier = modifier
+            modifier = Modifier
                 .border(border = border, shape = shape)
                 .focusRequester(focusRequester)
                 .onFocusChanged { onFocusChange(it.isFocused) },
@@ -217,10 +217,7 @@ fun AppTextField(
     colors: TextFieldColors = AppTextFieldDefaults.colors,
     textStyle: TextStyle = AppTextFieldDefaults.textStyle,
     labelStyle: TextStyle = AppTextFieldDefaults.labelStyle,
-    border: BorderStroke = AppTextFieldDefaults.border(
-        isError = inputControl.error.value != null,
-        hasFocus = inputControl.hasFocus.value
-    ),
+    border: BorderStroke? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     visualTransformation: KmmVisualTransformation? = null,
     label: String? = null,
@@ -235,7 +232,7 @@ fun AppTextField(
     val hasFocus by inputControl.hasFocus.collectAsState()
     val error by inputControl.error.collectAsState()
     val enabled by inputControl.enabled.collectAsState()
-    val text by inputControl.text.collectAsState()
+    val text by inputControl.value.collectAsState()
 
     AppTextField(
         modifier = modifier,
@@ -249,8 +246,8 @@ fun AppTextField(
         prefix = prefix,
         suffix = suffix,
         isEnabled = enabled,
-        onTextChange = inputControl::onTextChanged,
-        onFocusChange = inputControl::onFocusChanged,
+        onTextChange = inputControl::onValueChange,
+        onFocusChange = inputControl::onFocusChange,
         singleLine = minLines == 1,
         keyboardOptions = inputControl.keyboardOptions.toCompose(),
         keyboardActions = keyboardActions,
@@ -266,7 +263,10 @@ fun AppTextField(
         colors = colors,
         textStyle = textStyle,
         labelStyle = labelStyle,
-        border = border,
+        border = border ?: AppTextFieldDefaults.border(
+            isError = error != null,
+            hasFocus = hasFocus
+        ),
         interactionSource = interactionSource,
     )
 }

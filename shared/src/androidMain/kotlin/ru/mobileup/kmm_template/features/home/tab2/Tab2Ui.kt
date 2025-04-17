@@ -46,7 +46,7 @@ fun Tab2Ui(
 
 @Preview(showSystemUi = true)
 @Composable
-fun Tab2UiPreview() {
+private fun Tab2UiPreview() {
     AppTheme {
         Tab2Ui(FakeTab2Component())
     }

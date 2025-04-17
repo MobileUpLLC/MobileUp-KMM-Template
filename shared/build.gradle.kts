@@ -13,7 +13,6 @@ plugins {
     alias(libs.plugins.ktorfit)
     alias(libs.plugins.moko.resources)
     alias(libs.plugins.module.graph)
-    alias(libs.plugins.detekt)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.skie)
@@ -96,6 +95,12 @@ android {
     packaging {
         resources.excludes += "META-INF/*"
     }
+}
+
+composeCompiler {
+    stabilityConfigurationFiles.add(
+        rootProject.layout.projectDirectory.file("stability_config.conf")
+    )
 }
 
 skie {

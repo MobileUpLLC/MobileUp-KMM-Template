@@ -151,7 +151,7 @@ private fun PokemonItem(
 
 @Preview(showSystemUi = true)
 @Composable
-fun PokemonListUiPreview() {
+private fun PokemonListUiPreview() {
     AppTheme {
         PokemonListUi(FakePokemonListComponent())
     }

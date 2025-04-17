@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.detekt)
     alias(libs.plugins.compose.compiler)
 }
 
@@ -49,8 +48,6 @@ android {
         }
     }
 
-
-
     setFlavorDimensions(listOf("backend"))
     productFlavors {
         create("dev") {
@@ -79,6 +76,12 @@ android {
         resources.excludes += "META-INF/INDEX.LIST"
         resources.excludes += "META-INF/io.netty.versions.properties"
     }
+}
+
+composeCompiler {
+    stabilityConfigurationFiles.add(
+        rootProject.layout.projectDirectory.file("stability_config.conf")
+    )
 }
 
 dependencies {

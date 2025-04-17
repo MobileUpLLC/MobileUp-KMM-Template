@@ -31,7 +31,7 @@ fun Flow2Ui(
 
 @Preview(showSystemUi = true)
 @Composable
-fun Flow2UiPreview() {
+private fun Flow2UiPreview() {
     AppTheme {
         Flow2Ui(FakeFlow2Component())
     }

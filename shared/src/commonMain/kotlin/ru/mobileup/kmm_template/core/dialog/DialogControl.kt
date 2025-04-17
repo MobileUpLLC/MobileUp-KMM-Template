@@ -12,5 +12,4 @@ abstract class DialogControl<C : Any, T : Any> {
 
     abstract fun show(config: C)
     abstract fun dismiss()
-
 }

@@ -15,5 +15,5 @@ plugins {
     alias(libs.plugins.detekt) apply false
 
     alias(libs.plugins.convetion.lint) apply false
-    alias(libs.plugins.convetion.detekt) apply true
+    alias(libs.plugins.convetion.detekt)
 }

@@ -42,7 +42,7 @@ fun Screen1BUi(
 
 @Preview(showSystemUi = true)
 @Composable
-fun Screen1BUiPreview() {
+private fun Screen1BUiPreview() {
     AppTheme {
         Screen1BUi(FakeScreen1BComponent())
     }
