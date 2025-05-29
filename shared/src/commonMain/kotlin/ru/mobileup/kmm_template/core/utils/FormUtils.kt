@@ -1,10 +1,12 @@
 package ru.mobileup.kmm_template.core.utils
 
 import com.arkivanov.decompose.ComponentContext
+import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import ru.mobileup.kmm_form_validation.control.CheckControl
 import ru.mobileup.kmm_form_validation.control.InputControl
+import ru.mobileup.kmm_form_validation.control.PickerControl
 import ru.mobileup.kmm_form_validation.options.KeyboardOptions
 import ru.mobileup.kmm_form_validation.options.TextTransformation
 import ru.mobileup.kmm_form_validation.options.VisualTransformation
@@ -28,6 +30,11 @@ fun ComponentContext.InputControl(
     textTransformation,
     visualTransformation
 )
+
+fun <T> ComponentContext.PickerControl(
+    initialSelected: T? = null,
+    displayMapper: (T?) -> StringDesc?,
+): PickerControl<T> = PickerControl(componentScope, initialSelected, displayMapper)
 
 fun ComponentContext.CheckControl(
     initialChecked: Boolean = false
