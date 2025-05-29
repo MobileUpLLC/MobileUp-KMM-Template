@@ -2,7 +2,9 @@ package ru.mobileup.kmm_template.features.home
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -35,10 +37,11 @@ fun HomeUi(
 
     Scaffold(
         modifier = modifier,
-        content = { contentPadding ->
+        contentWindowInsets = WindowInsets.systemBars,
+        content = { innerPadding ->
             Children(
                 childStack,
-                modifier = Modifier.padding(contentPadding)
+                modifier = Modifier.padding(innerPadding)
             ) { child ->
                 when (val instance = child.instance) {
                     is HomeComponent.Child.Tab1 -> Tab1Ui(instance.component)

@@ -3,6 +3,7 @@ package ru.mobileup.kmm_template.features.pokemons.list
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -55,18 +56,20 @@ fun PokemonListUi(
             state = pokemonsState,
             onRefresh = component::onRefresh,
             onRetryClick = component::onRetryClick
-        ) { pokemons, refreshing ->
-            if (pokemons.isNotEmpty()) {
-                PokemonListContent(
-                    pokemons = pokemons,
-                    onPokemonClick = component::onPokemonClick
-                )
-            } else {
-                EmptyPlaceholder(
-                    description = stringResource(MR.strings.pokemons_empty_description)
-                )
+        ) { pokemons, refreshing, paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues)) {
+                if (pokemons.isNotEmpty()) {
+                    PokemonListContent(
+                        pokemons = pokemons,
+                        onPokemonClick = component::onPokemonClick
+                    )
+                } else {
+                    EmptyPlaceholder(
+                        description = stringResource(MR.strings.pokemons_empty_description)
+                    )
+                }
+                RefreshingProgress(refreshing)
             }
-            RefreshingProgress(refreshing)
         }
     }
 }
