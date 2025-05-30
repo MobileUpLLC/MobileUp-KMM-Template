@@ -29,42 +29,36 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.form.validation)
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.coroutines.core)
-                api(libs.decompose.core)
-                implementation(libs.bundles.ktor.shared)
-                implementation(libs.ktorfit.lib)
-                implementation(libs.bundles.replica.shared)
-                implementation(libs.koin)
-                implementation(libs.logger.kermit)
-                api(libs.moko.resources)
-                implementation(libs.form.validation)
-            }
+        commonMain.dependencies {
+            implementation(libs.form.validation)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.coroutines.core)
+            api(libs.decompose.core)
+            implementation(libs.bundles.ktor.shared)
+            implementation(libs.ktorfit.lib)
+            implementation(libs.bundles.replica.shared)
+            implementation(libs.koin)
+            implementation(libs.logger.kermit)
+            api(libs.moko.resources)
+            implementation(libs.form.validation)
         }
 
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.form.validation)
-                implementation(libs.coroutines.android)
-                implementation(libs.ktor.android)
-                implementation(libs.decompose.compose)
-                implementation(libs.replica.android.network)
-                implementation(libs.moko.resourcesCompose)
-                implementation(project.dependencies.platform(libs.compose.bom))
-                implementation(libs.bundles.compose)
-                implementation(libs.coil)
-                implementation(libs.accompanist.systemuicontroller)
-            }
+        androidMain.dependencies {
+            implementation(libs.form.validation)
+            implementation(libs.coroutines.android)
+            implementation(libs.ktor.android)
+            implementation(libs.decompose.compose)
+            implementation(libs.replica.android.network)
+            implementation(libs.moko.resourcesCompose)
+            implementation(project.dependencies.platform(libs.compose.bom))
+            implementation(libs.bundles.compose)
+            implementation(libs.coil)
+            implementation(libs.accompanist.systemuicontroller)
         }
 
-        val iosMain by getting {
-            dependencies {
-                implementation(libs.ktor.ios)
-                implementation(compose.runtime)
-            }
+        iosMain.dependencies {
+            implementation(libs.ktor.ios)
+            implementation(compose.runtime)
         }
     }
 }
