@@ -1,7 +1,7 @@
 package ru.mobileup.kmm_template.features.pokemons.presentation.pokemon_votes
 
 import com.arkivanov.decompose.ComponentContext
-import ru.mobileup.kmm_template.core.state.CStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.GetAllVotesForPokemonInteractor
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.PokemonVotes
 
@@ -9,6 +9,6 @@ class RealPokemonVotesComponent(
     componentContext: ComponentContext,
     getAllVotesForPokemonInteractor: GetAllVotesForPokemonInteractor
 ) : PokemonVotesComponent, ComponentContext by componentContext {
-    override val pokemonVotes: CStateFlow<PokemonVotes> =
+    override val pokemonVotes: StateFlow<PokemonVotes> =
         getAllVotesForPokemonInteractor.execute()
 }

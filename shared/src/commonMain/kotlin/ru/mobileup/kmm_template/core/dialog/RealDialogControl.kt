@@ -18,11 +18,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.serialization.KSerializer
-import ru.flawery.core.state.CFlow
-import ru.mobileup.kmm_template.core.state.CStateFlow
-import ru.mobileup.kmm_template.core.state.toCStateFlow
 import ru.mobileup.kmm_template.core.utils.componentScope
-import ru.mobileup.kmm_template.core.utils.toCStateFlow
+import ru.mobileup.kmm_template.core.utils.toStateFlow
 
 fun <C : Any, T : Any> ComponentContext.dialogControl(
     key: String,
@@ -51,7 +48,7 @@ private class RealDialogControl<C : Any, T : Any>(
 
     private val dialogNavigation = SlotNavigation<C>()
 
-    override val dialogSlot: CStateFlow<ChildSlot<*, T>> =
+    override val dialogSlot: StateFlow<ChildSlot<*, T>> =
         componentContext.childSlot<ComponentContext, C, T>(
             source = dialogNavigation,
             handleBackButton = false,
@@ -60,30 +57,25 @@ private class RealDialogControl<C : Any, T : Any>(
             childFactory = { config: C, context: ComponentContext ->
                 dialogComponentFactory(config, context, this)
             }
-        ).toCStateFlow(componentContext.lifecycle)
+        ).toStateFlow(componentContext.lifecycle)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override val dismissableByUser: CStateFlow<Boolean> = dialogSlot
+    override val dismissableByUser: StateFlow<Boolean> = dialogSlot
         .flatMapLatest { slot ->
             slot.child?.let { dismissableByUser(it.configuration as C, it.instance) }
                 ?: MutableStateFlow(false)
         }
         .stateIn(componentContext.componentScope, SharingStarted.Eagerly, initialValue = false)
-        .toCStateFlow()
 
-    private val _dismissedEvent = MutableSharedFlow<Unit>(
+    override val dismissedEvent = MutableSharedFlow<Unit>(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
-    override val dismissedEvent = CFlow(_dismissedEvent)
-
-    private val _shownEvent = MutableSharedFlow<Unit>(
+    override val shownEvent = MutableSharedFlow<Unit>(
         extraBufferCapacity = 1,
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
-
-    override val shownEvent = CFlow(_shownEvent)
 
     private var savedConfig: C? = null
 
@@ -118,7 +110,7 @@ private class RealDialogControl<C : Any, T : Any>(
         // отправляем ивент раньше активации специально, чтобы на iOS
         // сначала скрылся старый боттомшит, затем открылся новый, иначе новый не откроется
         // см. ActiveDialogManager
-        _shownEvent.tryEmit(Unit)
+        shownEvent.tryEmit(Unit)
         dialogNavigation.activate(config)
     }
 
@@ -126,6 +118,6 @@ private class RealDialogControl<C : Any, T : Any>(
         if (dialogSlot.value.child == null && savedConfig == null) return
         savedConfig = null
         dialogNavigation.dismiss()
-        _dismissedEvent.tryEmit(Unit)
+        dismissedEvent.tryEmit(Unit)
     }
 }

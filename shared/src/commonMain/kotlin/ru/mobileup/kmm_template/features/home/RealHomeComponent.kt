@@ -5,10 +5,10 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import ru.mobileup.kmm_template.core.ComponentFactory
-import ru.mobileup.kmm_template.core.state.CStateFlow
-import ru.mobileup.kmm_template.core.utils.toCStateFlow
+import ru.mobileup.kmm_template.core.utils.toStateFlow
 import ru.mobileup.kmm_template.features.home.tab1.Tab1Component
 import ru.mobileup.kmm_template.features.home.tab2.Tab2Component
 import ru.mobileup.kmm_template.features.pokemons.createPokemonsComponent
@@ -21,12 +21,12 @@ class RealHomeComponent(
 
     private val navigation = StackNavigation<ChildConfig>()
 
-    override val childStack: CStateFlow<ChildStack<*, HomeComponent.Child>> = childStack(
+    override val childStack: StateFlow<ChildStack<*, HomeComponent.Child>> = childStack(
         source = navigation,
         initialConfiguration = ChildConfig.Tab1,
         serializer = ChildConfig.serializer(),
         childFactory = ::createChild
-    ).toCStateFlow(lifecycle)
+    ).toStateFlow(lifecycle)
 
     private fun createChild(
         config: ChildConfig,

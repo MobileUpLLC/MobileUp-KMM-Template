@@ -6,6 +6,6 @@ import ru.mobileup.kmm_template.core.utils.createFakeChildStack
 
 class Fake${componentName} : ${componentName} {
 
-    override val childStack: CStateFlow<ChildStack<*, ${componentName}.Child>> =
+    override val childStack: StateFlow<ChildStack<*, ${componentName}.Child>> =
         createFakeChildStack(${componentName}.Child.Default)
 }

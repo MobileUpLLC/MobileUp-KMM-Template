@@ -1,3 +1,10 @@
+import co.touchlab.skie.configuration.DefaultArgumentInterop
+import co.touchlab.skie.configuration.EnumInterop
+import co.touchlab.skie.configuration.FlowInterop
+import co.touchlab.skie.configuration.FunctionInterop
+import co.touchlab.skie.configuration.SealedInterop
+import co.touchlab.skie.configuration.SuspendInterop
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
@@ -8,6 +15,7 @@ plugins {
     alias(libs.plugins.module.graph)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.skie)
 }
 
 kotlin {
@@ -87,6 +95,20 @@ composeCompiler {
     stabilityConfigurationFiles.add(
         rootProject.layout.projectDirectory.file("stability_config.conf")
     )
+}
+
+skie {
+    features {
+        group {
+            EnumInterop.Enabled(true)
+            SealedInterop.Enabled(true)
+            DefaultArgumentInterop.Enabled(true)
+            FunctionInterop.FileScopeConversion.Enabled(true)
+            coroutinesInterop.set(true)
+            SuspendInterop.Enabled(true)
+            FlowInterop.Enabled(true)
+        }
+    }
 }
 
 multiplatformResources {

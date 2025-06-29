@@ -31,6 +31,7 @@ chucker = "4.0.0"
 hyperion = "0.9.38"
 hyperionAddons = "0.3.3"
 composeRules = "0.4.18"
+skie = "0.10.1"
 
 [libraries]
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "dateTime" }
@@ -143,6 +144,8 @@ moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.re
 
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 module-graph = { id = "ru.mobileup.module-graph", version.ref = "moduleGraph" }
+
+skie = { id = "co.touchlab.skie", version.ref = "skie" }
 
 # Convention plugins
 convetion-detekt = { id = "convention.detekt", version = "unspecified" }

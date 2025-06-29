@@ -1,22 +1,25 @@
 package ru.mobileup.kmm_template.features.pokemons.presentation.details
 
 import com.arkivanov.decompose.ComponentContext
+import dev.icerock.moko.graphics.Color
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import me.aartikov.replica.single.Replica
 import ru.mobileup.kmm_template.core.ComponentFactory
 import ru.mobileup.kmm_template.core.dialog.DialogControl
 import ru.mobileup.kmm_template.core.dialog.dialogControl
 import ru.mobileup.kmm_template.core.error_handling.ErrorHandler
-import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.state.computed
-import ru.mobileup.kmm_template.core.state.toCNullableStateFlow
 import ru.mobileup.kmm_template.core.utils.componentScope
 import ru.mobileup.kmm_template.core.utils.observe
 import ru.mobileup.kmm_template.features.pokemons.createPokemonVoteDialogComponent
 import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
+import ru.mobileup.kmm_template.features.pokemons.domain.PokemonType
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.GetVoteForPokemonInteractor
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.PokemonVote
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.SetVoteForPokemonInteractor
@@ -37,9 +40,8 @@ class RealPokemonDetailsComponent(
 
     private val pokemonVote = getVoteForPokemonInteractor.execute(pokemonName)
         .stateIn(componentScope, SharingStarted.Eagerly, null)
-        .toCNullableStateFlow()
 
-    override val pokemonVoteState: CStateFlow<PokemonVoteState> = computed(pokemonVote) {
+    override val pokemonVoteState: StateFlow<PokemonVoteState> = computed(pokemonVote) {
         it.toPokemonVoteState()
     }
 
@@ -52,6 +54,16 @@ class RealPokemonDetailsComponent(
             key = "dialogControl",
             dialogComponentFactory = ::createPokemonVoteDialogComponent
         )
+
+    init {
+        pokemonState
+            .onEach { println("KMM pokemonState: $it") }
+            .launchIn(componentScope)
+
+        pokemonVoteState
+            .onEach { println("KMM pokemonVoteState: $it") }
+            .launchIn(componentScope)
+    }
 
     override fun onVoteClick() {
         pokemonState.value.data?.let { detailedPokemon ->
@@ -88,6 +100,7 @@ class RealPokemonDetailsComponent(
                 val pokemonVote = PokemonVote(pokemonName, output.isPositive)
                 setVoteForPokemonInteractor.execute(pokemonVote)
                 dialogControl.dismiss()
+                println("onVoteOutput: $pokemonVote")
             }
         }
     }

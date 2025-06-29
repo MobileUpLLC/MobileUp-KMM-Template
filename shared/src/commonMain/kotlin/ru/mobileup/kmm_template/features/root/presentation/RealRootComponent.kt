@@ -8,11 +8,11 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import ru.mobileup.kmm_template.core.ComponentFactory
 import ru.mobileup.kmm_template.core.message.createMessageComponent
-import ru.mobileup.kmm_template.core.state.CStateFlow
-import ru.mobileup.kmm_template.core.utils.toCStateFlow
+import ru.mobileup.kmm_template.core.utils.toStateFlow
 import ru.mobileup.kmm_template.features.flow1.createFlow1Component
 import ru.mobileup.kmm_template.features.flow1.presentation.Flow1Component
 import ru.mobileup.kmm_template.features.flow2.createFlow2Component
@@ -27,13 +27,13 @@ class RealRootComponent(
 
     private val navigation = StackNavigation<ChildConfig>()
 
-    override val childStack: CStateFlow<ChildStack<*, RootComponent.Child>> = childStack(
+    override val childStack: StateFlow<ChildStack<*, RootComponent.Child>> = childStack(
         source = navigation,
         initialConfiguration = ChildConfig.Flow1,
         serializer = ChildConfig.serializer(),
         handleBackButton = true,
         childFactory = ::createChild
-    ).toCStateFlow(lifecycle)
+    ).toStateFlow(lifecycle)
 
     override val messageComponent = componentFactory.createMessageComponent(
         childContext(key = "message")

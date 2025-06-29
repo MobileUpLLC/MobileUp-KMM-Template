@@ -2,12 +2,12 @@ package ru.mobileup.kmm_template.core.message.presentation
 
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
+import kotlinx.coroutines.flow.MutableStateFlow
 import ru.mobileup.kmm_template.core.message.domain.Message
-import ru.mobileup.kmm_template.core.state.CNullableMutableStateFlow
 
 class FakeMessageComponent : MessageComponent {
 
-    override val visibleMessage = CNullableMutableStateFlow(Message(StringDesc.Raw("Message")))
+    override val visibleMessage = MutableStateFlow(Message(StringDesc.Raw("Message")))
 
     override fun onActionClick() = Unit
 }

@@ -1,14 +1,14 @@
 package ru.mobileup.kmm_template.features.flow2.presentation
 
 import com.arkivanov.decompose.router.stack.ChildStack
-import ru.mobileup.kmm_template.core.state.CStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import ru.mobileup.kmm_template.features.flow2.presentation.screen2A.Screen2AComponent
 import ru.mobileup.kmm_template.features.flow2.presentation.screen2B.Screen2BComponent
 import ru.mobileup.kmm_template.features.flow2.presentation.screen2C.Screen2CComponent
 
 interface Flow2Component {
 
-    val childStack: CStateFlow<ChildStack<*, Child>>
+    val childStack: StateFlow<ChildStack<*, Child>>
 
     sealed class Child {
         class Screen2A(val component: Screen2AComponent) : Child()
