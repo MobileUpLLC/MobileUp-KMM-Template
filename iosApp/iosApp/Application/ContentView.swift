@@ -9,14 +9,18 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject private var rootHolder: RootHolder
-    @State private var isAnimationFinished = false
+    @State private var isLaunchFinished = false
     
     var body: some View {
-        if isAnimationFinished {
-            RootView(component: rootHolder.rootComponent)
-                .addToastGlobal { item in ToastView(item: item) }
-        } else {
-            SplashView { isAnimationFinished = true }
+        ZStack {
+            if isLaunchFinished {
+                RootView(component: rootHolder.rootComponent)
+                    .addToastGlobal { item in ToastView(item: item) }
+                    .transition(.opacity)
+            } else {
+                SplashView(onAnimationFinished: { isLaunchFinished = true })
+                    .transition(.opacity)
+            }
         }
     }
 }
@@ -24,4 +28,5 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .environmentObject(RootHolder())
+        .environmentObject(ToastRouter())
 }

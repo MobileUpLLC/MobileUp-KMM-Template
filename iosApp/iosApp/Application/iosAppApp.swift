@@ -8,8 +8,10 @@
 import SwiftUI
 
 @main
+// swiftlint:disable:next type_name
 struct iosAppApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject var navigationModel = NavigationModel()
     @StateObject private var rootHolder = RootHolder()
     @StateObject private var toastRouter = ToastRouter()
     
@@ -18,6 +20,7 @@ struct iosAppApp: App {
             ContentView()
                 .environmentObject(rootHolder)
                 .environmentObject(toastRouter)
+                .environmentObject(navigationModel)
         }
     }
 }

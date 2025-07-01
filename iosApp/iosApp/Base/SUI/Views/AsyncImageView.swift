@@ -15,6 +15,20 @@ struct AsyncImageView: View {
     var placeholderColor: Color?
     var onDownload: Closure.Void?
     
+    init(imageLink: String?, placeholder: Image? = nil, placeholderColor: Color? = nil, onDownload: Closure.Void? = nil) {
+        self.imageLink = imageLink
+        self.placeholder = placeholder
+        self.placeholderColor = placeholderColor
+        self.onDownload = onDownload
+    }
+    
+    init(url: URL?, placeholder: Image? = nil, placeholderColor: Color? = nil, onDownload: Closure.Void? = nil) {
+        self.imageLink = url?.absoluteString
+        self.placeholder = placeholder
+        self.placeholderColor = placeholderColor
+        self.onDownload = onDownload
+    }
+    
     var body: some View {
         KFImage(URL(string: imageLink ?? .empty))
             .onSuccess { _ in

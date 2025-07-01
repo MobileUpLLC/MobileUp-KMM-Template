@@ -12,13 +12,14 @@ enum AppearanceService {
     static let foregroundColor: UIColor = .black
     static let backgroundColor: UIColor = .white
     static let font: UIFont? = .systemFont(ofSize: 32, weight: .medium)
-    static let backButton: UIImage = .init(systemName: "arrow.left")!
+    static let backButton: UIImage = .init(systemName: "arrow.left") ?? UIImage()
     
     static let selectedTab: UIColor = .white
     static let normalTab: UIColor = .white.withAlphaComponent(0.5)
     static let backgroundTab: UIColor = .systemBlue
     static let fontTab: UIFont = .systemFont(ofSize: 17, weight: .medium)
     
+    @MainActor
     static func setupNavigationBar() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -56,6 +57,7 @@ enum AppearanceService {
         UIBarButtonItem.appearance().tintColor = foregroundColor
     }
     
+    @MainActor
     static func setupTabBar() {
         let appearance = UITabBarAppearance()
         

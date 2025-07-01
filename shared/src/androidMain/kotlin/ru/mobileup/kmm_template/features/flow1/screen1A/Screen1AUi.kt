@@ -11,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dev.icerock.moko.resources.compose.localized
@@ -48,7 +49,8 @@ fun Screen1AUi(
             AppButton(
                 text = stringResource(MR.strings.common_next),
                 onClick = component::onNextClick,
-                buttonType = ButtonType.Primary
+                buttonType = ButtonType.Primary,
+                modifier = Modifier.align(Alignment.Center)
             )
         }
     }

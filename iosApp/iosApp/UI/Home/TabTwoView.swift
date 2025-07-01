@@ -16,12 +16,8 @@ struct TabTwoView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            Button(MR.strings().home_tab2_start_flow2_button.desc().localized()) {
-                component.onStartFlow2Click()
-            }
-            .buttonStyle(.borderedProminent)
-            .navigationTitle(component.text.value.localized())
+        Button(MR.strings().home_tab2_start_flow2_button.desc().localized()) {
+            component.onStartFlow2Click()
         }
     }
 }

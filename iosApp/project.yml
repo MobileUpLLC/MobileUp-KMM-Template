@@ -1,0 +1,130 @@
+name: iosApp
+options:
+  xcodeVersion: "15.0"
+  deploymentTarget:
+    iOS: "16.1"
+  developmentLanguage: en
+
+settings:
+  base:
+    SWIFT_VERSION: 5.0
+      
+configs:
+  Debug: debug
+  Release: release
+      
+targets:
+  iosApp:
+    type: application
+    platform: iOS
+    sources:
+      - path: ./iosApp
+    settings:
+      base:
+        PRODUCT_NAME: KMM Demo
+        DEVELOPMENT_TEAM: 3B54CF53AJ
+        PRODUCT_BUNDLE_IDENTIFIER: com.kmmdemo.KMMDemo
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+        SWIFT_VERSION: "6.0"
+        PRODUCT_NAME: KMM Demo
+        CODE_SIGN_STYLE: Manual
+        ENABLE_PREVIEWS: true
+        ENABLE_USER_SCRIPT_SANDBOXING: false
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+      configs:
+        Debug:
+          CODE_SIGN_IDENTITY: iPhone Developer
+          PROVISIONING_PROFILE_SPECIFIER: Super MobileUp Dev
+          URL_SCHEME: iosApp
+        Release:
+          CODE_SIGN_IDENTITY: iPhone Developer
+          PROVISIONING_PROFILE_SPECIFIER: Super MobileUp Dev
+          URL_SCHEME: iosApp
+    info:
+      path: iosApp/Info.plist
+      properties:
+        UILaunchScreen:
+          UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        CFBundleDisplayName: KMM Demo
+        UIApplicationSupportsIndirectInputEvents: true
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations: {}
+        CFBundlePackageType: $(PRODUCT_BUNDLE_PACKAGE_TYPE)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSRequiresIPhoneOS: true
+        CFBundleURLTypes:
+          - CFBundleTypeRole: Editor
+          - CFBundleURLName: $(URL_NAME)
+          - CFBundleURLSchemes:
+              - $(URL_SCHEME)
+        URL_SCHEME: $(URL_SCHEME)
+        URL_NAME: $(URL_NAME)
+    configFiles:
+      Debug: iosApp/Configs/debug.xcconfig
+      Release: iosApp/Configs/release.xcconfig
+    preBuildScripts:
+      - name: Run Build KMM Shared
+        script: |
+          cd "$SRCROOT/.."
+          export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+          ./gradlew :shared:embedAndSignAppleFrameworkForXcode
+        showEnvVarsInLog: true
+        alwaysOutOfDate: false
+        inputFiles:
+          - ../shared/build.gradle.kts
+        outputFiles:
+          - ../shared/build/xcode-frameworks/Debug/iphonesimulator18.2/shared.framework
+    postBuildScripts:
+      - name: SwiftLint
+        script: |
+          export PATH="$HOME/.mint/bin:/opt/homebrew/bin:$PATH"
+          expected_swiflint_version="0.58.2"
+          echo "Доступные пакеты минта:"
+          mint list
+          if ! (mint list | grep "$expected_swiflint_version"); then
+              echo "🧨 На машине нет нужной версии линта: ${expected_swiflint_version}"
+              echo "⚙️ Устанавливаем SwiftLint@${expected_swiflint_version}"
+              mint install realm/SwiftLint@"$expected_swiflint_version"
+          else
+              echo "🍀 На машине есть нужная версия линта: ${expected_swiflint_version}"
+          fi
+          swiftlint --config .swiftlint.yml
+        showEnvVarsInLog: true
+        basedOnDependencyAnalysis: false
+    buildToolPlugins:
+      - plugin: RswiftGenerateInternalResources
+        package: R
+    dependencies:
+      - package: R
+        product: RswiftLibrary
+      - package: Utils
+      - package: Kingfisher
+      - package: BottomSheet
+      - package: Pulse
+      - package: SwiftUI-Introspect
+        product: SwiftUIIntrospect
+      
+packages:
+  Utils:
+    url: https://github.com/MobileUpLLC/Utils
+    from: "0.3.1"
+  Kingfisher:
+    url: https://github.com/onevcat/Kingfisher.git
+    from: "8.3.1"
+  BottomSheet:
+    url: https://github.com/joomcode/BottomSheet
+    from: "2.0.5"
+  Pulse:
+    url: https://github.com/kean/Pulse
+    from: "5.1.3"
+  R:
+    url: https://github.com/mac-cain13/R.swift
+    from: "7.8.0"
+  SwiftUI-Introspect:
+    url: https://github.com/siteline/SwiftUI-Introspect
+    from: "1.3.0"
+      

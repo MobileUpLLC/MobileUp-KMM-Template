@@ -1,55 +1,45 @@
 //
-//  PokemonView.swift
+//  LibraryView.swift
 //  iosApp
 //
-//  Created by Чаусов Николай on 08.06.2023.
-//  Copyright © 2023 MobileUp. All rights reserved.
+//  Created by Denis Dmitriev on 05.06.2025.
 //
 
 import SwiftUI
 
-struct PokemonView: View, TreeNavigation {
-    @StateObject var navigationModel = TreeNavigationModel()
-    @StateObject @KotlinStateFlow var childStack: ChildStack<AnyObject, PokemonsComponentChild>
-    @StateObject @KotlinStateFlow private var dialogSlot: ChildSlot<AnyObject, PokemonVotesComponent>
+struct PokemonView: View {
+    let component: PokemonsComponent
     
-    private let component: PokemonsComponent
+    @StateObject @KotlinStateFlow private var childStack: ChildStack<AnyObject, PokemonsComponentChild>
+    @StateObject private var navigationModel = NavigationModel()
     
-    @State private var isPresented: Bool = false
+    private var rootItem: Router.PokemonsComponent {
+        childStack.items
+            .compactMap({ $0.instance })
+            .map({ onEnum(of: $0) })
+            .first ?? .list(.init(component: FakePokemonListComponent()))
+    }
     
     init(component: PokemonsComponent) {
         self.component = component
-        _childStack = .init(component.childStack)
-        _dialogSlot = .init(component.bottomSheetControl.dialogSlot)
+        self._childStack = .init(component.childStack)
     }
     
     var body: some View {
-        NavigationStack(path: $navigationModel.navigationPath) {
-            rootView
-                .treeNavigation(childStack: _childStack.wrappedValue, navigationModel: navigationModel, destination: destination(for:))
-                .navigationTitle(MR.strings().pokemons_title.desc().localized())
+        NavigationStack(path: $navigationModel.path) {
+            Router.destination(for: .pokemons(rootItem))
+                .navigationDestination(for: Router.self, destination: Router.destination(for:))
+                .navigationBranch(
+                    childStack: _childStack.wrappedValue
+                ) { destination in
+                    Router.pokemons(onEnum(of: destination))
+                }
+                .backNavigationHandler()
         }
-        .setRootTreeNavigation(childStack: _childStack.wrappedValue, navigationModel: navigationModel)
-        .overlay(alignment: .bottomTrailing) {
-            VotesButtonView(onAction: component.onPokemonVotesButtonClick)
-                .padding()
-        }
-        .bottomSheet(childSlot: dialogSlot, dialogControl: component.bottomSheetControl) {
-            PokemonVotesView(control: component.bottomSheetControl)
-        }
-    }
-    
-    @ViewBuilder
-    func destination(for item: PokemonsComponentChild) -> some View {
-        switch onEnum(of: item) {
-        case .list(let child):
-            PokemonListView(component: child.component)
-        case .details(let child):
-            PokemonDetailsView(component: child.component)
-        }
+        .environmentObject(navigationModel)
     }
 }
 
 #Preview {
-    PokemonView(component: FakePokemonsComponent())
+    FlowOneView(component: FakeFlow1Component())
 }

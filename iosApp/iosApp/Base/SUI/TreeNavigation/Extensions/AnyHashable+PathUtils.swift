@@ -8,17 +8,6 @@
 import Foundation
 
 extension AnyHashable {
-    /// Пытается привести значение `AnyHashable` к указанному типу `T`.
-    ///
-    /// Используется, когда необходимо извлечь конкретный тип из значения,
-    /// сохранённого в `AnyHashable`, например, при работе с путями навигации.
-    ///
-    /// - Parameter type: Целевой тип, к которому нужно привести значение.
-    /// - Returns: Значение типа `T`, если приведение прошло успешно, иначе `nil`.
-    public func cast<T: Hashable>(to type: T.Type) -> T? {
-        return self as? T
-    }
-    
     /// Возвращает строковое представление пути на основе имени класса.
     ///
     /// Используется для получения читаемой информации о конкретном шаге навигации
@@ -28,13 +17,24 @@ extension AnyHashable {
     ///                    Например, `1` даст только имя типа, `2` — модуль и имя типа.
     /// - Returns: Краткое строковое описание назначения, например: `"MainScreen"` или `"App.MainScreen"`.
     public func pathDescription(count: Int = 1) -> String {
-        guard let classPart = self.description.components(separatedBy: "@").first else {
+        guard let classPart = String(describing: self).components(separatedBy: "@").first else {
             return "Empty destination"
         }
         
         let destination: String = classPart.components(separatedBy: ".")
             .suffix(count)
             .joined(separator: ".")
+        
+        return destination
+    }
+    
+    public func getUrl() -> String {
+        guard let classPart = self.description.components(separatedBy: "@").first else {
+            return "Empty destination"
+        }
+        
+        let destination: String = classPart.components(separatedBy: ".")
+            .joined(separator: "/")
         
         return destination
     }

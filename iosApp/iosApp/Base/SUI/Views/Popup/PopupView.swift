@@ -40,6 +40,7 @@ public struct Popup<PopupContent: View>: ViewModifier {
         self.horizontalPadding = params.type.horizontalPadding
         self.useSafeAreaInset = params.type.useSafeAreaInset
         self.useKeyboardSafeArea = params.useKeyboardSafeArea
+        self.cornerRadius = params.cornerRadius
         self.animation = params.animation
         self.dragToDismiss = params.dragToDismiss
         self.dragToDismissDistance = params.dragToDismissDistance
@@ -179,6 +180,8 @@ public struct Popup<PopupContent: View>: ViewModifier {
 
         /// move up for keyboardHeight when it is displayed
         var useKeyboardSafeArea: Bool = false
+        
+        var cornerRadius: CGFloat = .zero
 
         /// called when when dismiss animation starts
         var willDismissCallback: (DismissSource) -> () = {_ in}
@@ -280,6 +283,12 @@ public struct Popup<PopupContent: View>: ViewModifier {
             params.useKeyboardSafeArea = useKeyboardSafeArea
             return params
         }
+        
+        public func useCornerRadius(_ cornerRadius: CGFloat) -> PopupParameters {
+            var params = self
+            params.cornerRadius = cornerRadius
+            return params
+        }
 
         // MARK: - dismiss callbacks
 
@@ -353,6 +362,7 @@ public struct Popup<PopupContent: View>: ViewModifier {
     var horizontalPadding: CGFloat
     var useSafeAreaInset: Bool
     var useKeyboardSafeArea: Bool
+    var cornerRadius: CGFloat = .zero
 
     var animation: Animation
 
@@ -644,7 +654,7 @@ public struct Popup<PopupContent: View>: ViewModifier {
                     }
                 }
             )
-        // данная анимация нужна для фикса прыга шита при поднятии клавиатуры
+            // данная анимация нужна для фикса прыга шита при поднятии клавиатуры
             .animation(.easeOut(duration: 0.02), value: keyboardHeightHelper.keyboardHeight)
     }
 
@@ -683,6 +693,7 @@ public struct Popup<PopupContent: View>: ViewModifier {
             ZStack {
                 VStack {
                     contentView()
+                        .roundedCorner(cornerRadius, corners: [.topLeft, .topRight])
                         .addTapIfNotTV(if: closeOnTap) {
                             dismissCallback(.tapInside)
                         }
@@ -734,6 +745,7 @@ public struct Popup<PopupContent: View>: ViewModifier {
             ZStack {
                 VStack {
                     contentView()
+                        .roundedCorner(cornerRadius, corners: [.topLeft, .topRight])
                         .addTapIfNotTV(if: closeOnTap) {
                             dismissCallback(.tapInside)
                         }

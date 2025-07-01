@@ -17,49 +17,44 @@ import SwiftUI
 /// - Примечание: Подписка осуществляется асинхронно, обновления происходят на главном потоке.
 ///
 /// - Параметры:
-///   - T: Тип значения, за которым ведётся наблюдение. Должен соответствовать `Any`.
+///   - T: Тип значения, за которым ведётся наблюдение. Должен соответствовать `Sendable`.
 @propertyWrapper
-final class KotlinStateFlow<T: Any>: ObservableObject {
-    /// Внутренний поток Kotlin, эмитящий значения типа `T`.
-    private let stateFlow: SkieSwiftStateFlow<T>
+final class KotlinStateFlow<T: Sendable>: ObservableObject {
     /// Текущее значение, полученное из `stateFlow`.
-    @Published var wrappedValue: T
-
-    private var publisher: Task<(), Never>?
+    @MainActor @Published var wrappedValue: T
+    /// Задача для управления подпиской на поток.
+    private var task: Task<Void, Never>?
 
     /// Инициализирует обёртку с переданным потоком `SkieSwiftStateFlow`.
     ///
     /// - Parameter value: Экземпляр `SkieSwiftStateFlow`, за которым будет вестись наблюдение.
-    init(_ value: SkieSwiftStateFlow<T>) {
-        self.stateFlow = value
-        self.wrappedValue = value.value
-
-        self.publisher = Task { @MainActor [weak self] in
-            if let stateFlow = self?.stateFlow {
-                for await item in stateFlow {
-                    self?.wrappedValue = item
+    @MainActor init(_ value: SkieSwiftStateFlow<T>) {
+        wrappedValue = value.value
+        
+        self.task = Task {
+            for await item in value {
+                Task { @MainActor in
+                    wrappedValue = item
                 }
             }
         }
     }
 
     deinit {
-        if let publisher {
-            publisher.cancel()
-        }
+        task?.cancel()
     }
 }
 
 extension ObservedObject {
     /// Инициализатор `ObservedObject`, оборачивающий `SkieSwiftStateFlow`.
-    init<F>(_ stateFlow: SkieSwiftStateFlow<F>) where ObjectType == KotlinStateFlow<F> {
+    init<F: Sendable>(_ stateFlow: SkieSwiftStateFlow<F>) where ObjectType == KotlinStateFlow<F> {
         self.init(wrappedValue: KotlinStateFlow(stateFlow))
     }
 }
 
 extension StateObject {
     /// Инициализатор `StateObject`, оборачивающий `SkieSwiftStateFlow`.
-    init<F>(_ stateFlow: SkieSwiftStateFlow<F>) where ObjectType == KotlinStateFlow<F> {
+    init<F: Sendable>(_ stateFlow: SkieSwiftStateFlow<F>) where ObjectType == KotlinStateFlow<F> {
         self.init(wrappedValue: KotlinStateFlow(stateFlow))
     }
 }

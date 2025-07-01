@@ -6,8 +6,11 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pushNew
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.serialization.Serializable
 import ru.mobileup.kmm_template.core.ComponentFactory
+import ru.mobileup.kmm_template.core.utils.componentScope
 import ru.mobileup.kmm_template.core.utils.toStateFlow
 import ru.mobileup.kmm_template.features.flow2.createScreen2AComponent
 import ru.mobileup.kmm_template.features.flow2.createScreen2BComponent
@@ -31,6 +34,14 @@ class RealFlow2Component(
         handleBackButton = true,
         childFactory = ::createChild
     ).toStateFlow(lifecycle)
+
+    init {
+        childStack
+            .onEach {
+                println("Flow2Component: ${it.items.map { it.instance }}")
+            }
+            .launchIn(componentScope)
+    }
 
     private fun createChild(
         config: ChildConfig,

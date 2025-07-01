@@ -18,10 +18,16 @@ struct ToastErrorModifier<Failure>: ViewModifier where Failure: LocalizedError {
         content
             .onChange(of: isPresented) { newIsPresented in
                 if newIsPresented, let error {
-                    DispatchQueue.main.async {
+                    Task { @MainActor in
                         self.isPresented = false
+                        toastRouter.showToast(
+                            item: .init(
+                                text: error.localizedDescription,
+                                onAction: nil
+                            ),
+                            duration: duration
+                        )
                     }
-                    toastRouter.showToast(item: .info(title: "Error", text: error.localizedDescription, image: nil, onAction: nil), duration: duration)
                 }
             }
     }

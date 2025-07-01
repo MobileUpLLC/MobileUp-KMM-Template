@@ -3,13 +3,13 @@ import os
 import Pulse
 
 extension Log {
-    static let navigation = Log(subsystem: subsystem, category: "Navigation")
-    static let observableState = Log(subsystem: subsystem, category: "ObservableState")
+    static let environments = Log(subsystem: subsystem, category: "Environments")
+    static let deepLinkService = Log(subsystem: subsystem, category: "DeepLinkService")
     
     private static let subsystem = Bundle.main.bundleIdentifier ?? .empty
 }
 
-public struct Log {
+public struct Log: Sendable {
     enum LogEntry {
         case text(String)
         case detailed(text: String, parameters: [AnyHashable: Any])
@@ -77,7 +77,7 @@ public struct Log {
     
     /// Disable logging for release builds.
     private func log(level: OSLogType, logEntry: LogEntry) {
-        if EnvironmentService.isRelease {
+        if EnvironmentService.shared.isRelease {
             return
         }
         

@@ -1,72 +1,61 @@
+//
+//  RootView.swift
+//  iosApp
+//
+//  Created by Denis Dmitriev on 12.05.2025.
+//
+
 import SwiftUI
 
-struct RootView: View, TreeNavigation {
-    @StateObject var navigationModel = TreeNavigationModel()
-    @StateObject @KotlinStateFlow var childStack: ChildStack<AnyObject, RootComponentChild>
+struct RootView: View {
+    @EnvironmentObject var navigationModel: NavigationModel
     @StateObject @KotlinOptionalStateFlow private var message: Message?
+    @StateObject @KotlinStateFlow var childStack: ChildStack<AnyObject, RootComponentChild>
+    @State private var isTabPresent: Bool = false
     
     private let component: RootComponent
     
+    private var rootItem: Router.RootComponent {
+        childStack.items.compactMap({ $0.instance }).map({ onEnum(of: $0) }).first
+        ?? .flow1(.init(component: FakeFlow1Component()))
+    }
+    
+    private var rootItemIsTab: Bool {
+        return childStack.items.compactMap({ $0.instance }).first?.getTabComponent() != nil
+    }
+    
     init(component: RootComponent) {
         self.component = component
-        self._childStack = .init(component.childStack)
         self._message = .init(component.messageComponent.visibleMessage)
+        self._childStack = .init(component.childStack)
     }
     
     var body: some View {
-        let zIndex: Double = navigationModel.showHome ? 1 : 0
-        ZStack {
-            let home = navigationModel.tabComponent as? RootComponentChild.Home ?? RootComponentChild.Home(component: FakeHomeComponent())
-            HomeView(component: home.component)
-                .zIndex(zIndex)
-            
-            NavigationStack(path: $navigationModel.navigationPath) {
-                rootView
-                    .treeNavigation(childStack: _childStack.wrappedValue, navigationModel: navigationModel, destination: destination(for:))
-            }
-            .setRootTreeNavigation(childStack: _childStack.wrappedValue, navigationModel: navigationModel)
-            .zIndex(0)
-        }
-        .toast(message: $message.wrappedValue, onAction: component.messageComponent.onActionClick)
-        .environmentObject(navigationModel)
-        /* // MARK: Кнопки для проверки путей навигации
-        .overlay(alignment: .bottomTrailing) {
-            HStack {
-                Button {
-                    let path = navigationModel.flatPath.pathDescription()
-                    print("🐦‍🔥 Swift Root Stack" + "\n", path, "\n", navigationModel.navigationPath.pathDescription)
-                } label: {
-                    Image(systemName: "circle.fill")
-                        .tint(.orange)
-                }
-                
-                Button {
-                    let path = childStack.value.items.map({ $0.instance as AnyHashable }).pathDescription()
-                    print("🤖 KMM Root Stack" + "\n", path)
-                } label: {
-                    Image(systemName: "circle.fill")
-                        .tint(.green)
+        TabOrNavigationView(
+            childStack: _childStack.wrappedValue,
+            getTabComponentAction: { $0.getTabComponent() },
+            tab: { component in
+                HomeView(component: component)
+            },
+            navigation: {
+                NavigationStack(path: $navigationModel.path) {
+                    Router.destination(for: rootItemIsTab ? .empty : .root(rootItem))
+                        .navigationDestination(for: Router.self, destination: Router.destination(for:))
+                        .navigationBranch(
+                            childStack: _childStack.wrappedValue
+                        ) { destination in
+                            Router.root(onEnum(of: destination))
+                        }
+                        .backNavigationHandler()
                 }
             }
-            .padding(20)
-        }
-         */
-    }
-    
-    @ViewBuilder
-    func destination(for item: RootComponentChild) -> some View {
-        switch onEnum(of: item) {
-        case .flow1(let child):
-            FlowOneView(component: child.component)
-        case .flow2(let child):
-            FlowTwoView(component: child.component)
-        case .home(let child):
-            HomeView(component: child.component)
-        }
+        )
+        .toast(message: $message.wrappedValue, duration: nil, onAction: component.messageComponent.onActionClick)
     }
 }
 
 #Preview {
     RootView(component: FakeRootComponent())
         .environmentObject(ToastRouter())
+        .environmentObject(NavigationModel())
 }

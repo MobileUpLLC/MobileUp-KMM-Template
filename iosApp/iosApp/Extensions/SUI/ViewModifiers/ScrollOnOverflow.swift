@@ -28,7 +28,8 @@ private struct OverflowContentViewModifier: ViewModifier {
             .background(
                 GeometryReader { contentGeometry in
                     Color.clear.onAppear {
-                        let allInsets = verticalInsets + 16 + (UIApplication.getSafeAreaInsets().top + UIApplication.getSafeAreaInsets().bottom)
+                        let allInsets = verticalInsets + 16
+                        + (UIApplication.getSafeAreaInsets().top + UIApplication.getSafeAreaInsets().bottom)
                         isScrollable = contentGeometry.size.height > UIScreen.main.bounds.height - allInsets
                     }
                 }

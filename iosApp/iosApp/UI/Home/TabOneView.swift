@@ -16,12 +16,8 @@ struct TabOneView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            Button(MR.strings().common_exit.desc().localized()) {
-                component.onExitClick()
-            }
-            .buttonStyle(.borderedProminent)
-            .navigationTitle(component.text.value.localized())
+        Button(MR.strings().common_exit.desc().localized()) {
+            component.onExitClick()
         }
     }
 }

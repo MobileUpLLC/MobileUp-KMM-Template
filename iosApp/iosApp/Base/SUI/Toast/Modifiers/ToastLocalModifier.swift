@@ -36,7 +36,11 @@ struct ToastLocalModifier<ToastContent: View>: ViewModifier {
 }
 
 extension View {
-    func toastLocal<ToastContent: View>(isPresented: Binding<Bool>, item: ToastItem?, content: @escaping (ToastItem) -> ToastContent) -> some View {
+    func toastLocal<ToastContent: View>(
+        isPresented: Binding<Bool>,
+        item: ToastItem?,
+        content: @escaping (ToastItem) -> ToastContent
+    ) -> some View {
         self.modifier(ToastLocalModifier(isPresented: isPresented, item: item, toastContent: content))
     }
 }

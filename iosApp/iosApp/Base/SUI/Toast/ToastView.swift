@@ -14,40 +14,48 @@ struct ToastView: View {
     
     var body: some View {
         Group {
-            HStack {
-                switch item {
-                case let .info(title, text, image, onAction):
-                    Text(text)
-                        .foregroundColor(.white)
-                    if let title {
-                        Spacer(minLength: 16)
-                        
-                        Button(title) {
-                            onAction?()
-                        }
-                        .foregroundColor(.green)
-                        .font(.body.bold())
+            HStack(spacing: 10) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(item.text)
+                        .font(.caption)
+                        .lineLimit(2)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                if let actionTitle = item.actionTitle {
+                    Button(actionTitle) {
+                        item.onAction?()
                     }
+                    .foregroundColor(.green)
+                    .font(.body.bold())
                 }
             }
         }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
         .frame(maxWidth: .infinity)
-        .padding()
-        .background {
-            switch item {
-            case .info:
-                Color.black.opacity(0.75)
-            }
-        }
-        .background(.thickMaterial)
-        .cornerRadius(10)
+        .frame(height: 80)
+        .background { Color(.gray) }
+        .cornerRadius(20)
         .padding(.horizontal, 20)
         .padding(.bottom, 60)
-        .transition(.move(edge: .bottom))
     }
 }
 
 #Preview {
-    ToastView(item: .info(title: "Finish!", text: "Info text", onAction: nil))
-        .environmentObject(ToastRouter())
+    VStack {
+        ToastView(item: .init(
+            text: "Some text",
+            onAction: nil
+        ))
+        ToastView(item: .init(
+            text: "Some text",
+            onAction: nil
+        ))
+        ToastView(item: .init(
+            text: "Some text",
+            onAction: nil
+        ))
+    }
+    .environmentObject(ToastRouter())
 }

@@ -1,5 +1,5 @@
 {
-  "originHash" : "d0a13ea94cf18ac52bea730e0c7065c11663fb5bb148991b57ef8cc03ad9e6da",
+  "originHash" : "58d39692308625eb98f99c9fe4066f09c62b0247d2c2dfe75511584535d136d0",
   "pins" : [
     {
       "identity" : "bottomsheet",
@@ -29,12 +29,21 @@
       }
     },
     {
-      "identity" : "r.swift.library",
+      "identity" : "r.swift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mac-cain13/R.swift.Library",
+      "location" : "https://github.com/mac-cain13/R.swift",
       "state" : {
-        "revision" : "8998cfe77f4fce79ee6dfab0c88a7d551659d8fb",
-        "version" : "5.4.0"
+        "revision" : "a9abc6b0afe0fc4a5a71e1d7d2872143dff2d2f1",
+        "version" : "7.8.0"
+      }
+    },
+    {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser",
+      "state" : {
+        "revision" : "011f0c765fb46d9cac61bca19be0527e99c98c8b",
+        "version" : "1.5.1"
       }
     },
     {
@@ -53,6 +62,15 @@
       "state" : {
         "revision" : "b13385ef007adf9f889e8cd2df6dc50779b69242",
         "version" : "0.3.1"
+      }
+    },
+    {
+      "identity" : "xcodeedit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tomlokhorst/XcodeEdit",
+      "state" : {
+        "revision" : "0e550cdee72844b35431afc3a1e176042be6d0f0",
+        "version" : "2.13.0"
       }
     }
   ],

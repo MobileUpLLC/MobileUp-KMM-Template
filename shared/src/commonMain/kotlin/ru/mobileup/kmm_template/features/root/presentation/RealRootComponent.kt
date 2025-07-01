@@ -9,9 +9,12 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.serialization.Serializable
 import ru.mobileup.kmm_template.core.ComponentFactory
 import ru.mobileup.kmm_template.core.message.createMessageComponent
+import ru.mobileup.kmm_template.core.utils.componentScope
 import ru.mobileup.kmm_template.core.utils.toStateFlow
 import ru.mobileup.kmm_template.features.flow1.createFlow1Component
 import ru.mobileup.kmm_template.features.flow1.presentation.Flow1Component
@@ -38,6 +41,14 @@ class RealRootComponent(
     override val messageComponent = componentFactory.createMessageComponent(
         childContext(key = "message")
     )
+
+    init {
+        childStack
+            .onEach {
+                println("RootComponent: ${it.items.map { it.instance }}")
+            }
+            .launchIn(componentScope)
+    }
 
     private fun createChild(
         config: ChildConfig,

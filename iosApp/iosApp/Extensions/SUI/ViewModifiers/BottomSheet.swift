@@ -13,6 +13,7 @@ extension View {
         dragToDismiss: Bool = true,
         closeOnTapOutside: Bool = true,
         useKeyboardSafeArea: Bool = true,
+        cornerRadius: CGFloat = .zero,
         onDismiss: Closure.Void? = nil,
         @ViewBuilder view: @escaping () -> PopupContent
     ) -> some View {
@@ -31,6 +32,7 @@ extension View {
                     .backgroundColor(.black.opacity(0.6))
                     .useKeyboardSafeArea(useKeyboardSafeArea)
                     .dismissCallback { onDismiss?() }
+                    .useCornerRadius(cornerRadius)
             }
         )
     }

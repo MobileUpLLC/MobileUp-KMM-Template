@@ -5,6 +5,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import ru.mobileup.kmm_template.core.ComponentFactory
@@ -28,6 +29,8 @@ class RealHomeComponent(
         childFactory = ::createChild
     ).toStateFlow(lifecycle)
 
+    override val selectedTab: MutableStateFlow<HomeTab> = MutableStateFlow(HomeTab.Tab1)
+
     private fun createChild(
         config: ChildConfig,
         componentContext: ComponentContext
@@ -47,6 +50,7 @@ class RealHomeComponent(
 
     override fun onTabSelected(tab: HomeTab) {
         navigation.bringToFront(tab.toChildConfig())
+        selectedTab.value = tab
     }
 
     private fun onTab1Output(output: Tab1Component.Output) {

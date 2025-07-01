@@ -1,90 +1,58 @@
 //
-//  HomeView.swift
+//  MainView.swift
 //  iosApp
 //
-//  Created by Vladislav Grokhotov on 30.03.2023.
-//  Copyright © 2023 MobileUp. All rights reserved.
+//  Created by Denis Dmitriev on 05.06.2025.
 //
 
 import SwiftUI
 
+extension HomeComponentChild: @retroactive Identifiable {
+    public var id: String {
+        self.description
+    }
+}
+
 struct HomeView: View {
-    @ObservedObject @KotlinStateFlow private var childStack: ChildStack<AnyObject, HomeComponentChild>
-    @State private var selection: HomeTab = .tab1
+    let component: HomeComponent
     
-    private let component: HomeComponent
+    // FIXME: раньше тут был @StateObject, стоит перепроверить, норм ли использовать @ObservedObject, тк писал Android-разработчик
+    @ObservedObject @KotlinStateFlow private var childStack: ChildStack<AnyObject, HomeComponentChild>
+    @StateObject @KotlinStateFlow private var selectedTab: HomeTab
     
     init(component: HomeComponent) {
         self.component = component
         self._childStack = .init(component.childStack)
+        self._selectedTab = .init(component.selectedTab)
     }
     
     var body: some View {
-        TabView(selection: $selection) {
-            ForEach(HomeTab.allCases, id: \.self) { tab in
-                Group {
-                    if let childTab = getChildComponent(for: tab) {
-                        switch onEnum(of: childTab) {
-                        case .tab1(let tabOne):
-                            TabOneView(component: tabOne.component)
-                        case .tab2(let tabTwo):
-                            TabTwoView(component: tabTwo.component)
-                        case .tab3(let pokemons):
-                            PokemonView(component: pokemons.component)
-                        }
-                    } else {
-                        Color.clear
-                    }
+        TabView(selection: $selectedTab.wrappedValue) {
+            let tabs = HomeTab.allCases
+            ForEach(tabs) { tab in
+                let componentChildSealed = tab.componentChild(for: childStack)?.sealed
+                UnwrapView(componentChildSealed) { componentChildSealed in
+                    Router.destination(for: .home(componentChildSealed))
+                } empty: {
+                    // Пока мы не сделаем переход, не будет создано компонента
+                    // Поэтому мы создаем пустой экран (плейсхолдер) таба
+                    // Как только переход будет, создастся компонент и экран
+                    Color.clear
                 }
-                .tabItem { tab.label }
+                .tabItem {
+                    tab.label
+                }
                 .tag(tab)
             }
         }
-        .onChange(of: selection) { newSelection in
-            component.onTabSelected(tab: newSelection)
+        .onChange(of: selectedTab) { newSelectionTab in
+            component.onTabSelected(tab: newSelectionTab)
         }
-    }
-    
-    private func getChildComponent(for tab: HomeTab) -> HomeComponentChild? {
-        switch tab {
-        case .tab1:
-            return childStack.items.first(where: { $0.instance is HomeComponentChild.Tab1 })?.instance
-        case .tab2:
-            return childStack.items.first(where: { $0.instance is HomeComponentChild.Tab2 })?.instance
-        case .tab3:
-            return childStack.items.first(where: { $0.instance is HomeComponentChild.Tab3 })?.instance
-        }
-    }
-}
-
-extension HomeTab {
-    var title: String {
-        switch self {
-        case .tab1:
-            return MR.strings().home_tab1_label.desc().localized()
-        case .tab2:
-            return MR.strings().home_tab2_label.desc().localized()
-        case .tab3:
-            return MR.strings().home_tab3_label.desc().localized()
-        }
-    }
-    
-    var image: String {
-        switch self {
-        case .tab1:
-            return "1.square"
-        case .tab2:
-            return "2.square"
-        case .tab3:
-            return "3.square"
-        }
-    }
-    
-    var label: some View {
-        Label(title, systemImage: image)
     }
 }
 
 #Preview {
     HomeView(component: FakeHomeComponent())
+        .environmentObject(ToastRouter())
+        .environmentObject(NavigationModel())
 }

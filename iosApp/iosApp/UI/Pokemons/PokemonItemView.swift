@@ -12,7 +12,9 @@ struct PokemonItemView: View {
     
     var body: some View {
         VStack {
-            AsyncImageView(imageLink: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(pokemon.id.value).png")
+            AsyncImageView(imageLink: "https://raw.githubusercontent.com/" +
+                           "PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" +
+                           "\(pokemon.id.value).png")
                 .frame(width: 60, height: 60)
             Text(pokemon.name)
                 .font(.system(size: 16, weight: .medium))

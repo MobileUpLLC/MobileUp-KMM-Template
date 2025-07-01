@@ -32,7 +32,6 @@ struct ScreenTwoAView: View {
                 } label: {
                     Image(systemName: "xmark")
                 }
-
             }
         }
     }

@@ -18,9 +18,7 @@ struct ToastGlobalModifier: ViewModifier {
         content
             .onChange(of: isPresented) { newIsPresented in
                 if newIsPresented {
-                    DispatchQueue.main.async {
-                        self.isPresented = false
-                    }
+                    self.isPresented = false
                     toastRouter.showToast(item: item, duration: duration)
                 }
             }

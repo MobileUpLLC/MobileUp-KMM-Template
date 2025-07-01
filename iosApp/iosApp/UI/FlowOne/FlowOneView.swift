@@ -1,18 +1,23 @@
 //
-//  FlowOneView.swift
+//  LibraryView.swift
 //  iosApp
 //
-//  Created by Vladislav Grokhotov on 29.03.2023.
-//  Copyright © 2023 MobileUp. All rights reserved.
+//  Created by Denis Dmitriev on 05.06.2025.
 //
 
 import SwiftUI
 
-struct FlowOneView: View, TreeNavigation {
-    @EnvironmentObject private var navigationModel: TreeNavigationModel
-    @StateObject @KotlinStateFlow var childStack: ChildStack<AnyObject, Flow1ComponentChild>
+struct FlowOneView: View {
+    let component: Flow1Component
     
-    private let component: Flow1Component
+    @StateObject @KotlinStateFlow private var childStack: ChildStack<AnyObject, Flow1ComponentChild>
+    
+    private var rootItem: Router.Flow1Component {
+        childStack.items
+            .compactMap({ $0.instance })
+            .map({ onEnum(of: $0) })
+            .first ?? .screen1A(.init(component: FakeScreen1AComponent()))
+    }
     
     init(component: Flow1Component) {
         self.component = component
@@ -20,24 +25,15 @@ struct FlowOneView: View, TreeNavigation {
     }
     
     var body: some View {
-        rootView
-            .treeNavigation(childStack: _childStack.wrappedValue, navigationModel: navigationModel, destination: destination(for:))
-    }
-    
-    @ViewBuilder
-    func destination(for item: Flow1ComponentChild) -> some View {
-        switch onEnum(of: item) {
-        case .screen1A(let child):
-            ScreenOneAView(component: child.component)
-        case .screen1B(let child):
-            ScreenOneBView(component: child.component)
-        case .screen1C(let child):
-            ScreenOneCView(component: child.component)
-        }
+        Router.destination(for: .flow1(rootItem))
+            .navigationBranch(
+                childStack: _childStack.wrappedValue
+            ) { destination in
+                Router.flow1(onEnum(of: destination))
+            }
     }
 }
 
 #Preview {
     FlowOneView(component: FakeFlow1Component())
-        .environmentObject(TreeNavigationModel())
 }

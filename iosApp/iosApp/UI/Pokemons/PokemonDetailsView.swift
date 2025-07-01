@@ -101,8 +101,16 @@ private struct PokemonDetailsDescriptionView: View {
             }
             
             HStack(spacing: 16) {
-                PokemonPropertyView(property: "Weight", icon: Image(systemName: "scalemass"), value: pokemon.weight.formatted() + " kg")
-                PokemonPropertyView(property: "Height", icon: Image(systemName: "arrow.up.and.down.square"), value: pokemon.height.formatted() + " m")
+                PokemonPropertyView(
+                    property: "Weight",
+                    icon: Image(systemName: "scalemass"),
+                    value: pokemon.weight.formatted() + " kg"
+                )
+                PokemonPropertyView(
+                    property: "Height",
+                    icon: Image(systemName: "arrow.up.and.down.square"),
+                    value: pokemon.height.formatted() + " m"
+                )
             }
         }
         .frame(maxWidth: .infinity, alignment: .top)

@@ -1,18 +1,23 @@
 //
-//  FlowTwoView.swift
+//  LibraryView.swift
 //  iosApp
 //
-//  Created by Vladislav Grokhotov on 29.03.2023.
-//  Copyright © 2023 MobileUp. All rights reserved.
+//  Created by Denis Dmitriev on 05.06.2025.
 //
 
 import SwiftUI
 
-struct FlowTwoView: View, TreeNavigation {
-    @EnvironmentObject var navigationModel: TreeNavigationModel
-    @StateObject @KotlinStateFlow var childStack: ChildStack<AnyObject, Flow2ComponentChild>
+struct FlowTwoView: View {
+    let component: Flow2Component
     
-    private let component: Flow2Component
+    @StateObject @KotlinStateFlow private var childStack: ChildStack<AnyObject, Flow2ComponentChild>
+    
+    private var rootItem: Router.Flow2Component {
+        childStack.items
+            .compactMap({ $0.instance })
+            .map({ onEnum(of: $0) })
+            .first ?? .screen2A(.init(component: FakeScreen2AComponent()))
+    }
     
     init(component: Flow2Component) {
         self.component = component
@@ -20,24 +25,15 @@ struct FlowTwoView: View, TreeNavigation {
     }
     
     var body: some View {
-        rootView
-            .treeNavigation(childStack: _childStack.wrappedValue, navigationModel: navigationModel, destination: destination(for:))
-    }
-    
-    @ViewBuilder
-    func destination(for item: Flow2ComponentChild) -> some View {
-        switch onEnum(of: item) {
-        case .screen2A(let child):
-            ScreenTwoAView(component: child.component)
-        case .screen2B(let child):
-            ScreenTwoBView(component: child.component)
-        case .screen2C(let child):
-            ScreenTwoCView(component: child.component)
-        }
+        Router.destination(for: .flow2(rootItem))
+            .navigationBranch(
+                childStack: _childStack.wrappedValue
+            ) { destination in
+                Router.flow2(onEnum(of: destination))
+            }
     }
 }
 
 #Preview {
-    FlowTwoView(component: FakeFlow2Component())
-        .environmentObject(TreeNavigationModel())
+    FlowOneView(component: FakeFlow1Component())
 }

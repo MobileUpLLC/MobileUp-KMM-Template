@@ -8,48 +8,6 @@
 import SwiftUI
 
 extension NavigationPath {
-    /// Состояние изменения навигационного пути между двумя состояниями.
-    enum State {
-        /// Элемент был добавлен — переход вперёд.
-        case push
-        /// Элемент был удалён — переход назад.
-        case pop
-        /// Путь очищен — возвращение к корню.
-        case popToRoot
-        /// Невозможно определить изменение — нестандартная модификация.
-        case empty
-    }
-    
-    /// Определяет тип изменения между предыдущим и текущим состоянием пути.
-    ///
-    /// Используется для определения, было ли выполнено `push`, `pop` или `popToRoot` на `NavigationPath`.
-    ///
-    /// - Parameter fromPath: Предыдущее состояние навигационного пути.
-    /// - Returns: Значение `State`, отражающее тип изменения пути.
-    func getState(fromPath: [AnyHashable]) -> State {
-        let fromPath = fromPath.dropFirst() // Удаляем базовый компонент, так как в SwiftUI path не содержит базовый элемент
-        if self.count - fromPath.count == 1 {
-            return .push
-        } else if fromPath.count - self.count == 1 {
-            return .pop
-        } else if self.count == 0 {
-            return .popToRoot
-        } else {
-            return .empty
-        }
-    }
-}
-
-extension NavigationPath {
-    /// Полностью очищает навигационный путь.
-    ///
-    /// Эквивалентно `popToRoot()`, удаляет все элементы из пути.
-    mutating func removeAll() {
-        self.removeLast(self.count)
-    }
-}
-
-extension NavigationPath {
     /// Возвращает строковое описание текущего пути навигации.
     ///
     /// Анализирует внутреннее содержимое `NavigationPath` с помощью `Mirror` и отображает

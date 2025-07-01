@@ -7,21 +7,31 @@
 
 import SwiftUI
 
-enum ToastItem: Hashable {
-    case info(title: String?, text: String, image: Image? = nil, onAction: Closure.Void?)
+struct ToastItem: Hashable {
+    enum ToastType: Hashable {
+        case info, error, success
+    }
+    
+    var text: String
+    var actionTitle: String?
+    var onAction: (() -> Void)?
     
     func hash(into hasher: inout Hasher) {
-        switch self {
-        case let .info(title, text, image, onAction):
-            hasher.combine(title)
-            hasher.combine(text)
-        }
+        hasher.combine(text)
+        hasher.combine(actionTitle)
     }
     
     static func == (lhs: ToastItem, rhs: ToastItem) -> Bool {
-        switch (lhs, rhs) {
-        case (.info(let lhsTitle, let lhsText, _, _), .info(let rhsTitle, let rhsText, _, _)):
-            return lhsTitle == rhsTitle && lhsText == rhsText
-        }
+        return lhs.text == rhs.text
+        && lhs.actionTitle == rhs.actionTitle
+        && (lhs.onAction == nil && rhs.onAction == nil)
+    }
+}
+
+extension ToastItem {
+    init(message: Message) {
+        self.text = message.text.localized()
+        self.actionTitle = message.actionTitle?.localized()
+        self.onAction = message.action
     }
 }

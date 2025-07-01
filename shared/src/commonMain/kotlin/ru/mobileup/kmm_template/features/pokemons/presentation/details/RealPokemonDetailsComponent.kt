@@ -1,7 +1,6 @@
 package ru.mobileup.kmm_template.features.pokemons.presentation.details
 
 import com.arkivanov.decompose.ComponentContext
-import dev.icerock.moko.graphics.Color
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,7 +18,6 @@ import ru.mobileup.kmm_template.core.utils.componentScope
 import ru.mobileup.kmm_template.core.utils.observe
 import ru.mobileup.kmm_template.features.pokemons.createPokemonVoteDialogComponent
 import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
-import ru.mobileup.kmm_template.features.pokemons.domain.PokemonType
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.GetVoteForPokemonInteractor
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.PokemonVote
 import ru.mobileup.kmm_template.features.pokemons.domain.vote.SetVoteForPokemonInteractor

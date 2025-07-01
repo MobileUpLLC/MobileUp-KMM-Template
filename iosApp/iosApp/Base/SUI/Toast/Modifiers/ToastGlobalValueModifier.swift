@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ToastGlobalValueModifier: ViewModifier {
     @Binding var message: Message?
-    let duration: TimeInterval = 3.0
+    let duration: TimeInterval?
     let onAction: Closure.Void?
     
     @EnvironmentObject private var toastRouter: ToastRouter
@@ -20,31 +20,25 @@ struct ToastGlobalValueModifier: ViewModifier {
         content
             .onChange(of: message) { newValue in
                 if let newValue {
-                    toastItem = .info(
-                        title: newValue.actionTitle?.localized(),
-                        text: newValue.text.localized(),
-                        image: nil,
-                        onAction: onAction
-                    )
+                    toastItem = .init(message: newValue)
                     isPresented = true
-                } else  {
+                } else {
                     isPresented = false
                     toastItem = nil
                 }
             }
             .onChange(of: isPresented) { newIsPresented in
                 if newIsPresented {
-                    DispatchQueue.main.async {
-                        self.isPresented = false
-                    }
                     toastRouter.showToast(item: toastItem, duration: duration)
+                } else {
+                    toastRouter.dismissToast()
                 }
             }
     }
 }
 
 extension View {
-    func toast(message: Binding<Message?>, onAction: Closure.Void? = nil) -> some View {
-        self.modifier(ToastGlobalValueModifier(message: message, onAction: onAction))
+    func toast(message: Binding<Message?>, duration: TimeInterval?, onAction: Closure.Void? = nil) -> some View {
+        self.modifier(ToastGlobalValueModifier(message: message, duration: duration, onAction: onAction))
     }
 }

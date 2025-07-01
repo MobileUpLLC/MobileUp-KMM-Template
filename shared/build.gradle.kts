@@ -33,13 +33,14 @@ kotlin {
             export(libs.essenty.lifecycle)
             export(libs.essenty.backhandler)
             export(libs.moko.resources)
+            export(libs.kotlinx.datetime)
         }
     }
 
     sourceSets {
         commonMain.dependencies {
             implementation(libs.form.validation)
-            implementation(libs.kotlinx.datetime)
+            api(libs.kotlinx.datetime)
             implementation(libs.coroutines.core)
             api(libs.decompose.core)
             implementation(libs.bundles.ktor.shared)

@@ -10,6 +10,8 @@ interface HomeComponent {
 
     val childStack: StateFlow<ChildStack<*, Child>>
 
+    val selectedTab: StateFlow<HomeTab>
+
     fun onTabSelected(tab: HomeTab)
 
     sealed class Child {

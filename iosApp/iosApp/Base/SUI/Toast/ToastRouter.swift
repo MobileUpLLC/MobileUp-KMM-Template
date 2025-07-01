@@ -14,7 +14,8 @@ class ToastRouter: ObservableObject {
     
     private var toastTask: Task<Void, Never>?
     
-    func showToast(item: ToastItem?, duration: TimeInterval = 3.0) {
+    @MainActor
+    func showToast(item: ToastItem?, duration: TimeInterval? = 3.0) {
         guard let item else {
             return
         }
@@ -28,7 +29,7 @@ class ToastRouter: ObservableObject {
             isShowing = false
             
             // Делаем задержку перед показом нового тоста
-            Task {
+            Task { @MainActor in
                 try? await Task.sleep(nanoseconds: 200_000_000) // 0.2 секунды
                 showNewToast(item: item, duration: duration)
             }
@@ -37,17 +38,31 @@ class ToastRouter: ObservableObject {
         }
     }
     
-    private func showNewToast(item: ToastItem, duration: TimeInterval) {
+    @MainActor
+    func dismissToast() {
+        dismiss()
+    }
+    
+    @MainActor
+    private func showNewToast(item: ToastItem, duration: TimeInterval?) {
         self.item = item
         isShowing = true
         
-        toastTask = Task {
-            try? await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
-            await MainActor.run {
-                if item == self.item { // Чтоб не скрыть чужой тоаст
-                    isShowing = false
+        if let duration {
+            toastTask = Task {
+                try? await Task.sleep(nanoseconds: UInt64(duration * 1_000_000_000))
+                await MainActor.run {
+                    if item == self.item { // Чтоб не скрыть чужой тоаст
+                        isShowing = false
+                    }
                 }
             }
         }
+    }
+    
+    @MainActor
+    private func dismiss() {
+        isShowing = false
+        item = nil
     }
 }

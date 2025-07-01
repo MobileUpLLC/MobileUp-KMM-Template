@@ -22,8 +22,7 @@ struct FullScreenLoadingView: View {
             HStack(spacing: 0) {
                 Spacer()
                 
-                ProgressView()
-                    .scaleEffect(1.3)
+                LoadingView()
                 
                 Spacer()
             }

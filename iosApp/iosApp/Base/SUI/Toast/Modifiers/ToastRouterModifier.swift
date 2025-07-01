@@ -12,14 +12,18 @@ struct ToastRouterModifier<ToastContent: View>: ViewModifier {
     @EnvironmentObject private var toastRouter: ToastRouter
     
     func body(content: Content) -> some View {
-        ZStack(alignment: .bottom) {
-            content
-            if toastRouter.isShowing, let item = toastRouter.item {
-                toastContent(item)
+        content
+            .overlay(alignment: .bottom) {
+                if toastRouter.isShowing, let item = toastRouter.item {
+                    toastContent(item)
+                        .padding(.bottom, 20)
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .bottom),
+                            removal: .move(edge: .bottom).combined(with: .opacity)
+                        ))
+                }
             }
-        }
-        .ignoresSafeArea()
-        .animation(.easeInOut, value: toastRouter.isShowing)
+            .animation(.easeInOut, value: toastRouter.isShowing)
     }
 }
 

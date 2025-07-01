@@ -22,7 +22,8 @@
  * Примечания:
  * - Класс использует синглтон для того, чтобы обеспечить единую точку доступа к `BackDispatcher` во всей системе.
  */
-class BackDispatcherService {
+@MainActor
+final class BackDispatcherService {
     /// Глобальная синглтон-инстанция для доступа к сервису.
     static let shared = BackDispatcherService()
     

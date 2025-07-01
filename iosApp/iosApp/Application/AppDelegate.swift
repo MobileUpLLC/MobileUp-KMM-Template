@@ -8,6 +8,7 @@
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    // swiftlint:disable:next line_length
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         AppearanceService.setupNavigationBar()
         AppearanceService.setupTabBar()
