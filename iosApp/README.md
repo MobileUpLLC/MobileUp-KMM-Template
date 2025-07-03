@@ -1,429 +1,194 @@
 # KMM iOS MobileUp Template
 
-## Project structure
-```
-.
-├── Source
-│   ├── Application
-│   │   ├── AppDelegate.swift - AppDelegate to handle app state
-│   │   ├── SceneDelegate.swift - Setup application scene and window.
-│   │   ├── Global.swift - Global imports of shared module and Utils library.
-│   │   └── RootHolder.swift - Class for life cycle management and configuration. 
-│   ├── Base
-│   │   ├── Foundation
-│   │   │   └── CFlowWrapper.swift - to handle non-state values from Kotlin CFlow
-│   │   │   └── State - The states to connect Kotlin CStateFlow with Swift ObservableObject.
-│   │   │       ├── NullableObservableState.swift - State to handle optional values.
-│   │   │       ├── ObservableState.swift - State to handle non optional values.
-│   │   │       └── UnsafeObservableState.swift - State to handle unsafe values.
-│   │   ├── SUI
-│   │   │   ├── Controllers
-│   │   │   │   ├── HostingController.swift - Base controller to host SUI view.
-│   │   │   │   └── NavigatableHostingController.swift - Base controller to host SUI view to place in StackView and setup UIKit navigation bar.
-│   │   │   ├── Navigation
-│   │   │   │   └── StackView.swift - Base class to use as navigation controller.
-│   │   │   └── Views - Some base views to use.
-│   │   │       └── TextField
-│   │   │           ├── InlineTextField.swift – Base realization of one-line textfield.
-│   │   │           ├── MultilineTextField.swift – Base realization of multi-line textfield.
-│   │   │           └── TextFieldContainer.swift – Base view, that must be filled with types of apps textfields.
-│   │   └── UIKit - Some base views to use.
-│   ├── Configs
-│   │   ├── Build configs
-│   │   │   ├── debug.xcconfig
-│   │   │   └── release.xcconfig
-│   │   └── Info.plist
-│   ├── Extensions
-│   │   ├── Foundation
-│   │   ├── SUI
-│   │   │   └── ViewModifiers
-│   │   │       ├── EmbeddedInHostingController.swift - Modifier for consistent redefinition of root view of hosting controller.
-│   │   │       ├── Hidden.swift - Modifier for hiding view via bool-flag.
-│   │   │       ├── If.swift - Modifier for conditional application of modifiers.
-│   │   │       ├── LoadableWithError.swift - Modifier for handling LoadingState Kotlin-values, that can be empty, loading or error.
-│   │   │       ├── NavigateBackOnSwipe.swift - Modifier for recreating system back-swipe gesture.
-│   │   │       ├── Refreshable.swift - Modifier for handling pull-to-refresh logic.
-│   │   │       └── ScrollOnOverflow.swift - Modifier for view with dynamic height, that may contains scrollable content.
-│   │   └── UIKit
-│   ├── Preview Content
-│   │   └── PreviewAssets.xcassets - Preview assets.
-│   ├── Protocols
-│   │   ├── BottomSheetPresentable.swift - Protocol for BottomSheet presenting.
-│   │   └── Navigatable.swift - Protocol for navigation bar configuration.
-│   ├── Resources
-│   │   ├── Assets
-│   │   │   ├── Assets.xcassets - Assets imported from Figma.
-│   │   │   └── Images.xcassets - Assets added from Figma via manual way.
-│   │   └── R.generated - Generated file to use assets.
-│   ├── Services
-│   │   ├── AppearanceService.swift - Service for setting custom appearance.  
-│   │   ├── BackDispatcherService.swift - Service for providing Kotlin component deletion from stack.
-│   │   ├── EnvironmentService.swift - Service for current enum checking.
-│   │   └── DeveloperService.swift - Enum with strings for developing usage.
-│   └── UI
-│       ├── FlowOne
-│       ├── FlowTwo
-│       ├── Home
-│       │   ├── HomeTabBarView.swift - Example of the tab bar usage.
-│       │   └── ...
-│       ├── Launch
-│       ├── Pokemons - Feature example for the template.
-│       │   ├── PokemonController.swift - Inheritor of NavigatableHostingController, provides the representation of the whole feature.
-│       │   ├── PokemonView.swift - PokemonController's view that handle navigation via StackView.
-│       │   ├── PokemonListController.swift - NavigatableHostingController for hosting the Pokemon list view.
-│       │   ├── PokemonListView.swift - SUI view for the Pokemon list.
-│       │   ├── PokemonDetailsController.swift - NavigatableHostingController for hosting of the Pokemon details view.
-│       │   ├── PokemonDetailsView.swift - SUI view for the Pokemon details.
-│       │   ├── PokemonVotesController.swift - HostingController for hosting of Pokemon votes view.
-│       │   └── PokemonVotesView.swift - SUI view for the Pokemon votes.
-│       └── Root
-│           ├── RootView.swift - The root view of the application.
-│           └── RootController.swift - The root controller of the application.
-├── rswift - Executable file for RSwift.
-├── swiftlint.yml - SwiftLint settings file.
-└── iosApp.xcodeproj
-```
+Шаблон iOS приложения реализованного на KMM архитектуре
 
-## Technology stack
-SwiftUI, UIKit, BottomSheet, Kingfisher, Utils, R, iOS 15.1+
+## Описание
 
-## Initialization
-The entry point is UIKit-flow, we use AppDelegate and SceneDelegate. In SceneDelegate set rootController. In the basic implementation we immediately added SplashScreen, which is on a separate controller, that triggers `updateWindow` func after animation. In the RootController we need to create the RootComponent, for this we use the RootHolder class, which accesses the core shared code.
+Этот проект представляет собой архитектуру iOS приложения (от iOS 16.1), написанного на фреймворке SwiftUI, реализованную с KMM (Kotlin Multiplatform Mobile). Он обеспечивает работу с навигацией через несколько стеков, синхронизацию с компонентами, поддерживает работу с KMM (Kotlin Multiplatform Mobile) и взаимодействие с компонентами через декларативный UI.
 
+## Основные компоненты
+
+1. **NavigationState**: Enum, описывающий различные состояния навигации (например, переходы между экранами, назад, к корню и т. д.).
+2. **TreeNavigationModel**: Модель для управления состоянием навигации, которая синхронизирует данные между SwiftUI и KMM.
+3. **TreeNavigation**: Протокол и расширения для реализации навигации с использованием стека компонентов.
+4. **RootHolder**: Контейнер для корневого компонента приложения, управляет конфигурацией и зависимостями.
+5. **BackDispatcherService**: Сервис для обработки навигации "назад" с использованием KMM.
+6. **BottomSheetChild**: Модификатор для поднятия окон через свойство в компоненте из KMM.
+6. **AlertChild**: Модификатор для отображения модальных окон через свойство в компоненте из KMM.
+7. **RootTreeNavigation**: Модификатор для инициализации и работы с корневым компонентом и навигацией через `TreeNavigation`.
+
+## Установка
+
+Для использования этого проекта в вашем приложении, выполните следующие шаги:
+
+1. Клонируйте репозиторий [MobileUp-KMM-Template](https://github.com/MobileUpLLC/MobileUp-KMM-Template.git)
+2. Установить [Android Studio](https://developer.android.com/studio?hl=ru)
+3. Установить [Java](https://www.java.com/ru/)
+4. Установить [Java JDK 21](https://www.oracle.com/java/technologies/downloads/#jdk21-mac)
+5. Запустить Android Studio и дождаться окончания загрузки импорта проекта (снизу справа панель)
+6. Установить плагин "Kotlin Multiplatform" из Android Studio -> Settings -> Plugins
+7. Перезапустить Android Studio
+8. Запустить Xcode по файлу проекта шаблона
+
+## Архитектура
+
+- **Shared**: модуль совместного кода, который может быть использован как на Android, так и на iOS.
+- **Модели навигации**: Используется паттерн "Tree Navigation", где каждое состояние навигации управляется через модель и синхронизируется между KMM и SwiftUI.
+- **RootHolder**: Класс `RootHolder` используется для хранения и инициализации корневого компонента приложения. Он управляет настройками и контекстом компонента, который используется в приложении. Этот класс инициализирует все зависимости, включая конфигурацию и жизненный цикл компонента, и предоставляет доступ к корневому компоненту.
+- **BackDispatcherService**: Сервис для управления возвращением назад, включая взаимодействие с KMM.
+- **Декларативная навигация**: Взаимодействие с экранами и состоянием происходит декларативно через протоколы и модификаторы SwiftUI.
+- **ObservableState** и **ObservableOptionalState**: Используется, когда необходимо получать обновления из KMM-кода и автоматически обновлять SwiftUI-интерфейс. `ObservableState` наблюдает за Kotlin Multiplatform `StateFlow` и предоставляет его данные в SwiftUI через свойство `@Published`.
+
+## shared
+Shared модуль в KMM — это основа всей идеи мультиплатформенной разработки: это место, где пишется единый код, который потом можно использовать на обеих платформах — Android и iOS.
+
+В Kotlin Multiplatform Mobile (KMM) используется концепция shared для совместного кода, который может быть использован как на Android, так и на iOS. Этот код хранится в shared модуле, который содержит общую логику приложения (например, бизнес-логику, доступ к данным, сетевые запросы и другие функции), которые могут быть использованы в обоих мобильных приложениях.
+
+**Что лежит внутри shared?**
+
+В этом модуле обычно сосредоточен платформенно-независимый код:
+
+- Бизнес-логика
+- Модели данных
+- Работа с сетью
+- Доступ к данным
+- Асинхронность и реактивность: StateFlow (SkieSwiftStateFlow/SkieSwiftOptionalStateFlow)
+- Интерфейсы для платформенной реализации: если что-то нельзя сделать в общем коде, описывается интерфейс с реализациями под Android/iOS
+
+**Как это работает?**
+
+На iOS:
+
+- Через Kotlin/Native shared-код компилируется в .framework (import shared), которую можно использовать в Xcode
+- Kotlin-классы и функции становятся доступными в Swift с помощью мостов (Objective-C объекты в shared)
+- Skie библиотека, которая генерирует объекты в Swift код (например перечисления)
+
+**Обмен данными: как делиться состоянием?**
+
+Для реактивного взаимодействия между слоями часто используются:
+
+- StateFlow — для управления состоянием и подписки на его изменения.
+- Обёртки для Swift (SkieSwiftStateFlow, SkieSwiftOptionalStateFlow) — упрощают работу с Kotlin-стримами на стороне iOS.
+- Kotlinx.coroutines — для асинхронной логики.
+
+## Наблюдатели KotlinStateFlow / KotlinOptionalStateFlow
+SwiftUI-обёртки над StateFlow из Kotlin Multiplatform (через Skie), позволяющие удобно наблюдать за потоками состояний прямо в SwiftUI-компонентах.
+
+> Используйте @KotlinStateFlow для потоков с неопциональными значениями, и @KotlinOptionalStateFlow — если значения могут быть nil.
+
+**Возможности**
+- Автоматически обновляют SwiftUI UI при изменении значений в Kotlin StateFlow
+- Выполняют подписку на главном потоке
+- Совместимы с @StateObject и @ObservedObject
+
+**Как использовать**
 ```swift
-    func scene(
-        _ scene: UIScene,
-        willConnectTo session: UISceneSession,
-        options connectionOptions: UIScene.ConnectionOptions
-    ) {
-        guard let windowScene = (scene as? UIWindowScene) else {
-            return
-        }
+struct HelloView: View {
+    private let component: HelloComponent
 
-        window = UIWindow(windowScene: windowScene)
-        window?.backgroundColor = .white
-        
-        window?.rootViewController = SplashController { [weak self] in
-            self?.updateWindow()
-        }
-        
-        window?.makeKeyAndVisible()
-    }
-    
-    private func updateWindow() {
-        guard let window else {
-            return
-        }
-        
-        window.rootViewController = RootController()
-        
-        UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {})
-    }
-```
+    @StateObject @KotlinStateFlow private var text: String
 
-## RootView
-`RootView` is the SUI view which represents all components in root stack dynamically base on stack changes. The stack components are represented via SUI views, one for specific flow (straight navigation usually), some kind of container for stack component child. To make it work just change the types of views (SUI views) and components (created on android side).
-
-```swift
-struct RootView: View {
-    private let component: RootComponent
-    
-    @ObservedObject private var childStack: ObservableState<ChildStack<AnyObject, RootComponentChild>>
-    @ObservedObject private var message: NullableObservableState<Message>
-    
-    init(component: RootComponent) {
+    init(component: HelloComponent) {
         self.component = component
-        self.childStack = ObservableState(component.childStack)
-        self.message = NullableObservableState(component.messageComponent.visibleMessage)
+        self._text = .init(component.text)
     }
+
+    var body: some View {
+        Text(text)
+            .font(.title)
+            .padding()
+    }
+}
+```
+
+## Пример использования
+
+### Точка входа
+
+```swift
+@main
+struct iosAppApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject private var rootHolder = RootHolder()
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .environmentObject(rootHolder) // Передаем RootHolder в окружение
+        }
+    }
+}
+```
+
+### Настройка навигации с TreeNavigation
+
+```swift
+struct RootView: View, TreeNavigation {
+    @StateObject var navigationModel = TreeNavigationModel()
+    @ObservedObject var childStack: ObservableState<ChildStack<AnyObject, RootComponentChild>>
     
     var body: some View {
-        ZStack {
-            ForEach(.zero..<childStack.value.items.count, id: \.self) { index in
-                ChildView(
-                    child: childStack.value.items[index].instance
-                )
-                // To prevent views disappear transition not animated
-                // https://sarunw.com/posts/how-to-fix-zstack-transition-animation-in-swiftui/#solution
-                .zIndex(Double(index))
-            }
+        NavigationStack(path: $navigationModel.navigationPath) {
+            rootView
+                .treeNavigation(childStack: childStack, navigationModel: navigationModel, destination: destination(for:))
         }
-        .transition(.opacity)
-        .animation(.easeInOut, value: component.childStack.value.items)
-        .ignoresSafeArea()
+        .setRootTreeNavigation(childStack: childStack, navigationModel: navigationModel) // Ставим в стек корневое представление
+        .environmentObject(navigationModel) // Передаем TreeNavigationModel в окружение
+    }
+
+    func destination(for item: RootComponentChild) -> some View {
+        switch onEnum(of: item) {
+        case .flow1(let child):
+            FlowOneView(component: child.component)
+        case .flow2(let child):
+            FlowTwoView(component: child.component)
+        case .flow3(let child):
+            FlowThreeView(component: child.component)
+        }
     }
 }
+```
 
-private struct ChildView: View {
-    let child: RootComponentChild?
+### Навигация и управление стеком с использованием KMM
+
+Модель навигации, синхронизирующая KMM-навигацию с SwiftUI `NavigationStack`. `TreeNavigationModel` реализует двухстороннюю синхронизацию между KMM (Kotlin Multiplatform) и SwiftUI с использованием дублирующего стека `flatPath`, отражающего актуальное состояние пути. Навигация из KMM поступает через метод `syncPath`, где обновляется `flatPath`, а затем — публикуется новое состояние в `navigationSubject`, на которое подписан `navigationPath`. В случае навигации из SwiftUI (например, кнопка «Назад»), изменения перехватываются через подписку на `$navigationPath`, где анализируется текущее состояние относительно `flatPath`, и при необходимости отправляется обратный сигнал в KMM. Важным элементом архитектуры является свойство `tabComponent`, которое отвечает за извлечение компонента активной вкладки в навигации. Это необходимо для правильного отображения контента в случае, если пользователь находится на вкладке, которая не может быть непосредственно вложена в `NavigationStack` в SwiftUI (например, в случае с `TabView`).
+
+```swift
+class TreeNavigationModel: ObservableNavigation {
+    @Published var navigationPath: NavigationPath = .init()
+    @Published var flatPath: [AnyHashable] = []
+    
+    func syncPath<Destination: AnyObject & Hashable>(state: NavigationState, type: Destination.Type) {
+        // Логика синхронизации пути навигации
+    }
+}
+```
+
+### Обновления состояний
+Обёртка над `SkieSwiftStateFlow`, предназначенная для интеграции с SwiftUI. `ObservableState` наблюдает за Kotlin Multiplatform `StateFlow` и предоставляет его данные в SwiftUI через свойство `@Published`.
+
+Используется, когда необходимо получать обновления из KMM-кода и автоматически обновлять SwiftUI-интерфейс.
+> Примечание: Подписка осуществляется асинхронно, обновления происходят на главном потоке..
+
+### Использование BottomSheetChild
+
+```swift
+struct ContentView: View {
+    @StateObject var dialogControl = DialogControl<YourType, YourDestination>()
     
     var body: some View {
-        switch child {
-        case let flowOne as RootComponentChild.Flow1:
-            FlowOneView(component: flowOne.component)
-        case let flowTwo as RootComponentChild.Flow2:
-            FlowTwoView(component: flowTwo.component)
-        case let home as RootComponentChild.Home:
-            HomeView(component: home.component)
-        default:
-            EmptyView()
-        }
-    }
-}
-```
-
-## SuperHostingController
-The reason to use is the correct rendering of navigation items: UIHostingController have some issues for now.
-Base-class is used to create controllers with ability to present BottomSheets. When creating controller, use a composition of methods that replicate the logic:
-- 1. Subscribe to ControlState changes
-- 2. Produce `updateBottomSheetState` when ControlState changes
-- 3. Produce `present`, when the component is in the expanded state
-- 4. Call `control.dismiss()` in the presented controller at the moment of deinitialization
-
-```swift
-final class PokemonController: SuperHostingController<PokemonView>, HomeTabViewController {
-    private var component: PokemonsComponent
-    private var subscriptions: [AnyCancellable] = []
-    
-    @ObservedObject private var bottomSheetState: ObservableState<BottomSheetControlState>
-    
-    init(component: PokemonsComponent) {
-        self.component = component
-        self.bottomSheetState = ObservableState(component.bottomSheetControl.sheetState)
-        
-        super.init(rootView: PokemonView(component: component))
-        
-        bottomSheetState.objectWillChange.sink { [weak self] in //1 
-            let value = self?.bottomSheetState.value ?? .hidden
-            
-            DispatchQueue.main.async {
-                self?.updateBottomSheetState(oldValue: value) //2 
+        VStack {
+            Button("Show Bottom Sheet") {
+                dialogControl.show()
             }
         }
-        .store(in: &subscriptions)
-    }
-    
-    func update(component: HomeComponentChild) {
-        ...
-        
-        bottomSheetState.recreate(homeChildComponent.component.bottomSheetControl.sheetState)
-    }
-    
-    private func updateBottomSheetState(oldValue: BottomSheetControlState) {
-        switch bottomSheetState.value {
-        case .expanded, .halfexpanded:
-            if [.expanded, .halfexpanded].contains(oldValue) {
-                break
-            }
-            
-            presentBottomSheet() //3
-        case .hidden:
-            if oldValue == .hidden {
-                break
-            }
-            
-            dismiss(animated: true)
-        default:
-            break
-        }
-    }
-    
-    private func presentBottomSheet() {
-        let controller = PokemonVotesController(control: component.bottomSheetControl)
-        
-        presentAsBottomSheet(controller)
-    }
-}
-
-final class PokemonVotesController: HostingController<PokemonVotesView> {
-    private let control: BottomSheetControl<PokemonVotesComponentConfig, PokemonVotesComponent>
-    
-    init(control: BottomSheetControl<PokemonVotesComponentConfig, PokemonVotesComponent>) {
-        self.control = control
-        
-        super.init(rootView: PokemonVotesView(control: control))
-    }
-    
-    deinit { //4 
-        control.dismiss()
-    }
-}
-
-```
-
-## Navigation
-Use `NavigatableHostingController` as a child viewController of tabBar (to have an ability to hide tabBar when push) or in case you need to setup UIKit Navigation Bar.
-
-```swift
-final class PokemonController: NavigatableHostingController<PokemonView>, HomeTabViewController {
-    var homeTab: HomeTab { .tab3 }
-    
-    init(component: PokemonsComponent) {
-        super.init(rootView: PokemonView(component: component))
-        
-        tabBarItem = UITabBarItem(
-            title: MR.strings().home_tab3_label.desc().localized(),
-            image: UIImage(systemName: "3.square"),
-            tag: .two
-        )
-    }
-}
-
-struct PokemonView: View {
-    @ObservedObject private var childStack: ObservableState<ChildStack<AnyObject, PokemonsComponentChild>>
-    
-    init(component: PokemonsComponent) {
-        childStack = ObservableState(component.childStack)
-    }
-    
-    var body: some View {
-        StackView(
-            stackState: childStack,
-            childScreen: { child in
-                switch child {
-                case let pokemonsList as PokemonsComponentChildList:
-                    return PokemonListController(component: pokemonsList.component)
-                case let pokemonsDetails as PokemonsComponentChildDetails:
-                    let controller = PokemonDetailsController(component: pokemonsDetails.component)
-                    controller.hidesBottomBarWhenPushed = true
-                    
-                    return controller
-                default:
-                    return nil
-                }
-            }
-        )
-        .ignoresSafeArea()
-    }
-}
-```
-
-## TabBar
-To create a tabBar you should copy `HomeTabBarView` and `HomeTabBarCoordinator` and fix it to use your components and represent your screens. Actually, all you have to do is to change types, all other specific logic should not be changed.
-
-\* Mention the `addViewController` and `update` methods of `HomeTabBarView` and `HomeTabBarCoordinator`. The mechanism of replacing/updating of child components is needed since the tabItem is the part of the viewController, we need all view controllers as tabBar children before all tabBar components are inited and placed to the stack, and the recreating of viewControllers is not good idea.
-
-\*\* Pay attention, that in `update` method of TabOneController we use `embedded(in:)` modifier to keep access of SUI view to its hosting controller
-
-\*\*\* If we created a subscription via @ObservedObject + objectWillChange.sink, we should recreate each ObservableState via recreate method
-
-```swift 
-func update(component: HomeComponentChild) {
-    guard
-        let homeChildComponent = component as? HomeComponentChild.Tab3,
-        homeChildComponent !== self.component // Always compare is the object is the same, to reduce screen updates
-    else {
-        return
-    }
-    
-    self.component = homeChildComponent.component // Save new component
-    controller.rootView = PokemonView(component: homeChildComponent.component).embedded(in: controller) // Update the View
-    
-    bottomSheetState.recreate(homeChildComponent.component.bottomSheetControl.sheetState) // Recreate BottomSheet with new state
-}
-```
-
-
-## Bottom Sheet
-To present a bottom sheet you should use the `presentAsBottomSheet(_ controller:)` method of `BottomSheetPresentable`. Since the lib we use for bottom sheets should be called from viewController, all presenting logic should be moved to hosting controller of SUI view. Since children of `StackNavigationController` and `StackView` are `UIHostingController`-s, the logic of presenting should be placed there. `StackNavigationController`, `HomeTabBarController` and `HostingController` are `BottomSheetPresentable` by default.  The bottom sheet content will be the `HostingController` with its specific SUI view. Don't forget to put `control.dismiss()` to the `deinit` of hosting controller. `BottomSheetPresentable` supports the presenting of non dismissible bottom sheet via overriding `canBottomSheetBeDismissed` in the  parent controller. 
-
-In the case if the logic of bottom sheet presenting could not be moved to hosting controller for some reason, you can use next code in SUI view to get hosting controller from view:
-```swift
-// The way to get hosting controller of the view
-@EnvironmentObject private var hostWrapper: HostWrapper<Self>
-
-...
-
-hostWrapper.controller? ...
-```
-
-## Dialogs
-To present the dialog you should SUI `.alert` method and pass all needed data from dialogControl of specific component from shared code.
-
-```swift
-@ObservedObject private var dialog: ObservableState<ChildSlot<AnyObject, PokemonVoteDialogComponent>>
-@State private var isDialogPresented = false
-
-var body: some View {
-    ...
-    .alert(
-        getAlertTitle(),
-        isPresented: $isDialogPresented,
-        actions: { DialogButtons(dialogComponent: dialog.value.child?.instance) },
-        message: { Text(getAlertMessage()) }
-    )
-    .onChange(of: isDialogPresented) { [oldValue = isDialogPresented] newValue in
-        if oldValue == true && newValue == false {
-            dialog.value.child?.instance?.dismiss()
+        .bottomSheet(childSlot: dialogControl.childSlot, dialogControl: dialogControl) {
+            Text("This is a bottom sheet!")
         }
     }
 }
 ```
 
-## Wrappers
-The variables used to subscribe to Kotlin CFlow updates are: NullableObservableState, ObservableState, UnsafeObservableState and CFlowWrapper. Example usage:
+## Примечания
 
-```swift
-@ObservedObject private var slot: ObservableState<ChildSlot<AnyObject, PokemonVotesComponent>>
-
-init(control: BottomSheetControl<PokemonVotesComponentConfig, PokemonVotesComponent>) {
-    self.slot = ObservableState(control.sheetSlot)
-}
-``` 
-
-## BackDispatcherService
-Call ```BackDispatcherService.shared.backDispatcher.back()``` to jump back to the previous screen in the shared code
-
-## ViewModifiers:
-
-### LoadableWithError
-Used for LoadableState variables, defines the loadable state - empty data, load, error. Adds the ability to pull-to-refresh and repeat the request by action. Apply to any view you needed (for example, not to hide all screen content under loader).
-
-```swift
-var body: some View {
-    PokemonsContentView(
-        pokemons: (pokemonsState.value.data as? [Pokemon]) ?? [],
-        types: (types.value as? [PokemonType]) ?? [],
-        selectedTypeId: selectedTypeId.value,
-        onPokemonClick: { id in component.onPokemonClick(pokemonId: id) },
-        onTypeClick: { id in component.onTypeClick(typeId: id) }
-    )
-    .loadableWithError(
-        loadableState: pokemonsState,
-        onRefresh: { component.onRefresh() },
-        onRetryClick: { component.onRetryClick() }
-    )
-}
-```
-
-### ScrollOnOverflow
-Used to work with BottomSheet that contains a ScrollView. If your BottomSheet should be dynamic height and contain Scrollable Content, this modifier will calculate the height of the resulting content and wrap it in ScrollView if necessary.
-
-```swift
-VStack(spacing: .zero) {
-    ForEach(votes.value.votes, id: \.self) { vote in
-        HStack(spacing: .zero) {
-            Text(vote.pokemonName)
-            Spacer()
-            
-            Text(getVoteText(isPositive: vote.isPositive?.boolValue ?? true))
-                .foregroundColor(vote.isPositive?.boolValue ?? true ? .green : .red)
-        }
-        .padding(16)
-    }
-}
-.scrollOnOverflow(verticalInsets: 48) // You have to calculate all another views height, to define minimal height not including safe area
-```
-
-### NavigateBackOnSwipe
-An analogue of the system gesture for back-swipe gesture
-
-```swift
-var body: some View {
-    Group {
-        ...
-    }
-    .contentShape(Rectangle()) // To enable gesture to empty spaces of view
-    .navigateBackOnSwipe()
-}
-```
+- **TabView**: Важно помнить, что TabView не может быть вложен в `NavigationStack`, для этого используется специальный механизм извлечения и управления компонентами с помощью `tabDescription`.

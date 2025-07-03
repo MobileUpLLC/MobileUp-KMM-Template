@@ -1,12 +1,12 @@
 package ru.mobileup.kmm_template.features.pokemons.presentation.list
 
 import com.arkivanov.decompose.ComponentContext
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.Serializable
 import me.aartikov.replica.algebra.normal.withKey
 import me.aartikov.replica.keyed.KeyedReplica
 import me.aartikov.replica.keyed.keepPreviousData
 import ru.mobileup.kmm_template.core.error_handling.ErrorHandler
-import ru.mobileup.kmm_template.core.state.CMutableStateFlow
 import ru.mobileup.kmm_template.core.utils.observe
 import ru.mobileup.kmm_template.core.utils.persistent
 import ru.mobileup.kmm_template.features.pokemons.domain.Pokemon
@@ -21,7 +21,7 @@ class RealPokemonListComponent(
     errorHandler: ErrorHandler
 ) : ComponentContext by componentContext, PokemonListComponent {
 
-    override val types = CMutableStateFlow(
+    override val types = MutableStateFlow(
         listOf(
             PokemonType.Fire,
             PokemonType.Water,
@@ -31,7 +31,7 @@ class RealPokemonListComponent(
         )
     )
 
-    override var selectedTypeId = CMutableStateFlow(types.value[0].id)
+    override var selectedTypeId = MutableStateFlow(types.value[0].id)
         private set
 
     override val pokemonsState = pokemonsByTypeReplica

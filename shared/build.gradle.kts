@@ -1,4 +1,9 @@
-import io.gitlab.arturbosch.detekt.Detekt
+import co.touchlab.skie.configuration.DefaultArgumentInterop
+import co.touchlab.skie.configuration.EnumInterop
+import co.touchlab.skie.configuration.FlowInterop
+import co.touchlab.skie.configuration.FunctionInterop
+import co.touchlab.skie.configuration.SealedInterop
+import co.touchlab.skie.configuration.SuspendInterop
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -8,9 +13,9 @@ plugins {
     alias(libs.plugins.ktorfit)
     alias(libs.plugins.moko.resources)
     alias(libs.plugins.module.graph)
-    alias(libs.plugins.detekt)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.skie)
 }
 
 kotlin {
@@ -28,46 +33,41 @@ kotlin {
             export(libs.essenty.lifecycle)
             export(libs.essenty.backhandler)
             export(libs.moko.resources)
+            export(libs.kotlinx.datetime)
         }
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.form.validation)
-                implementation(libs.kotlinx.datetime)
-                implementation(libs.coroutines.core)
-                api(libs.decompose.core)
-                implementation(libs.bundles.ktor.shared)
-                implementation(libs.ktorfit.lib)
-                implementation(libs.bundles.replica.shared)
-                implementation(libs.koin)
-                implementation(libs.logger.kermit)
-                api(libs.moko.resources)
-                implementation(libs.form.validation)
-            }
+        commonMain.dependencies {
+            implementation(libs.form.validation)
+            api(libs.kotlinx.datetime)
+            implementation(libs.coroutines.core)
+            api(libs.decompose.core)
+            implementation(libs.bundles.ktor.shared)
+            implementation(libs.ktorfit.lib)
+            implementation(libs.bundles.replica.shared)
+            implementation(libs.koin)
+            implementation(libs.logger.kermit)
+            api(libs.moko.resources)
+            implementation(libs.form.validation)
         }
 
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.form.validation)
-                implementation(libs.coroutines.android)
-                implementation(libs.ktor.android)
-                implementation(libs.decompose.compose)
-                implementation(libs.replica.android.network)
-                implementation(libs.moko.resourcesCompose)
-                implementation(project.dependencies.platform(libs.compose.bom))
-                implementation(libs.bundles.compose)
-                implementation(libs.coil)
-                implementation(libs.accompanist.systemuicontroller)
-            }
+        androidMain.dependencies {
+            implementation(libs.form.validation)
+            implementation(libs.coroutines.android)
+            implementation(libs.ktor.android)
+            implementation(libs.decompose.compose)
+            implementation(libs.replica.android.network)
+            implementation(libs.moko.resourcesCompose)
+            implementation(project.dependencies.platform(libs.compose.bom))
+            implementation(libs.bundles.compose)
+            implementation(libs.coil)
+            implementation(libs.accompanist.systemuicontroller)
         }
 
-        val iosMain by getting {
-            dependencies {
-                implementation(libs.ktor.ios)
-                implementation(compose.runtime)
-            }
+        iosMain.dependencies {
+            implementation(libs.ktor.ios)
+            implementation(compose.runtime)
         }
     }
 }
@@ -89,6 +89,26 @@ android {
 
     packaging {
         resources.excludes += "META-INF/*"
+    }
+}
+
+composeCompiler {
+    stabilityConfigurationFiles.add(
+        rootProject.layout.projectDirectory.file("stability_config.conf")
+    )
+}
+
+skie {
+    features {
+        group {
+            EnumInterop.Enabled(true)
+            SealedInterop.Enabled(true)
+            DefaultArgumentInterop.Enabled(true)
+            FunctionInterop.FileScopeConversion.Enabled(true)
+            coroutinesInterop.set(true)
+            SuspendInterop.Enabled(true)
+            FlowInterop.Enabled(true)
+        }
     }
 }
 

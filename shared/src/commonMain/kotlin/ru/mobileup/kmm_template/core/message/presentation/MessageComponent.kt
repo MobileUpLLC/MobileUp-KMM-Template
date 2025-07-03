@@ -1,7 +1,7 @@
 package ru.mobileup.kmm_template.core.message.presentation
 
+import kotlinx.coroutines.flow.StateFlow
 import ru.mobileup.kmm_template.core.message.domain.Message
-import ru.mobileup.kmm_template.core.state.CNullableStateFlow
 
 /**
  * A component for centralized message showing. There should be only one instance
@@ -9,7 +9,7 @@ import ru.mobileup.kmm_template.core.state.CNullableStateFlow
  */
 interface MessageComponent {
 
-    val visibleMessage: CNullableStateFlow<Message>
+    val visibleMessage: StateFlow<Message?>
 
     fun onActionClick()
 }

@@ -4,10 +4,10 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnCreate
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import ru.mobileup.kmm_template.core.message.data.MessageService
 import ru.mobileup.kmm_template.core.message.domain.Message
-import ru.mobileup.kmm_template.core.state.CNullableMutableStateFlow
 import ru.mobileup.kmm_template.core.utils.componentScope
 
 class RealMessageComponent(
@@ -19,7 +19,7 @@ class RealMessageComponent(
         private const val SHOW_TIME = 4000L
     }
 
-    override val visibleMessage = CNullableMutableStateFlow<Message>(null)
+    override val visibleMessage = MutableStateFlow<Message?>(null)
 
     private var autoDismissJob: Job? = null
 

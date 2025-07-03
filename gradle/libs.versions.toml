@@ -1,36 +1,37 @@
 [versions]
 minSdk = "26"
-compileSdk = "35"
-targetSdk = "35"
+compileSdk = "36"
+targetSdk = "36"
 versionCode = "1"
 versionName = "1.0.0"
 
-kotlin = "2.1.10"
-androidGradlePlugin = "8.7.3"
-ksp = "2.1.10-1.0.30"
-ktorfit = "2.3.0"
-ktorfit-ksp = "2.3.0-1.0.30"
+kotlin = "2.1.21"
+androidGradlePlugin = "8.11.0"
+ksp = "2.1.21-2.0.1"
+ktorfit = "2.5.2"
 mokoResources = "0.24.5"
-formValidation = "1.0.0"
+formValidation = "1.2.0"
 moduleGraph = "1.3.3"
-detekt = "1.23.7"
+detekt = "1.23.8"
 dateTime = "0.6.2"
-coroutines = "1.10.1"
-decompose = "3.2.2"
-essenty = "2.2.1"
-ktor = "3.1.0"
+coroutines = "1.10.2"
+decompose = "3.3.0"
+essenty = "2.5.0"
+ktor = "3.1.2"
 replica = "1.3.1-alpha1"
-koin = "4.0.2"
-kermit = "2.0.5"
-composeBom = "2025.02.00"
-compose-plugin = "1.7.0"
-activity = "1.10.0"
-coil = "3.1.0"
+koin = "4.1.0"
+kermit = "2.0.6"
+composeBom = "2025.06.01"
+compose-plugin = "1.8.2"
+activity = "1.10.1"
+coil = "3.2.0"
 splashscreen = "1.0.1"
 accompanist = "0.36.0"
-chucker = "4.0.0"
+chucker = "4.1.0"
 hyperion = "0.9.38"
 hyperionAddons = "0.3.3"
+composeRules = "0.4.22"
+skie = "0.10.4"
 
 [libraries]
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "dateTime" }
@@ -51,7 +52,7 @@ ktor-android = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-ios = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
 
 ktorfit-lib = { module = "de.jensklingenberg.ktorfit:ktorfit-lib", version.ref = "ktorfit" }
-ktorfit-ksp = { module = "de.jensklingenberg.ktorfit:ktorfit-ksp", version.ref = "ktorfit-ksp" }
+ktorfit-ksp = { module = "de.jensklingenberg.ktorfit:ktorfit-ksp", version.ref = "ktorfit" }
 
 replica-core = { module = "com.github.aartikov:replica-core", version.ref = "replica" }
 replica-algebra = { module = "com.github.aartikov:replica-algebra", version.ref = "replica" }
@@ -64,6 +65,7 @@ logger-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 # Used in build-logic/DetektPlugin
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+detekt-compose-rules = { module = "io.nlopez.compose.rules:detekt", version.ref = "composeRules" }
 
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 compose-ui = { module = "androidx.compose.ui:ui" }
@@ -96,6 +98,7 @@ hyperion-addons-chucker = { module = "me.nemiron.hyperion:chucker", version.ref 
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 detekt-gradle-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+compose-compiler-gradle-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 [bundles]
 decompose = ["decompose-core", "decompose-compose"]
@@ -141,6 +144,8 @@ moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.re
 
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 module-graph = { id = "ru.mobileup.module-graph", version.ref = "moduleGraph" }
+
+skie = { id = "co.touchlab.skie", version.ref = "skie" }
 
 # Convention plugins
 convetion-detekt = { id = "convention.detekt", version = "unspecified" }

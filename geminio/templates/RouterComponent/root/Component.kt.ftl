@@ -5,7 +5,7 @@ import ru.mobileup.kmm_template.core.state.CStateFlow
 
 interface ${componentName} {
 
-    val childStack: CStateFlow<ChildStack<*, Child>>
+    val childStack: StateFlow<ChildStack<*, Child>>
 
     sealed interface Child {
         object Default : Child

@@ -1,14 +1,16 @@
 package ru.mobileup.kmm_template.features.home
 
 import com.arkivanov.decompose.router.stack.ChildStack
-import ru.mobileup.kmm_template.core.state.CStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import ru.mobileup.kmm_template.features.home.tab1.Tab1Component
 import ru.mobileup.kmm_template.features.home.tab2.Tab2Component
 import ru.mobileup.kmm_template.features.pokemons.presentation.PokemonsComponent
 
 interface HomeComponent {
 
-    val childStack: CStateFlow<ChildStack<*, Child>>
+    val childStack: StateFlow<ChildStack<*, Child>>
+
+    val selectedTab: StateFlow<HomeTab>
 
     fun onTabSelected(tab: HomeTab)
 
