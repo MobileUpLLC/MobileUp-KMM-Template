@@ -11,6 +11,7 @@ captures
 .externalNativeBuild
 .cxx
 local.properties
+.kotlin
 
 # Module Graph intermediate file
 shared/module_graph/modules.json

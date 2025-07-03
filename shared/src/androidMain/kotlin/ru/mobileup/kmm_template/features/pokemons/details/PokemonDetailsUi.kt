@@ -2,6 +2,7 @@ package ru.mobileup.kmm_template.features.pokemons.details
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,7 +43,6 @@ import ru.mobileup.kmm_template.core.utils.dispatchOnBackPressed
 import ru.mobileup.kmm_template.core.widget.PullRefreshLceWidget
 import ru.mobileup.kmm_template.core.widget.RefreshingProgress
 import ru.mobileup.kmm_template.core.widget.button.AppButton
-import ru.mobileup.kmm_template.core.widget.button.AppButtonDefaults
 import ru.mobileup.kmm_template.core.widget.button.ButtonType
 import ru.mobileup.kmm_template.features.pokemons.domain.DetailedPokemon
 import ru.mobileup.kmm_template.features.pokemons.list.PokemonTypeItem
@@ -77,13 +77,18 @@ fun PokemonDetailsUi(
             state = pokemonState,
             onRefresh = component::onRefresh,
             onRetryClick = component::onRetryClick
-        ) { pokemon, refreshing ->
-            PokemonDetailsContent(
-                pokemon = pokemon,
-                voteButtonColor = voteButtonColor,
-                onPokemonVoteClick = component::onVoteClick
-            )
-            RefreshingProgress(refreshing, modifier = Modifier.padding(top = 4.dp))
+        ) { pokemon, refreshing, paddingValues ->
+            Box(
+                modifier = Modifier
+                    .padding(paddingValues)
+            ) {
+                PokemonDetailsContent(
+                    pokemon = pokemon,
+                    voteButtonColor = voteButtonColor,
+                    onPokemonVoteClick = component::onVoteClick
+                )
+                RefreshingProgress(refreshing, modifier = Modifier.padding(top = 4.dp))
+            }
         }
     }
 
@@ -215,7 +220,7 @@ private fun PokemonDetailsDialog(
 
 @Preview(showSystemUi = true)
 @Composable
-fun PokemonDetailsUiPreview() {
+private fun PokemonDetailsUiPreview() {
     AppTheme {
         PokemonDetailsUi(FakePokemonDetailsComponent())
     }

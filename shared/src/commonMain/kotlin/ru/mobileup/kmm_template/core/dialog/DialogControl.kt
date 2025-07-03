@@ -1,16 +1,15 @@
 package ru.mobileup.kmm_template.core.dialog
 
 import com.arkivanov.decompose.router.slot.ChildSlot
-import ru.flawery.core.state.CFlow
-import ru.mobileup.kmm_template.core.state.CStateFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 abstract class DialogControl<C : Any, T : Any> {
-    abstract val dialogSlot: CStateFlow<ChildSlot<*, T>>
-    abstract val dismissableByUser: CStateFlow<Boolean>
-    abstract val dismissedEvent: CFlow<Unit>
-    abstract val shownEvent: CFlow<Unit>
+    abstract val dialogSlot: StateFlow<ChildSlot<*, T>>
+    abstract val dismissableByUser: StateFlow<Boolean>
+    abstract val dismissedEvent: Flow<Unit>
+    abstract val shownEvent: Flow<Unit>
 
     abstract fun show(config: C)
     abstract fun dismiss()
-
 }

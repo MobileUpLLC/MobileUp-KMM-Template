@@ -2,6 +2,7 @@ package ru.mobileup.kmm_template.core.utils
 
 import com.arkivanov.decompose.ComponentContext
 import dev.icerock.moko.resources.desc.StringDesc
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -11,8 +12,6 @@ import me.aartikov.replica.single.Replica
 import me.aartikov.replica.single.currentState
 import ru.mobileup.kmm_template.core.error_handling.ErrorHandler
 import ru.mobileup.kmm_template.core.error_handling.errorMessage
-import ru.mobileup.kmm_template.core.state.CMutableStateFlow
-import ru.mobileup.kmm_template.core.state.CStateFlow
 import ru.mobileup.kmm_template.core.state.computed
 
 /**
@@ -42,7 +41,7 @@ data class LoadableState<T : Any>(
 fun <T : Any> Replica<T>.observe(
     componentContext: ComponentContext,
     errorHandler: ErrorHandler
-): CStateFlow<LoadableState<T>> {
+): StateFlow<LoadableState<T>> {
     val observer = observe(componentContext.lifecycle)
 
     observer
@@ -55,7 +54,7 @@ fun <T : Any> Replica<T>.observe(
         }
         .launchIn(componentContext.componentScope)
 
-    val stateFlow = CMutableStateFlow(observer.stateFlow.value.toLoadableState())
+    val stateFlow = MutableStateFlow(observer.stateFlow.value.toLoadableState())
     observer
         .stateFlow
         .onEach {
@@ -77,7 +76,7 @@ fun <T : Any> Loadable<T>.toLoadableState(): LoadableState<T> {
 fun <T : Any, R : Any> StateFlow<LoadableState<T>>.mapData(
     componentContext: ComponentContext,
     transform: (T) -> R?
-): CStateFlow<LoadableState<R>> {
+): StateFlow<LoadableState<R>> {
     return componentContext.computed(this) { value ->
         value.mapData { transform(it) }
     }

@@ -1,12 +1,9 @@
 package ru.mobileup.kmm_template.core.dialog
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.ModalBottomSheetDefaults
 import androidx.compose.material3.ModalBottomSheetProperties
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -18,15 +15,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
-import ru.mobileup.kmm_template.core.utils.navigationBarsWithImePaddingDp
 import kotlin.coroutines.cancellation.CancellationException
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,8 +33,8 @@ import kotlin.coroutines.cancellation.CancellationException
 fun <T : Any> BottomSheet(
     dialogControl: DialogControl<*, T>,
     modifier: Modifier = Modifier,
-    skipPartiallyExpanded: Boolean = false,
-    onHideAnimationFinished: (() -> Unit)? = null,
+    skipPartiallyExpanded: Boolean = true,
+    onHideAnimationFinish: (() -> Unit)? = null,
     shape: Shape = RectangleShape,
     content: @Composable ColumnScope.(T) -> Unit,
 ) {
@@ -56,21 +55,28 @@ fun <T : Any> BottomSheet(
     }
 
     LaunchedEffect(Unit) {
-        dialogControl
-            .dialogSlot
-            .onEach {
-                val currentComponent = it.child?.instance
-                delayedComponent = if (currentComponent != null) {
-                    coroutineScope.launch { sheetState.show() }
-                    currentComponent
+        val delayedComponentFlow = snapshotFlow { delayedComponent }
+        val currentComponentFlow = dialogControl.dialogSlot.map { it.child?.instance }
+        combine(
+            currentComponentFlow,
+            delayedComponentFlow
+        ) { current, delayed ->
+            current to delayed
+        }
+            .onEach { (current, delayed) ->
+                delayedComponent = if (current != null) {
+                    current
                 } else {
                     try {
                         sheetState.hide()
                     } catch (e: CancellationException) {
                         // do nothing
                     }
-                    onHideAnimationFinished?.invoke()
+                    onHideAnimationFinish?.invoke()
                     null
+                }
+                if (delayed != null && current != null) {
+                    coroutineScope.launch { sheetState.show() }
                 }
             }
             .launchIn(this)
@@ -78,9 +84,8 @@ fun <T : Any> BottomSheet(
 
     val component = delayedComponent
     if (component != null) {
-        val navigationBarWithImePadding = navigationBarsWithImePaddingDp()
         ModalBottomSheet(
-            modifier = modifier,
+            modifier = modifier.statusBarsPadding(),
             onDismissRequest = {
                 if (dismissableByUser) dialogControl.dismiss()
             },
@@ -91,14 +96,9 @@ fun <T : Any> BottomSheet(
             shape = shape,
             containerColor = CustomTheme.colors.background.screen,
             scrimColor = Color.Black.copy(alpha = 0.4f),
-            contentWindowInsets = { WindowInsets(0, 0, 0, 0) },
             dragHandle = null,
             content = {
-                Column(
-                    Modifier.padding(bottom = navigationBarWithImePadding)
-                ) {
-                    content(component)
-                }
+                content(component)
             }
         )
     }

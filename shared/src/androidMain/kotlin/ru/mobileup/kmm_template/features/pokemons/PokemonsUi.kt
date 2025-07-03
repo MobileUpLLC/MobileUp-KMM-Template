@@ -41,7 +41,7 @@ fun PokemonsUi(
     val childStack by component.childStack.collectAsState()
 
     Box(modifier = modifier) {
-        Children(childStack, modifier) { child ->
+        Children(childStack) { child ->
             when (val instance = child.instance) {
                 is PokemonsComponent.Child.List -> PokemonListUi(instance.component)
                 is PokemonsComponent.Child.Details -> PokemonDetailsUi(instance.component)
@@ -121,7 +121,7 @@ fun PokemonVotesUi(
 
 @Preview
 @Composable
-fun PokemonsUiPreview() {
+private fun PokemonsUiPreview() {
     AppTheme {
         PokemonsUi(FakePokemonsComponent())
     }

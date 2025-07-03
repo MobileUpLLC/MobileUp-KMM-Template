@@ -13,12 +13,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
@@ -36,7 +38,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,14 +51,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.emptyFlow
 import ru.mobileup.kmm_form_validation.control.InputControl
-import ru.mobileup.kmm_form_validation.options.KeyboardOptions as KmmKeyboardOptions
 import ru.mobileup.kmm_form_validation.toCompose
 import ru.mobileup.kmm_template.core.theme.AppTheme
 import ru.mobileup.kmm_template.core.theme.custom.CustomTheme
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.text.TextStyle
+import ru.mobileup.kmm_form_validation.options.KeyboardOptions as KmmKeyboardOptions
 import ru.mobileup.kmm_form_validation.options.VisualTransformation as KmmVisualTransformation
 
 @Suppress("ModifierNotUsedAtRoot")
@@ -63,8 +63,8 @@ import ru.mobileup.kmm_form_validation.options.VisualTransformation as KmmVisual
 fun AppTextField(
     text: String,
     onTextChange: (String) -> Unit,
-    onFocusChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    onFocusChange: (Boolean) -> Unit = {},
     isEnabled: Boolean = true,
     supportingText: String? = null,
     errorText: String? = null,
@@ -126,7 +126,7 @@ fun AppTextField(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .animateContentSize()
             .bringIntoViewRequester(bringIntoViewRequester)
     ) {
@@ -140,7 +140,7 @@ fun AppTextField(
         }
 
         TextField(
-            modifier = modifier
+            modifier = Modifier
                 .border(border = border, shape = shape)
                 .focusRequester(focusRequester)
                 .onFocusChanged { onFocusChange(it.isFocused) },
@@ -217,10 +217,7 @@ fun AppTextField(
     colors: TextFieldColors = AppTextFieldDefaults.colors,
     textStyle: TextStyle = AppTextFieldDefaults.textStyle,
     labelStyle: TextStyle = AppTextFieldDefaults.labelStyle,
-    border: BorderStroke = AppTextFieldDefaults.border(
-        isError = inputControl.error.value != null,
-        hasFocus = inputControl.hasFocus.value
-    ),
+    border: BorderStroke? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     visualTransformation: KmmVisualTransformation? = null,
     label: String? = null,
@@ -235,7 +232,7 @@ fun AppTextField(
     val hasFocus by inputControl.hasFocus.collectAsState()
     val error by inputControl.error.collectAsState()
     val enabled by inputControl.enabled.collectAsState()
-    val text by inputControl.text.collectAsState()
+    val text by inputControl.value.collectAsState()
 
     AppTextField(
         modifier = modifier,
@@ -249,8 +246,8 @@ fun AppTextField(
         prefix = prefix,
         suffix = suffix,
         isEnabled = enabled,
-        onTextChange = inputControl::onTextChanged,
-        onFocusChange = inputControl::onFocusChanged,
+        onTextChange = inputControl::onValueChange,
+        onFocusChange = inputControl::onFocusChange,
         singleLine = minLines == 1,
         keyboardOptions = inputControl.keyboardOptions.toCompose(),
         keyboardActions = keyboardActions,
@@ -266,7 +263,10 @@ fun AppTextField(
         colors = colors,
         textStyle = textStyle,
         labelStyle = labelStyle,
-        border = border,
+        border = border ?: AppTextFieldDefaults.border(
+            isError = error != null,
+            hasFocus = hasFocus
+        ),
         interactionSource = interactionSource,
     )
 }

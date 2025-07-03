@@ -18,13 +18,13 @@ class Real${componentName}(
 
     private val navigation = StackNavigation<ChildConfig>()
 
-    override val childStack: CStateFlow<ChildStack<*, ${componentName}.Child>> = childStack(
+    override val childStack: StateFlow<ChildStack<*, ${componentName}.Child>> = childStack(
         source = navigation,
         initialConfiguration = ChildConfig.Default,
         serializer = ChildConfig.serializer(),
         handleBackButton = true,
         childFactory = ::createChild
-    ).toCStateFlow(lifecycle)
+    ).toStateFlow(lifecycle)
 
 
     private fun createChild(

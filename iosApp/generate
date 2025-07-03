@@ -1,0 +1,6 @@
+#!/bin/bash
+# Change directory to be where the command is.
+cd "$(cd "$(dirname "$0")" > /dev/null && pwd)"
+
+# Generate .xcodeproj using XcodeGen
+xcodegen
